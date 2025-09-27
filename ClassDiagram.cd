@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Bullet">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAEAGgAIAIAAAAAAAAgAAAgQAAAAAAAEQQUAAA=</HashCode>
+      <FileName>code\Bullet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pickup">
+    <Position X="2" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAMAABAAAAAAQIABAAACAhICQIAAAEAQAAAAAEAIA=</HashCode>
+      <FileName>code\Pickup.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="3.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKAIZABACAgggAIwBAAgQAxAEAQAiABYAAEGUAlAAM=</HashCode>
+      <FileName>code\Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextureHolder">
+    <Position X="5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAgAAAAAAAAAQAAAAAg=</HashCode>
+      <FileName>code\TextureHolder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zombie">
+    <Position X="6.5" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAIAAAACAgAggAABAAAQAhAAASAgAGEACAAAEEAAg=</HashCode>
+      <FileName>code\Zombie.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
