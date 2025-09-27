@@ -393,21 +393,22 @@ int main()
 					// Reloading
 					if (event.key.code == Keyboard::R)
 					{
-						if (bulletsSpare >= clipSize)
+						int bulletsNeeded = clipSize - bulletsInClip; // the amount of bullet needed for a full clip
+
+						if (bulletsSpare >= bulletsNeeded) // if the player has enough spare bullets for a full clip
 						{
 							// Plenty of bullets. Reload.
-							bulletsInClip = clipSize;
-							bulletsSpare -= clipSize;
+							bulletsSpare -= bulletsNeeded;
+							bulletsInClip += bulletsNeeded;
 							reload.play();
 						}
-						else if (bulletsSpare > 0)
+						else if (bulletsSpare > 0) // if the player has some spare bullets but they are not enough for a full clip
 						{
-							// Only few bullets left
-							bulletsInClip = bulletsSpare;
+							bulletsInClip += bulletsSpare;
 							bulletsSpare = 0;
 							reload.play();
 						}
-						else
+						else // no spare bullets
 						{
 							// More here soon?!
 							reloadFailed.play();
