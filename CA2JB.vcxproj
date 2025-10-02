@@ -28,6 +28,7 @@
     <ClCompile Include="code\Zombie.cpp" />
     <ClCompile Include="code\ZombieArena.cpp" />
     <ClCompile Include="CreateScreamerHorde.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="code\TextureHolder.h" />
     <ClInclude Include="code\Zombie.h" />
     <ClInclude Include="code\ZombieArena.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
