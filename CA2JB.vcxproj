@@ -24,20 +24,20 @@
     <ClCompile Include="code\CreateHorde.cpp" />
     <ClCompile Include="code\Pickup.cpp" />
     <ClCompile Include="code\Player.cpp" />
+    <ClCompile Include="code\SoundManager.cpp" />
     <ClCompile Include="code\TextureHolder.cpp" />
     <ClCompile Include="code\Zombie.cpp" />
     <ClCompile Include="code\ZombieArena.cpp" />
     <ClCompile Include="CreateScreamerHorde.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />
     <ClInclude Include="code\Pickup.h" />
     <ClInclude Include="code\Player.h" />
+    <ClInclude Include="code\SoundManager.h" />
     <ClInclude Include="code\TextureHolder.h" />
     <ClInclude Include="code\Zombie.h" />
     <ClInclude Include="code\ZombieArena.h" />
-    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
