@@ -22,6 +22,7 @@
     <ClCompile Include="code\Bullet.cpp" />
     <ClCompile Include="code\CreateBackground.cpp" />
     <ClCompile Include="code\CreateHorde.cpp" />
+    <ClCompile Include="code\CreateScreamerHorde.cpp" />
     <ClCompile Include="code\MainMenu.cpp" />
     <ClCompile Include="code\Pickup.cpp" />
     <ClCompile Include="code\Player.cpp" />
@@ -29,7 +30,6 @@
     <ClCompile Include="code\TextureHolder.cpp" />
     <ClCompile Include="code\Zombie.cpp" />
     <ClCompile Include="code\ZombieArena.cpp" />
-    <ClCompile Include="CreateScreamerHorde.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />

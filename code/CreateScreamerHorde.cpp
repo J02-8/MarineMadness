@@ -1,6 +1,6 @@
 
 
-#include "code/Zombie.h"
+#include "Zombie.h"
 Zombie* createScreamerHorde(int numZombies, IntRect arena)//to spawn screamers for bonus round 
 {
 	Zombie* zombies = new Zombie[numZombies];

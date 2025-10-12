@@ -39,13 +39,13 @@
     <ClCompile Include="code\ZombieArena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CreateScreamerHorde.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="code\SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="code\MainMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\CreateScreamerHorde.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
