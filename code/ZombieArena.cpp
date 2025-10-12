@@ -9,6 +9,7 @@
 #include "Bullet.h"
 #include "Pickup.h"
 #include "TextureHolder.h"
+#include "MainMenu.h"
 
 using namespace sf;
 
@@ -22,7 +23,7 @@ int main()
 	TextureHolder holder;
 
 	// The game will always be in one of four states
-	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
+	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING, MAINMENU };
 	// Start with the GAME_OVER state
 	State state = State::GAME_OVER;
 
@@ -34,6 +35,8 @@ int main()
 
 	RenderWindow window(VideoMode(resolution.x, resolution.y),
 		"Zombie Arena", Style::Fullscreen);
+
+	// RenderWindow menuWindow(VideoMode(resolution.x, resolution.y),"Main Menu", Style::Fullscreen);
 
 	// Create a an SFML View for the main action
 	View mainView(sf::FloatRect(0, 0, resolution.x, resolution.y));
@@ -332,6 +335,12 @@ int main()
 	
 	// Play the music
 	bgMusic.play();
+
+	// Create main menu
+	MainMenu mainMenu(resolution.x, resolution.y);
+
+	// set game state to main menu
+	state = State::MAINMENU;
 	
 	// The main game loop
 	while (window.isOpen())
@@ -346,8 +355,53 @@ int main()
 		Event event;
 		while (window.pollEvent(event))
 		{
+
+			// Handle the player quitting
+			if (Keyboard::isKeyPressed(Keyboard::Escape))
+			{
+				window.close();
+			}
+
+			// Handle Main Menu
+			if (state == State::MAINMENU)
+			{
+				if (event.type == Event::KeyReleased)
+				{
+					// Select up
+					if (event.key.code == Keyboard::Up)
+					{
+						mainMenu.moveUp();
+					}
+
+					// Select down
+					if (event.key.code == Keyboard::Down)
+					{
+						mainMenu.moveDown();
+					}
+
+					// select an option
+					if (event.key.code == Keyboard::Return)
+					{
+						switch (mainMenu.mainMenuPressed())
+						{
+						case 0:
+							// Start the game
+							state = State::GAME_OVER;
+							break;
+						case 4:
+							// Exit the game
+							window.close();
+						default:
+							break;
+						}
+					}
+
+				}
+			}
+
 			if (event.type == Event::KeyPressed)
 			{
+
 				// Pause a game while playing
 				if (event.key.code == Keyboard::Return &&
 					state == State::PLAYING)
@@ -418,13 +472,6 @@ int main()
 
 			}
 		}// End event polling
-
-
-		 // Handle the player quitting
-		if (Keyboard::isKeyPressed(Keyboard::Escape))
-		{
-			window.close();
-		}
 
 		// Handle controls while playing
 		if (state == State::PLAYING)
@@ -1007,6 +1054,13 @@ int main()
 		 **************
 		 */
 
+		window.clear();
+
+		if (state == State::MAINMENU)
+		{
+			mainMenu.draw(window);
+		}
+
 		if (state == State::PLAYING)
 		{
 			window.clear();
@@ -1096,9 +1150,8 @@ int main()
 			window.draw(hiScoreText);
 		}
 
-		
-
 		window.display();
+
 
 	}// End game loop
 

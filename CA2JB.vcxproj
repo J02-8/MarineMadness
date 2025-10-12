@@ -22,6 +22,7 @@
     <ClCompile Include="code\Bullet.cpp" />
     <ClCompile Include="code\CreateBackground.cpp" />
     <ClCompile Include="code\CreateHorde.cpp" />
+    <ClCompile Include="code\MainMenu.cpp" />
     <ClCompile Include="code\Pickup.cpp" />
     <ClCompile Include="code\Player.cpp" />
     <ClCompile Include="code\SoundManager.cpp" />
@@ -32,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />
+    <ClInclude Include="code\MainMenu.h" />
     <ClInclude Include="code\Pickup.h" />
     <ClInclude Include="code\Player.h" />
     <ClInclude Include="code\SoundManager.h" />
