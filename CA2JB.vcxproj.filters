@@ -48,6 +48,15 @@
     <ClCompile Include="code\CreateScreamerHorde.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="code\DinoSpawner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Dinosaur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h">
@@ -72,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="code\MainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Dinosaur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

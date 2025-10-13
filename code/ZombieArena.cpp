@@ -10,12 +10,17 @@
 #include "Pickup.h"
 #include "TextureHolder.h"
 #include "MainMenu.h"
+#include "Dinosaur.h"
 
 using namespace sf;
 
 int createBackground(VertexArray& rVA, IntRect arena);
 Zombie* createHorde(int numZombies, IntRect arena);
 Zombie* createScreamerHorde(int numZombies, IntRect arena);
+
+//todo add dinos
+Enemy** DinoSpawner(int numDinos, IntRect arena);
+
 
 int main()
 {
@@ -67,6 +72,11 @@ int main()
 	int numZombies;
 	int numZombiesAlive;
 	Zombie* zombies = NULL;
+
+	//create horde of dinosaurs
+	int numDinosaurs;
+	int numDinosaursAlive;
+	Enemy** dinosaurs = NULL;
 
 	//seperate fire logic for each weapon
 	// Fire rate and last shot time for SMG
@@ -764,6 +774,14 @@ int main()
 				// Delete the previously allocated memory (if it exists)
 				delete[] zombies;
 
+				if (dinosaurs != nullptr) {
+					for (int i = 0; i < numDinosaurs; i++) {
+						delete dinosaurs[i];  // Delete each individual dinosaur
+					}
+					delete[] dinosaurs;  // Delete the array of pointers
+					dinosaurs = nullptr;
+				}
+
 				if (screamRound != 0) {
 
 					zombies = createHorde(numZombies, arena);
@@ -784,6 +802,11 @@ int main()
 					bulletsInClip = 12;
 				}
 
+				numDinosaurs = 3 * wave; // Adjust number as needed
+
+				dinosaurs = DinoSpawner(numDinosaurs, arena);
+
+				numDinosaursAlive = numDinosaurs;
 
 				numZombiesAlive = numZombies;
 
@@ -834,6 +857,17 @@ int main()
 				if (zombies[i].isAlive())
 				{
 					zombies[i].update(dt.asSeconds(), playerPosition);
+				}
+			}
+
+			//loop through and update dinos
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < numDinosaurs; i++)
+				{
+					if (dinosaurs[i]->isAlive())
+					{
+						dinosaurs[i]->update(dt.asSeconds(), playerPosition);
+					}
 				}
 			}
 
@@ -901,6 +935,45 @@ int main()
 				}
 			}// End zombie being shot
 
+
+			// Collision detection - Have any dinosaurs been shot?
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < 100; i++)
+				{
+					for (int j = 0; j < numDinosaurs; j++)
+					{
+						if (bullets[i].isInFlight() && dinosaurs[j]->isAlive())
+						{
+							if (bullets[i].getPosition().intersects(dinosaurs[j]->getPosition()))
+							{
+								// Stop the bullet
+								bullets[i].stop();
+
+								// Register the hit and see if it was a kill
+								if (dinosaurs[j]->hit()) {
+									// Not just a hit but a kill too
+									score += 15; // More points for dinosaurs
+									if (score >= hiScore)
+									{
+										hiScore = score;
+									}
+
+									numDinosaursAlive--;
+
+									// When ALL enemies are dead (both zombies AND dinosaurs)
+									if (numZombiesAlive == 0 && numDinosaursAlive == 0) {
+										state = State::LEVELING_UP;
+									}
+								}
+
+								// Make a splat sound
+								splat.play();
+							}
+						}
+					}
+				}
+			}// End dinosaur being shot
+
 			 // Have any zombies touched the player			
 			for (int i = 0; i < numZombies; i++)
 			{
@@ -925,6 +998,28 @@ int main()
 					}
 				}
 			}// End player touched
+
+			// Have any dinosaurs touched the player			
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < numDinosaurs; i++)
+				{
+					if (player.getPosition().intersects(dinosaurs[i]->getPosition()) && dinosaurs[i]->isAlive())
+					{
+						if (player.hit(gameTimeTotal))
+						{
+							hit.play();
+						}
+
+						if (player.getHealth() <= 0)
+						{
+							state = State::GAME_OVER;
+							std::ofstream outputFile("gamedata/scores.txt");
+							outputFile << hiScore;
+							outputFile.close();
+						}
+					}
+				}
+			}// End player touched by dinosaur
 
 			 // Has the player touched health pickup
 			if (player.getPosition().intersects
@@ -987,6 +1082,29 @@ int main()
 							}
 						}
 						splat.play();
+					}
+				}
+
+				//dino melee
+				if (dinosaurs != nullptr) {
+					for (int i = 0; i < numDinosaurs; i++)
+					{
+						if (dinosaurs[i]->isAlive() &&
+							meleeAttackRect.getGlobalBounds().intersects(dinosaurs[i]->getPosition()))
+						{
+							if (dinosaurs[i]->hit())
+							{
+								score += 15;
+								if (score >= hiScore) hiScore = score;
+								numDinosaursAlive--;
+
+								// Check if ALL enemies are dead
+								if (numZombiesAlive == 0 && numDinosaursAlive == 0) {
+									state = State::LEVELING_UP;
+								}
+							}
+							splat.play();
+						}
 					}
 				}
 				
@@ -1112,6 +1230,17 @@ int main()
 				
 				window.draw(meleeAttackRect);
 
+			}
+
+			//draw the dinosaurs
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < numDinosaurs; i++)
+				{
+					if (dinosaurs[i]->isAlive())
+					{
+						window.draw(dinosaurs[i]->getSprite());
+					}
+				}
 			}
 
 
