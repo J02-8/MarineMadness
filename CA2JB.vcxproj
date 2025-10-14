@@ -23,6 +23,9 @@
     <ClCompile Include="code\CreateBackground.cpp" />
     <ClCompile Include="code\CreateHorde.cpp" />
     <ClCompile Include="code\CreateScreamerHorde.cpp" />
+    <ClCompile Include="code\Dinosaur.cpp" />
+    <ClCompile Include="code\DinoSpawner.cpp" />
+    <ClCompile Include="code\Enemy.cpp" />
     <ClCompile Include="code\MainMenu.cpp" />
     <ClCompile Include="code\Particle.cpp" />
     <ClCompile Include="code\ParticleFactory.cpp" />
@@ -36,6 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />
+    <ClInclude Include="code\Dinosaur.h" />
+    <ClInclude Include="code\Enemy.h" />
     <ClInclude Include="code\MainMenu.h" />
     <ClInclude Include="code\Particle.h" />
     <ClInclude Include="code\ParticleFactory.h" />
