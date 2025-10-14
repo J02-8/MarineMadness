@@ -24,6 +24,9 @@
     <ClCompile Include="code\CreateHorde.cpp" />
     <ClCompile Include="code\CreateScreamerHorde.cpp" />
     <ClCompile Include="code\MainMenu.cpp" />
+    <ClCompile Include="code\Particle.cpp" />
+    <ClCompile Include="code\ParticleFactory.cpp" />
+    <ClCompile Include="code\ParticleFlyweight.cpp" />
     <ClCompile Include="code\Pickup.cpp" />
     <ClCompile Include="code\Player.cpp" />
     <ClCompile Include="code\SoundManager.cpp" />
@@ -34,6 +37,9 @@
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />
     <ClInclude Include="code\MainMenu.h" />
+    <ClInclude Include="code\Particle.h" />
+    <ClInclude Include="code\ParticleFactory.h" />
+    <ClInclude Include="code\ParticleFlyweight.h" />
     <ClInclude Include="code\Pickup.h" />
     <ClInclude Include="code\Player.h" />
     <ClInclude Include="code\SoundManager.h" />

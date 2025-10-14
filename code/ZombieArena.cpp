@@ -10,6 +10,10 @@
 #include "Pickup.h"
 #include "TextureHolder.h"
 #include "MainMenu.h"
+#include "Particle.h"
+#include "ParticleFactory.h"
+#include <vector>
+#include <memory>
 
 using namespace sf;
 
@@ -341,6 +345,18 @@ int main()
 
 	// set game state to main menu
 	state = State::MAINMENU;
+
+	// Create particle background for main menu
+	vector<Particle> menuParticles;
+	
+	for (int i = 0; i < 1000; ++i) 
+	{
+
+		Vector2f position(rand() % (int)resolution.x, rand() % (int)resolution.y);
+		Vector2f velocity((rand() % 1000) / 50.f - 1.f, (rand() % 1000) / 50.f - 1.f);
+		auto flyweight = ParticleFactory::getParticleFlyweight(2.f); // small white particles
+		menuParticles.emplace_back(flyweight, position, velocity);
+	}
 	
 	// The main game loop
 	while (window.isOpen())
@@ -1058,6 +1074,23 @@ int main()
 
 		if (state == State::MAINMENU)
 		{
+			// 1. Update particle positions
+			float dtMenu = clock.restart().asSeconds();
+			for (size_t i = 0; i < menuParticles.size(); ++i) 
+			{
+				menuParticles[i].update(dtMenu);
+				for (size_t j = i + 1; j < menuParticles.size(); ++j) 
+				{
+					menuParticles[i].checkCollision(menuParticles[j]);
+				}
+			}
+
+			// 2. Draw particles first (background)
+			for (auto& particle : menuParticles) {
+				particle.draw(window);
+			}
+
+			// 3. Draw menu on top
 			mainMenu.draw(window);
 		}
 

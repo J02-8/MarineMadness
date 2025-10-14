@@ -48,6 +48,15 @@
     <ClCompile Include="code\CreateScreamerHorde.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="code\ParticleFlyweight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\ParticleFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Particle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h">
@@ -72,6 +81,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="code\MainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ParticleFlyweight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ParticleFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Particle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
