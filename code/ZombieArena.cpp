@@ -16,7 +16,7 @@ int createBackground(VertexArray& rVA, IntRect arena);
 Zombie* createHorde(int numZombies, IntRect arena);
 Zombie* createScreamerHorde(int numZombies, IntRect arena);
 
-int main()
+void function()
 {
 	// Here is the instabce of TextureHolder
 	TextureHolder holder;
@@ -698,7 +698,7 @@ int main()
 				int tileSize = createBackground(background, arena);
 
 				// Spawn the player in the middle of the arena
-				player.spawn(arena, resolution, tileSize);
+				//player.spawn(arena, resolution, tileSize);
 
 				// Configure the pick-ups
 				healthPickup.setArena(arena);
@@ -1007,102 +1007,11 @@ int main()
 		 **************
 		 */
 
-		if (state == State::PLAYING)
-		{
-			window.clear();
-
-			// set the mainView to be displayed in the window
-			// And draw everything related to it
-			window.setView(mainView);
-
-			// Draw the background
-			window.draw(background, &textureBackground);
-
-			// Draw the zombies
-			for (int i = 0; i < numZombies; i++)
-			{
-				window.draw(zombies[i].getSprite());
-			}
-
-			for (int i = 0; i < 100; i++)
-			{
-				if (bullets[i].isInFlight())
-				{
-					window.draw(bullets[i].getShape());
-				}
-			}
-
-			// Draw the player
-			window.draw(player.getSprite());
-
-			// Draw the pickups is currently spawned
-			if (ammoPickup.isSpawned())
-			{
-				window.draw(ammoPickup.getSprite());
-			}
-			if (healthPickup.isSpawned())
-			{
-				window.draw(healthPickup.getSprite());
-			}
-
-			// draw the weapon pick ups 
-			if (smgPickup.isSpawned()) {
-				window.draw(smgPickup.getSprite());
-			}
-			if (shotgunPickup.isSpawned()) {
-				window.draw(shotgunPickup.getSprite());
-			}
-
-			//draw the melee attack
-			if (isMeleeAttacking) {
-				
-				window.draw(meleeAttackRect);
-
-			}
-
-
-			//Draw the crosshair
-			window.draw(spriteCrosshair);
-
-			// Switch to the HUD view
-			window.setView(hudView);
-
-			// Draw all the HUD elements
-			window.draw(spriteAmmoIcon);
-			window.draw(ammoText);
-			window.draw(scoreText);
-			window.draw(hiScoreText);
-			window.draw(healthBar);
-			window.draw(waveNumberText);
-			window.draw(zombiesRemainingText);
-		}
-
-		if (state == State::LEVELING_UP)
-		{
-			window.draw(spriteGameOver);
-			window.draw(levelUpText);
-		}
-
-		if (state == State::PAUSED)
-		{
-			window.draw(pausedText);
-		}
-
-		if (state == State::GAME_OVER)
-		{
-			window.draw(spriteGameOver);
-			window.draw(gameOverText);
-			window.draw(scoreText);
-			window.draw(hiScoreText);
-		}
-
 		
-
-		window.display();
 
 	}// End game loop
 
-	return 0;
+	//return 0;
 
 }
 

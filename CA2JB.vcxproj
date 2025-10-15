@@ -22,16 +22,23 @@
     <ClCompile Include="code\Bullet.cpp" />
     <ClCompile Include="code\CreateBackground.cpp" />
     <ClCompile Include="code\CreateHorde.cpp" />
+    <ClCompile Include="code\Draw.cpp" />
+    <ClCompile Include="code\LevelManager.cpp" />
+    <ClCompile Include="code\Main.cpp" />
+    <ClCompile Include="code\MarineMachine.cpp" />
     <ClCompile Include="code\Pickup.cpp" />
     <ClCompile Include="code\Player.cpp" />
     <ClCompile Include="code\SoundManager.cpp" />
     <ClCompile Include="code\TextureHolder.cpp" />
+    <ClCompile Include="code\Update.cpp" />
     <ClCompile Include="code\Zombie.cpp" />
     <ClCompile Include="code\ZombieArena.cpp" />
     <ClCompile Include="CreateScreamerHorde.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />
+    <ClInclude Include="code\LevelManager.h" />
+    <ClInclude Include="code\MarineMachine.h" />
     <ClInclude Include="code\Pickup.h" />
     <ClInclude Include="code\Player.h" />
     <ClInclude Include="code\SoundManager.h" />

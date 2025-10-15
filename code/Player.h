@@ -54,7 +54,7 @@ public:
 	// Call this at the end of every game
 	void resetPlayerStats();
 
-	void spawn(IntRect arena, Vector2f resolution, int tileSize);
+	void spawn(Vector2f startPosition);
 
 	// Handle the player getting hit by a zombie
 	bool hit(Time timeHit);
