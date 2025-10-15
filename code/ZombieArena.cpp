@@ -9,6 +9,12 @@
 #include "Bullet.h"
 #include "Pickup.h"
 #include "TextureHolder.h"
+#include "MainMenu.h"
+#include "Particle.h"
+#include "ParticleFactory.h"
+#include <vector>
+#include <memory>
+#include "Dinosaur.h"
 
 using namespace sf;
 
@@ -17,12 +23,17 @@ Zombie* createHorde(int numZombies, IntRect arena);
 Zombie* createScreamerHorde(int numZombies, IntRect arena);
 
 void function()
+//todo add dinos
+Enemy** DinoSpawner(int numDinos, IntRect arena);
+
+
+int main()
 {
 	// Here is the instabce of TextureHolder
 	TextureHolder holder;
 
 	// The game will always be in one of four states
-	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
+	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING, MAINMENU };
 	// Start with the GAME_OVER state
 	State state = State::GAME_OVER;
 
@@ -34,6 +45,8 @@ void function()
 
 	RenderWindow window(VideoMode(resolution.x, resolution.y),
 		"Zombie Arena", Style::Fullscreen);
+
+	// RenderWindow menuWindow(VideoMode(resolution.x, resolution.y),"Main Menu", Style::Fullscreen);
 
 	// Create a an SFML View for the main action
 	View mainView(sf::FloatRect(0, 0, resolution.x, resolution.y));
@@ -64,6 +77,11 @@ void function()
 	int numZombies;
 	int numZombiesAlive;
 	Zombie* zombies = NULL;
+
+	//create horde of dinosaurs
+	int numDinosaurs;
+	int numDinosaursAlive;
+	Enemy** dinosaurs = NULL;
 
 	//seperate fire logic for each weapon
 	// Fire rate and last shot time for SMG
@@ -332,6 +350,24 @@ void function()
 	
 	// Play the music
 	bgMusic.play();
+
+	// Create main menu
+	MainMenu mainMenu(resolution.x, resolution.y);
+
+	// set game state to main menu
+	state = State::MAINMENU;
+
+	// Create particle background for main menu
+	vector<Particle> menuParticles;
+	
+	for (int i = 0; i < 1000; ++i) 
+	{
+
+		Vector2f position(rand() % (int)resolution.x, rand() % (int)resolution.y);
+		Vector2f velocity((rand() % 1000) / 50.f - 1.f, (rand() % 1000) / 50.f - 1.f);
+		auto flyweight = ParticleFactory::getParticleFlyweight(2.f); // small white particles
+		menuParticles.emplace_back(flyweight, position, velocity);
+	}
 	
 	// The main game loop
 	while (window.isOpen())
@@ -346,8 +382,53 @@ void function()
 		Event event;
 		while (window.pollEvent(event))
 		{
+
+			// Handle the player quitting
+			if (Keyboard::isKeyPressed(Keyboard::Escape))
+			{
+				window.close();
+			}
+
+			// Handle Main Menu
+			if (state == State::MAINMENU)
+			{
+				if (event.type == Event::KeyReleased)
+				{
+					// Select up
+					if (event.key.code == Keyboard::Up)
+					{
+						mainMenu.moveUp();
+					}
+
+					// Select down
+					if (event.key.code == Keyboard::Down)
+					{
+						mainMenu.moveDown();
+					}
+
+					// select an option
+					if (event.key.code == Keyboard::Return)
+					{
+						switch (mainMenu.mainMenuPressed())
+						{
+						case 0:
+							// Start the game
+							state = State::GAME_OVER;
+							break;
+						case 4:
+							// Exit the game
+							window.close();
+						default:
+							break;
+						}
+					}
+
+				}
+			}
+
 			if (event.type == Event::KeyPressed)
 			{
+
 				// Pause a game while playing
 				if (event.key.code == Keyboard::Return &&
 					state == State::PLAYING)
@@ -418,13 +499,6 @@ void function()
 
 			}
 		}// End event polling
-
-
-		 // Handle the player quitting
-		if (Keyboard::isKeyPressed(Keyboard::Escape))
-		{
-			window.close();
-		}
 
 		// Handle controls while playing
 		if (state == State::PLAYING)
@@ -717,6 +791,14 @@ void function()
 				// Delete the previously allocated memory (if it exists)
 				delete[] zombies;
 
+				if (dinosaurs != nullptr) {
+					for (int i = 0; i < numDinosaurs; i++) {
+						delete dinosaurs[i];  // Delete each individual dinosaur
+					}
+					delete[] dinosaurs;  // Delete the array of pointers
+					dinosaurs = nullptr;
+				}
+
 				if (screamRound != 0) {
 
 					zombies = createHorde(numZombies, arena);
@@ -737,6 +819,11 @@ void function()
 					bulletsInClip = 12;
 				}
 
+				numDinosaurs = 3 * wave; // Adjust number as needed
+
+				dinosaurs = DinoSpawner(numDinosaurs, arena);
+
+				numDinosaursAlive = numDinosaurs;
 
 				numZombiesAlive = numZombies;
 
@@ -787,6 +874,17 @@ void function()
 				if (zombies[i].isAlive())
 				{
 					zombies[i].update(dt.asSeconds(), playerPosition);
+				}
+			}
+
+			//loop through and update dinos
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < numDinosaurs; i++)
+				{
+					if (dinosaurs[i]->isAlive())
+					{
+						dinosaurs[i]->update(dt.asSeconds(), playerPosition);
+					}
 				}
 			}
 
@@ -854,6 +952,45 @@ void function()
 				}
 			}// End zombie being shot
 
+
+			// Collision detection - Have any dinosaurs been shot?
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < 100; i++)
+				{
+					for (int j = 0; j < numDinosaurs; j++)
+					{
+						if (bullets[i].isInFlight() && dinosaurs[j]->isAlive())
+						{
+							if (bullets[i].getPosition().intersects(dinosaurs[j]->getPosition()))
+							{
+								// Stop the bullet
+								bullets[i].stop();
+
+								// Register the hit and see if it was a kill
+								if (dinosaurs[j]->hit()) {
+									// Not just a hit but a kill too
+									score += 15; // More points for dinosaurs
+									if (score >= hiScore)
+									{
+										hiScore = score;
+									}
+
+									numDinosaursAlive--;
+
+									// When ALL enemies are dead (both zombies AND dinosaurs)
+									if (numZombiesAlive == 0 && numDinosaursAlive == 0) {
+										state = State::LEVELING_UP;
+									}
+								}
+
+								// Make a splat sound
+								splat.play();
+							}
+						}
+					}
+				}
+			}// End dinosaur being shot
+
 			 // Have any zombies touched the player			
 			for (int i = 0; i < numZombies; i++)
 			{
@@ -878,6 +1015,28 @@ void function()
 					}
 				}
 			}// End player touched
+
+			// Have any dinosaurs touched the player			
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < numDinosaurs; i++)
+				{
+					if (player.getPosition().intersects(dinosaurs[i]->getPosition()) && dinosaurs[i]->isAlive())
+					{
+						if (player.hit(gameTimeTotal))
+						{
+							hit.play();
+						}
+
+						if (player.getHealth() <= 0)
+						{
+							state = State::GAME_OVER;
+							std::ofstream outputFile("gamedata/scores.txt");
+							outputFile << hiScore;
+							outputFile.close();
+						}
+					}
+				}
+			}// End player touched by dinosaur
 
 			 // Has the player touched health pickup
 			if (player.getPosition().intersects
@@ -940,6 +1099,29 @@ void function()
 							}
 						}
 						splat.play();
+					}
+				}
+
+				//dino melee
+				if (dinosaurs != nullptr) {
+					for (int i = 0; i < numDinosaurs; i++)
+					{
+						if (dinosaurs[i]->isAlive() &&
+							meleeAttackRect.getGlobalBounds().intersects(dinosaurs[i]->getPosition()))
+						{
+							if (dinosaurs[i]->hit())
+							{
+								score += 15;
+								if (score >= hiScore) hiScore = score;
+								numDinosaursAlive--;
+
+								// Check if ALL enemies are dead
+								if (numZombiesAlive == 0 && numDinosaursAlive == 0) {
+									state = State::LEVELING_UP;
+								}
+							}
+							splat.play();
+						}
 					}
 				}
 				
@@ -1007,7 +1189,133 @@ void function()
 		 **************
 		 */
 
+		window.clear();
+
+		if (state == State::MAINMENU)
+		{
+			// 1. Update particle positions
+			float dtMenu = clock.restart().asSeconds();
+			for (size_t i = 0; i < menuParticles.size(); ++i) 
+			{
+				menuParticles[i].update(dtMenu);
+				for (size_t j = i + 1; j < menuParticles.size(); ++j) 
+				{
+					menuParticles[i].checkCollision(menuParticles[j]);
+				}
+			}
+
+			// 2. Draw particles first (background)
+			for (auto& particle : menuParticles) {
+				particle.draw(window);
+			}
+
+			// 3. Draw menu on top
+			mainMenu.draw(window);
+		}
+
+		if (state == State::PLAYING)
+		{
+			window.clear();
+
+			// set the mainView to be displayed in the window
+			// And draw everything related to it
+			window.setView(mainView);
+
+			// Draw the background
+			window.draw(background, &textureBackground);
 		
+
+			// Draw the zombies
+			for (int i = 0; i < numZombies; i++)
+			{
+				window.draw(zombies[i].getSprite());
+			}
+
+			for (int i = 0; i < 100; i++)
+			{
+				if (bullets[i].isInFlight())
+				{
+					window.draw(bullets[i].getShape());
+				}
+			}
+
+			// Draw the player
+			window.draw(player.getSprite());
+
+			// Draw the pickups is currently spawned
+			if (ammoPickup.isSpawned())
+			{
+				window.draw(ammoPickup.getSprite());
+			}
+			if (healthPickup.isSpawned())
+			{
+				window.draw(healthPickup.getSprite());
+			}
+
+			// draw the weapon pick ups 
+			if (smgPickup.isSpawned()) {
+				window.draw(smgPickup.getSprite());
+			}
+			if (shotgunPickup.isSpawned()) {
+				window.draw(shotgunPickup.getSprite());
+			}
+
+			//draw the melee attack
+			if (isMeleeAttacking) {
+				
+				window.draw(meleeAttackRect);
+
+			}
+
+			//draw the dinosaurs
+			if (dinosaurs != nullptr) {
+				for (int i = 0; i < numDinosaurs; i++)
+				{
+					if (dinosaurs[i]->isAlive())
+					{
+						window.draw(dinosaurs[i]->getSprite());
+					}
+				}
+			}
+
+
+			//Draw the crosshair
+			window.draw(spriteCrosshair);
+
+			// Switch to the HUD view
+			window.setView(hudView);
+
+			// Draw all the HUD elements
+			window.draw(spriteAmmoIcon);
+			window.draw(ammoText);
+			window.draw(scoreText);
+			window.draw(hiScoreText);
+			window.draw(healthBar);
+			window.draw(waveNumberText);
+			window.draw(zombiesRemainingText);
+		}
+
+		if (state == State::LEVELING_UP)
+		{
+			window.draw(spriteGameOver);
+			window.draw(levelUpText);
+		}
+
+		if (state == State::PAUSED)
+		{
+			window.draw(pausedText);
+		}
+
+		if (state == State::GAME_OVER)
+		{
+			window.draw(spriteGameOver);
+			window.draw(gameOverText);
+			window.draw(scoreText);
+			window.draw(hiScoreText);
+		}
+
+		window.display();
+
 
 	}// End game loop
 

@@ -1,17 +1,25 @@
+#include "ZombieArena.h"
 
+#include "Enemy.h"
+#include "Dinosaur.h"
+#include <ctime>
 
-#include "code/Zombie.h"
-Zombie* createScreamerHorde(int numZombies, IntRect arena)//to spawn screamers for bonus round 
+Enemy** DinoSpawner(int numDinos, IntRect arena)
 {
-	Zombie* zombies = new Zombie[numZombies];
+
+
+
+	Enemy** dinos = new Enemy * [numDinos];
 
 	int maxY = arena.height - 20;
 	int minY = arena.top + 20;
 	int maxX = arena.width - 20;
 	int minX = arena.left + 20;
 
-	for (int i = 0; i < numZombies; i++)
+	for (int i = 0; i < numDinos; i++)
 	{
+
+
 
 		// Which side should the zombie spawn
 		srand((int)time(0) * i);
@@ -45,14 +53,13 @@ Zombie* createScreamerHorde(int numZombies, IntRect arena)//to spawn screamers f
 			break;
 		}
 
-		// spawning only screamer
-		srand((int)time(0) * i * 2);
-		int type = (3);
+		dinos[i] = new Dinosaur();
 
-		
 		// Spawn the new zombie into the array
-		zombies[i].spawn(x, y, type, i);
+		dinos[i]->spawn(x, y, i);
+
 
 	}
-	return zombies;
+	return dinos;
+
 }
