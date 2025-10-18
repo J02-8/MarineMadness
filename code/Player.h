@@ -23,7 +23,7 @@ private:
 	Vector2f m_Resolution;
 
 	// What size is the current arena
-	IntRect m_Arena;
+	FloatRect m_Arena;
 
 	// How big is each tile of the arena
 	int m_TileSize;
@@ -55,6 +55,8 @@ public:
 	void resetPlayerStats();
 
 	void spawn(Vector2f startPosition);
+
+	void setArena(FloatRect arena, float tileSize);
 
 	// Handle the player getting hit by a zombie
 	bool hit(Time timeHit);

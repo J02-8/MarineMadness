@@ -100,6 +100,18 @@ void MarineMachine::loadLevel()
 	// And repopulate the vertex array as well
 	m_ArrayLevel = lm.nextLevel(vaLevel);
 
+	// --- CRITICAL FIX: SETTING THE ARENA BOUNDARIES ---
+
+	// 1. Get the level's pixel bounds from the LevelManager. 
+	//    (You need a method like getArenaBounds() in your LevelManager)
+	sf::FloatRect arenaBounds = lm.getArenaBounds();
+
+	// 2. Get the tile size (Assuming a constant TILE_SIZE is used by LevelManager)
+	float tileSize = lm.getTileSize(); // You need a getter for TILE_SIZE
+
+	// 3. Pass the arena data to the player
+	marine.setArena(arenaBounds, tileSize);
+
 	for (int i = 0; i < lm.getLevelSpawningPointsSize().y; ++i)
 	{
 		delete[] m_ArraySpawningPointsLevel[i];
@@ -119,8 +131,13 @@ void MarineMachine::loadLevel()
 	// Spawn Player
 	marine.spawn(Vector2f(200, 900));
 
+	// Spawn Warp
+	wp.spawn(Vector2f(500, 900));
+
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;
+
+	
 }
 
 void MarineMachine::input()
@@ -168,8 +185,44 @@ void MarineMachine::input()
 		{
 			bool joyMenuPressed = sf::Joystick::isButtonPressed(0, 7);
 
-			// Handle the player quitting
+			// Handle the pressing and releasing of the WASD keys
+			if (Keyboard::isKeyPressed(Keyboard::W))
+			{
+				marine.moveUp();
+			}
+			else
+			{
+				marine.stopUp();
+			}
 
+			if (Keyboard::isKeyPressed(Keyboard::S))
+			{
+				marine.moveDown();
+			}
+			else
+			{
+				marine.stopDown();
+			}
+
+			if (Keyboard::isKeyPressed(Keyboard::A))
+			{
+				marine.moveLeft();
+			}
+			else
+			{
+				marine.stopLeft();
+			}
+
+			if (Keyboard::isKeyPressed(Keyboard::D))
+			{
+				marine.moveRight();
+			}
+			else
+			{
+				marine.stopRight();
+			}
+
+			// Handle the player quitting
 			if (event.key.code == (Keyboard::Escape) || joyMenuPressed)
 			{
 				m_Window.close();

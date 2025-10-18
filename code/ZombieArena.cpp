@@ -15,6 +15,7 @@
 #include <vector>
 #include <memory>
 #include "Dinosaur.h"
+#include "Enemy.h"
 
 using namespace sf;
 
@@ -22,10 +23,8 @@ int createBackground(VertexArray& rVA, IntRect arena);
 Zombie* createHorde(int numZombies, IntRect arena);
 Zombie* createScreamerHorde(int numZombies, IntRect arena);
 
-void function()
 //todo add dinos
 Enemy** DinoSpawner(int numDinos, IntRect arena);
-
 
 int main()
 {
@@ -74,7 +73,7 @@ int main()
 		"graphics/background_sheet.png");
 
 	// Prepare for a horde of zombies
-	int numZombies;
+	int numZombies = 0;
 	int numZombiesAlive;
 	Zombie* zombies = NULL;
 
@@ -203,17 +202,17 @@ int main()
 	// Levelling up
 	Text levelUpText;
 	levelUpText.setFont(font);
-	levelUpText.setCharacterSize(80);
+	levelUpText.setCharacterSize(50);
 	levelUpText.setFillColor(Color::White);
-	levelUpText.setPosition(150, 250);
+	levelUpText.setPosition(120, 250);
 	std::stringstream levelUpStream;
 	levelUpStream <<
-		"1- Increased rate of fire" <<
-		"\n2- Increased clip size(next reload)" <<
-		"\n3- Increased max health" <<
-		"\n4- Increased run speed" <<
-		"\n5- More and better health pickups" <<
-		"\n6- More and better ammo pickups";
+		"You are Sgt. Ronald McRevolver, investigating an abandoned wearhouse." <<
+		"\nYou were informed by the chief that you have retrieve a stolen machine." <<
+		"\nThis machine allows any user to travel through time." <<
+		"\nSo be cautious when near the device" <<
+		"\n" <<
+		"\nWhen ready, press S to enter the building.";
 	levelUpText.setString(levelUpStream.str());
 
 	// Ammo
@@ -413,7 +412,7 @@ int main()
 						{
 						case 0:
 							// Start the game
-							state = State::GAME_OVER;
+							state = State::LEVELING_UP;
 							break;
 						case 4:
 							// Exit the game
@@ -713,45 +712,8 @@ int main()
 		if (state == State::LEVELING_UP)
 		{
 			
-
-			// Handle the player levelling up
-			if (event.key.code == Keyboard::Num1)
+			if (event.key.code == Keyboard::S)
 			{
-				// Increase fire rate
-				fireRate++;
-				state = State::PLAYING;
-			}
-
-			if (event.key.code == Keyboard::Num2)
-			{
-				// Increase clip size
-				clipSize += clipSize;
-				state = State::PLAYING;
-			}
-
-			if (event.key.code == Keyboard::Num3)
-			{
-				// Increase health
-				player.upgradeHealth();
-				state = State::PLAYING;
-			}
-
-			if (event.key.code == Keyboard::Num4)
-			{
-				// Increase speed
-				player.upgradeSpeed();
-				state = State::PLAYING;
-			}
-
-			if (event.key.code == Keyboard::Num5)
-			{
-				healthPickup.upgrade();
-				state = State::PLAYING;
-			}
-
-			if (event.key.code == Keyboard::Num6)
-			{
-				ammoPickup.upgrade();
 				state = State::PLAYING;
 			}
 

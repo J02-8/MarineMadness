@@ -39,6 +39,9 @@ void MarineMachine::draw()
 		// Draw the player
 		m_Window.draw(marine.getSprite());
 
+		// Draw the warp
+		m_Window.draw(wp.getSprite());
+
 		/**
 		// Draw the pickups is currently spawned
 		if (ammoPickup.isSpawned())

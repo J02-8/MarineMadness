@@ -16,7 +16,16 @@ Player::Player()
 
 	// Set the origin of the sprite to the centre, 
 	// for smooth rotation
-	m_Sprite.setOrigin(40, 40);
+	m_Sprite.setOrigin(30, 50);
+}
+
+void Player::setArena(sf::FloatRect arena, float tileSize)
+{
+	// holds level total size
+	m_Arena = arena;
+
+	// holds the size of one tile.
+	m_TileSize = tileSize;
 }
 
 void Player::resetPlayerStats()
@@ -31,6 +40,8 @@ void Player::spawn(Vector2f startPosition)
 	// Place the player in the middle of the arena
 	m_Position.x = startPosition.x;
 	m_Position.y = startPosition.y;
+
+	m_Sprite.setPosition(m_Position);
 
 }
 

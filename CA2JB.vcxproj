@@ -39,6 +39,7 @@
     <ClCompile Include="code\SoundManager.cpp" />
     <ClCompile Include="code\TextureHolder.cpp" />
     <ClCompile Include="code\Update.cpp" />
+    <ClCompile Include="code\Warp.cpp" />
     <ClCompile Include="code\Zombie.cpp" />
     <ClCompile Include="code\ZombieArena.cpp" />
   </ItemGroup>
@@ -56,6 +57,7 @@
     <ClInclude Include="code\Player.h" />
     <ClInclude Include="code\SoundManager.h" />
     <ClInclude Include="code\TextureHolder.h" />
+    <ClInclude Include="code\Warp.h" />
     <ClInclude Include="code\Zombie.h" />
     <ClInclude Include="code\ZombieArena.h" />
   </ItemGroup>

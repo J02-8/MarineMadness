@@ -8,6 +8,7 @@
 #include <sstream>
 #include "Player.h"
 #include "Bullet.h"
+#include "Warp.h"
 #include "Pickup.h"
 
 using namespace sf;
@@ -20,6 +21,9 @@ private:
 
 	// The Marine
 	Player marine;
+
+	// Time warp
+	Warp wp;
 
 	// A class to manage all the levels
 	LevelManager lm;

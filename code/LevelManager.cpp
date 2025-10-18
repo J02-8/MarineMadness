@@ -145,6 +145,25 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 	return arrayLevel;
 }
 
+// In LevelManager.cpp:
+FloatRect LevelManager::getArenaBounds()
+{
+	// TILE_SIZE is the constant used to build the map
+	return sf::FloatRect(
+		0,
+		0,
+		m_LevelSize.x * TILE_SIZE,
+		m_LevelSize.y * TILE_SIZE
+	);
+}
+
+// In LevelManager.cpp:
+float LevelManager::getTileSize()
+{
+	// Return the constant TILE_SIZE used throughout the class
+	return TILE_SIZE;
+}
+
 Vector2i LevelManager::getLevelSize()
 {
 	return m_LevelSize;

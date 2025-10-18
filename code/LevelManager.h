@@ -26,6 +26,9 @@ public:
 	Vector2i getLevelSize();
 	Vector2i getLevelSpawningPointsSize();
 
+	FloatRect getArenaBounds();
+	float getTileSize();
+
 	int getCurrentLevel();
 	void setCurrentLevel(int levelNum);
 
