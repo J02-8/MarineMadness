@@ -363,7 +363,7 @@ int main()
 	{
 
 		Vector2f position(rand() % (int)resolution.x, rand() % (int)resolution.y);
-		Vector2f velocity((rand() % 1000) / 50.f - 1.f, (rand() % 1000) / 50.f - 1.f);
+		Vector2f velocity((rand() % 2001) / 100.f - 10.f, (rand() % 2001) / 100.f - 10.f);
 		auto flyweight = ParticleFactory::getParticleFlyweight(2.f); // small white particles
 		menuParticles.emplace_back(flyweight, position, velocity);
 	}
