@@ -17,6 +17,7 @@
 #include "Dinosaur.h"
 #include "Enemy.h"
 #include "SoundManager.h"
+#include "ScoreManager.h"
 
 using namespace sf;
 
@@ -158,9 +159,8 @@ int main()
 	Pickup smgPickup(3);
 	Pickup shotgunPickup(4);
 
-	// About the game
-	int score = 0;
-	int hiScore = 0;
+	// Score
+	ScoreManager scoreManager;
 
 	// For the home/game over screen
 	Sprite spriteGameOver;
@@ -227,15 +227,6 @@ int main()
 	scoreText.setFillColor(Color::White);
 	scoreText.setPosition(20, 0);
 
-	// Load the high score from a text file/
-	std::ifstream inputFile("gamedata/scores.txt");
-
-	if (inputFile.is_open())
-	{
-		inputFile >> hiScore;
-		inputFile.close();
-	}
-
 	// Hi Score
 	Text hiScoreText;
 	hiScoreText.setFont(font);
@@ -243,7 +234,7 @@ int main()
 	hiScoreText.setFillColor(Color::White);
 	hiScoreText.setPosition(1400, 0);
 	std::stringstream s;
-	s << "Hi Score:" << hiScore;
+	s << "Hi Score:" << to_string(scoreManager.getHighScore());
 	hiScoreText.setString(s.str());
 
 	// Zombies remaining
@@ -362,6 +353,11 @@ int main()
 					}
 
 				}
+				window.setMouseCursorVisible(true);
+			}
+			else
+			{
+				window.setMouseCursorVisible(false);
 			}
 
 			if (event.type == Event::KeyPressed)
@@ -389,7 +385,9 @@ int main()
 				{
 					state = State::LEVELING_UP;
 					wave = 0;
-					score = 0;
+
+					// Reset the player score
+					scoreManager.resetScore();
 
 					//reset what gun is being held
 					holdingPistol = true;
@@ -663,8 +661,8 @@ int main()
 
 				// Prepare thelevel
 				// We will modify the next two lines later
-				arena.width = 500 * wave;
-				arena.height = 500 * wave;
+				arena.width = 1000 * wave;
+				arena.height = 1000 * wave;
 				arena.left = 0;
 				arena.top = 0;
 
@@ -828,13 +826,10 @@ int main()
 							bullets[i].stop();
 
 							// Register the hit and see if it was a kill
-							if (zombies[j].hit()) {
+							if (zombies[j].hit()) 
+							{
 								// Not just a hit but a kill too
-								score += 10;
-								if (score >= hiScore)
-								{
-									hiScore = score;
-								}
+								scoreManager.addPoints(10);
 
 								numZombiesAlive--;
 
@@ -868,14 +863,11 @@ int main()
 								bullets[i].stop();
 
 								// Register the hit and see if it was a kill
-								if (dinosaurs[j]->hit()) {
+								if (dinosaurs[j]->hit()) 
+								{
 									// Not just a hit but a kill too
-									score += 15; // More points for dinosaurs
-									if (score >= hiScore)
-									{
-										hiScore = score;
-									}
-
+									scoreManager.addPoints(15); // More points for dinosaurs
+									
 									numDinosaursAlive--;
 
 									// When ALL enemies are dead (both zombies AND dinosaurs)
@@ -909,10 +901,8 @@ int main()
 					{
 						state = State::GAME_OVER;
 
-						std::ofstream outputFile("gamedata/scores.txt");
-						outputFile << hiScore;
-						outputFile.close();
-
+						scoreManager.saveHighScore();
+						scoreManager.logScore();
 					}
 				}
 			}// End player touched
@@ -931,9 +921,9 @@ int main()
 						if (player.getHealth() <= 0)
 						{
 							state = State::GAME_OVER;
-							std::ofstream outputFile("gamedata/scores.txt");
-							outputFile << hiScore;
-							outputFile.close();
+
+							scoreManager.saveHighScore();
+							scoreManager.logScore();
 						}
 					}
 				}
@@ -991,8 +981,7 @@ int main()
 					{
 						if (zombies[i].hit())
 						{
-							score += 10;
-							if (score >= hiScore) hiScore = score;
+							scoreManager.addPoints(10);
 							numZombiesAlive--;
 
 							if (numZombiesAlive == 0) {
@@ -1012,8 +1001,7 @@ int main()
 						{
 							if (dinosaurs[i]->hit())
 							{
-								score += 15;
-								if (score >= hiScore) hiScore = score;
+								scoreManager.addPoints(15);
 								numDinosaursAlive--;
 
 								// Check if ALL enemies are dead
@@ -1057,11 +1045,11 @@ int main()
 				ammoText.setString(ssAmmo.str());
 
 				// Update the score text
-				ssScore << "Score:" << score;
+				ssScore << "Score:" << scoreManager.getScore();
 				scoreText.setString(ssScore.str());
 
 				// Update the high score text
-				ssHiScore << "Hi Score:" << hiScore;
+				ssHiScore << "Hi Score:" << scoreManager.getHighScore();
 				hiScoreText.setString(ssHiScore.str());
 
 				// Update the wave
