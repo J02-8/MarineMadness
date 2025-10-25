@@ -16,6 +16,7 @@
 #include <memory>
 #include "Dinosaur.h"
 #include "Enemy.h"
+#include "SoundManager.h"
 
 using namespace sf;
 
@@ -176,9 +177,6 @@ int main()
 	spriteAmmoIcon.setTexture(textureAmmoIcon);
 	spriteAmmoIcon.setPosition(20, 980);
 
-	
-
-
 	// Load the font
 	Font font;
 	font.loadFromFile("fonts/zombiecontrol.ttf");
@@ -277,67 +275,8 @@ int main()
 	// How often (in frames) should we update the HUD
 	int fpsMeasurementFrameInterval = 1000;
 
-	// Prepare the hit sound
-	SoundBuffer hitBuffer;
-	hitBuffer.loadFromFile("sound/hit.wav");
-	Sound hit;
-	hit.setBuffer(hitBuffer);
-
-	// Prepare the splat sound
-	SoundBuffer splatBuffer;
-	splatBuffer.loadFromFile("sound/splat.wav");
-	sf::Sound splat;
-	splat.setBuffer(splatBuffer);
-
-	// Prepare the shoot sound
-	SoundBuffer shootBuffer;
-	shootBuffer.loadFromFile("sound/shoot.wav");
-	Sound shoot;
-	shoot.setBuffer(shootBuffer);
-
-
-	// Prepare the shotgun sound
-	SoundBuffer shotGunBuffer;
-	shotGunBuffer.loadFromFile("sound/shotGun.wav");
-	Sound shotGunShoot;
-	shotGunShoot.setBuffer(shotGunBuffer);
-
-	//prepare the dodge sound
-	SoundBuffer dodgeBuffer;
-	dodgeBuffer.loadFromFile("sound/dodge.wav");
-	Sound dodge;
-	dodge.setBuffer(dodgeBuffer);
-
-	//prepare the melee sound
-	SoundBuffer meleeBuffer;
-	meleeBuffer.loadFromFile("sound/melee.wav");
-	Sound melee;
-	melee.setBuffer(meleeBuffer);
-
-
-	// Prepare the reload sound
-	SoundBuffer reloadBuffer;
-	reloadBuffer.loadFromFile("sound/reload.wav");
-	Sound reload;
-	reload.setBuffer(reloadBuffer);
-
-	// Prepare the failed sound
-	SoundBuffer reloadFailedBuffer;
-	reloadFailedBuffer.loadFromFile("sound/reload_failed.wav");
-	Sound reloadFailed;
-	reloadFailed.setBuffer(reloadFailedBuffer);
-
-	// Prepare the powerup sound
-	SoundBuffer powerupBuffer;
-	powerupBuffer.loadFromFile("sound/powerup.wav");
-	Sound powerup;
-	powerup.setBuffer(powerupBuffer);
-
-	// Prepare the pickup sound
-	SoundBuffer pickupBuffer;
-	pickupBuffer.loadFromFile("sound/pickup.wav");
-	Sound pickup;
-	pickup.setBuffer(pickupBuffer);
+	// Create a Sound Manager
+	SoundManager soundManager;
 
 	//background music?
 	sf::Music bgMusic;
@@ -480,18 +419,18 @@ int main()
 							// Plenty of bullets. Reload.
 							bulletsSpare -= bulletsNeeded;
 							bulletsInClip += bulletsNeeded;
-							reload.play();
+							soundManager.playReload();
 						}
 						else if (bulletsSpare > 0) // if the player has some spare bullets but they are not enough for a full clip
 						{
 							bulletsInClip += bulletsSpare;
 							bulletsSpare = 0;
-							reload.play();
+							soundManager.playReload();
 						}
 						else // no spare bullets
 						{
 							// More here soon?!
-							reloadFailed.play();
+							soundManager.playReloadFailed();
 						}
 					}
 				}
@@ -546,7 +485,7 @@ int main()
 			{
 				isMeleeAttacking = true;
 				lastMeleeAttack = gameTimeTotal;
-				melee.play();
+				soundManager.playMelee();
 
 				// Calculate melee direction
 				Vector2f playerCenter = player.getCenter();
@@ -577,7 +516,7 @@ int main()
 				lastDodgeTime = gameTimeTotal;
 				originalSpeed = player.getSpeed(); // Store current speed
 				player.setSpeed(originalSpeed * 2); // Double speed
-				dodge.play(); // Play dodge sound
+				soundManager.playDodge(); // Play dodge sound
 			}
 
 
@@ -612,7 +551,7 @@ int main()
 								bulletsInClip--; //decrease ammo
 								nextBurstBulletTime = gameTimeTotal + timeBetweenShots; // Schedule the next bullet in the burst
 								lastSmgShot = gameTimeTotal; // Reset cooldown timer
-								shoot.play();
+								soundManager.playShoot();
 							}
 							 
 							// If the burst is complete, reset
@@ -646,7 +585,7 @@ int main()
 								lastPistolShot = gameTimeTotal;
 
 								// Play the shoot sound
-								shoot.play();
+								soundManager.playShoot();
 							}
 						}
 					}
@@ -687,7 +626,7 @@ int main()
 								lastShotgunShot = gameTimeTotal;
 
 								// Play the shotgun sound
-								shotGunShoot.play();
+								soundManager.playShotgun();
 							}
 						}
 					}
@@ -790,7 +729,7 @@ int main()
 				numZombiesAlive = numZombies;
 
 				// Play the powerup sound
-				powerup.play();
+				soundManager.playPowerup();
 
 				// Reset the clock so there isn't a frame jump
 				clock.restart();
@@ -906,7 +845,7 @@ int main()
 							}
 
 							// Make a splat sound
-							splat.play();
+							soundManager.playSplat();
 
 						}
 					}
@@ -946,7 +885,7 @@ int main()
 								}
 
 								// Make a splat sound
-								splat.play();
+								soundManager.playSplat();
 							}
 						}
 					}
@@ -963,7 +902,7 @@ int main()
 					if (player.hit(gameTimeTotal))
 					{
 						// More here later
-						hit.play();
+						soundManager.playHit();
 					}
 
 					if (player.getHealth() <= 0)
@@ -986,7 +925,7 @@ int main()
 					{
 						if (player.hit(gameTimeTotal))
 						{
-							hit.play();
+							soundManager.playHit();
 						}
 
 						if (player.getHealth() <= 0)
@@ -1006,7 +945,7 @@ int main()
 			{
 				player.increaseHealthLevel(healthPickup.gotIt());
 				// Play a sound
-				pickup.play();
+				soundManager.playPickup();
 
 			}
 
@@ -1016,7 +955,7 @@ int main()
 			{
 				bulletsSpare += ammoPickup.gotIt();
 				// Play a sound
-				reload.play();
+				soundManager.playReload();
 
 			}
 
@@ -1028,7 +967,7 @@ int main()
 				holdingShot = false;
 				smgPickup.gotIt();
 				// Play a sound
-				pickup.play();
+				soundManager.playPickup();
 			}
 
 			// Has the player touched Shotgun pickup
@@ -1038,7 +977,7 @@ int main()
 				holdingSmg = false;
 				shotgunPickup.gotIt();
 				// Play a sound
-				pickup.play();
+				soundManager.playPickup();
 			}
 
 			//has player clicked melee
@@ -1060,7 +999,7 @@ int main()
 								state = State::LEVELING_UP;
 							}
 						}
-						splat.play();
+						soundManager.playSplat();
 					}
 				}
 
@@ -1082,7 +1021,7 @@ int main()
 									state = State::LEVELING_UP;
 								}
 							}
-							splat.play();
+							soundManager.playSplat();
 						}
 					}
 				}
@@ -1155,7 +1094,7 @@ int main()
 
 		if (state == State::MAINMENU)
 		{
-			// 1. Update particle positions
+			// Update particle positions
 			float dtMenu = clock.restart().asSeconds();
 			for (size_t i = 0; i < menuParticles.size(); ++i) 
 			{
@@ -1166,12 +1105,12 @@ int main()
 				}
 			}
 
-			// 2. Draw particles first (background)
+			// Draw particles first (background)
 			for (auto& particle : menuParticles) {
 				particle.draw(window);
 			}
 
-			// 3. Draw menu on top
+			// Draw menu on top
 			mainMenu.draw(window);
 		}
 
