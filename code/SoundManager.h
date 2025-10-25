@@ -34,6 +34,7 @@ public:
 
 	SoundManager();
 
+    // Play Sound Functions
     void playHit();
     void playSplat();
     void playShoot();
@@ -45,6 +46,7 @@ public:
     void playDodge();
     void playMelee();
 
+    // Set the volume
     void setGlobalVolume(float volume);
 };
 

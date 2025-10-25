@@ -8,6 +8,7 @@ ScoreManager::ScoreManager(const string& hsFile, const string& logFilePath)
     loadHighScore();
 }
 
+// loads the high score from the file
 void ScoreManager::loadHighScore() 
 {
     ifstream input(highScoreFile);
@@ -22,6 +23,7 @@ void ScoreManager::loadHighScore()
     }
 }
 
+// adds points and checks the high score
 void ScoreManager::addPoints(int points) 
 {
     score += points;
@@ -47,6 +49,7 @@ void ScoreManager::resetScore()
     score = 0;
 }
 
+// Saves the high score to a file
 void ScoreManager::saveHighScore() 
 {
     ofstream output(highScoreFile);
@@ -58,9 +61,11 @@ void ScoreManager::saveHighScore()
     }
 }
 
+// Appends the score to a log file
 void ScoreManager::logScore() 
 {
-    ofstream logFileStream(logFile, ios::app);
+    ofstream logFileStream(logFile, ios::app); // ios::app is used to append the file
+
     if (logFileStream.is_open()) 
     {
         logFileStream << score << "\n"; // Add each score on a new line

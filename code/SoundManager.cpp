@@ -30,6 +30,7 @@ SoundManager::SoundManager()
     meleeSound.setBuffer(meleeBuffer);
 }
 
+// Play Functions
 void SoundManager::playHit() { hitSound.play(); }
 void SoundManager::playSplat() { splatSound.play(); }
 void SoundManager::playShoot() { shootSound.play(); }
@@ -41,6 +42,7 @@ void SoundManager::playPickup() { pickupSound.play(); }
 void SoundManager::playDodge() { dodgeSound.play(); }
 void SoundManager::playMelee() { meleeSound.play(); }
 
+// Set the volume of each sound to the global volume level
 void SoundManager::setGlobalVolume(float volume)
 {
     hitSound.setVolume(volume);
