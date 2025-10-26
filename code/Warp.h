@@ -21,12 +21,23 @@ private:
 	// Handle spawning and disappearing
 	bool m_Spawned;
 
+	// What size is the current arena
+	FloatRect m_Arena;
+
+	// How big is each tile of the arena
+	int m_TileSize;
+
 	// Public prototypes go here
 public:
 
+	// Constructor
 	Warp();
 
+	// Spawn warp in given location
 	void spawn(Vector2f spwn);
+
+	// Allow warp to be spawned on level grid
+	void setArena(sf::FloatRect arena, float tileSize);
 
 	// Check the position of a pickup
 	FloatRect getPosition();

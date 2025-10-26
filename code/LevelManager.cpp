@@ -16,6 +16,7 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 
 	// Get the next level
 	m_CurrentLevel++;
+
 	if (m_CurrentLevel > NUM_LEVELS)
 	{
 		m_CurrentLevel = 1;
@@ -25,31 +26,30 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 	string levelToLoad;
 	switch (m_CurrentLevel)
 	{
-
+		// Set player position for each level
 	case 1:
 		levelToLoad = "levels/level0-tutorial.txt";
-		m_StartPosition.x = 300;
-		m_StartPosition.y = 300;
+		m_StartPosition.x = 100;
+		m_StartPosition.y = 900;
 		break;
 
 	case 2:
 		levelToLoad = "levels/level1-archaic-anarchy.txt";
-		m_StartPosition.x = 100;
-		m_StartPosition.y = 3600;
+		m_StartPosition.x = 400;
+		m_StartPosition.y = 1200;
 		break;
 
 	case 3:
 		levelToLoad = "levels/level2-wild-west.txt";
-		m_StartPosition.x = 1250;
-		m_StartPosition.y = 0;
+		m_StartPosition.x = 1100;
+		m_StartPosition.y = 100;
 		break;
 
 	case 4:
 		levelToLoad = "levels/level3-fracture-future.txt";
-		m_StartPosition.x = 50;
-		m_StartPosition.y = 200;
+		m_StartPosition.x = 150;
+		m_StartPosition.y = 600;
 		break;
-
 
 	}
 
@@ -145,7 +145,7 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 	return arrayLevel;
 }
 
-// In LevelManager.cpp:
+// Get dimensions of level arena
 FloatRect LevelManager::getArenaBounds()
 {
 	// TILE_SIZE is the constant used to build the map
@@ -157,10 +157,9 @@ FloatRect LevelManager::getArenaBounds()
 	);
 }
 
-// In LevelManager.cpp:
+// Find tile size
 float LevelManager::getTileSize()
 {
-	// Return the constant TILE_SIZE used throughout the class
 	return TILE_SIZE;
 }
 
@@ -183,6 +182,16 @@ void LevelManager::setCurrentLevel(int levelNum)
 {
 	m_CurrentLevel = levelNum;
 }
+
+/*
+bool LevelManager::hasHitWall(int x, int y)
+{
+	int tileID;
+
+	return (tileID == TILE_WALL);
+
+}
+*/
 
 Vector2f LevelManager::getStartPosition()
 {

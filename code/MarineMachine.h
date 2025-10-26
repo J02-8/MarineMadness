@@ -74,13 +74,15 @@ private:
 	// Load a new level
 	void loadLevel();
 
-	// Run will call all the private functions
 	//bool detectCollisions(PlayableCharacter& character);
 	
 
 public:
 	// The MarineMachine constructor
 	MarineMachine();
+
+	// Change tilesheet
+	void setTileSheets(int level);
 
 	// Run will call all the private functions
 	void run();

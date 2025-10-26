@@ -30,7 +30,9 @@ MarineMachine::MarineMachine()
 
 	// Two lines below used to create zoomed our screenshots for the book
 	//m_BGMainView.zoom(2.5);
-	//m_MainView.zoom(1.5);
+
+	// Zoom in on player
+	m_MainView.zoom(0.7);
 
 	// Can this graphics card use shaders?
 	if (!sf::Shader::isAvailable())
@@ -112,6 +114,8 @@ void MarineMachine::loadLevel()
 	// 3. Pass the arena data to the player
 	marine.setArena(arenaBounds, tileSize);
 
+	wp.setArena(arenaBounds, tileSize);
+
 	for (int i = 0; i < lm.getLevelSpawningPointsSize().y; ++i)
 	{
 		delete[] m_ArraySpawningPointsLevel[i];
@@ -129,15 +133,39 @@ void MarineMachine::loadLevel()
 
 
 	// Spawn Player
-	marine.spawn(Vector2f(200, 900));
+	marine.spawn(Vector2f(lm.getStartPosition()));
 
 	// Spawn Warp
-	wp.spawn(Vector2f(500, 900));
+	wp.spawn(Vector2f(500, 100));
 
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;
 
 	
+}
+
+// Function for each level tiles
+void MarineMachine::setTileSheets(int level)
+{
+	// Change sheet for each level
+	switch (level)
+	{
+		case 1:
+			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet1.png");
+			break;
+
+		case 2:
+			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet2.png");
+			break;
+
+		case 3:
+			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet3.png");
+			break;
+
+		default:
+			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet0.png");
+			break;
+	}
 }
 
 void MarineMachine::input()
@@ -173,12 +201,6 @@ void MarineMachine::input()
 		if (event.type == sf::Event::Closed)
 		{
 			m_Window.close(); // Allows the window's X button to work
-		}
-
-		if (event.key.code == Keyboard::Num1)
-		{
-			lm.setCurrentLevel(0);
-			m_NewLevelRequired = true;
 		}
 
 		if (state == State::PLAYING)

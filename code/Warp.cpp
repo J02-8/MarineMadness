@@ -17,6 +17,17 @@ void Warp::spawn(Vector2f startPosition)
 	m_Position.x = startPosition.x;
 	m_Position.y = startPosition.y;
 
+	m_Sprite.setPosition(m_Position);
+
+}
+
+void Warp::setArena(sf::FloatRect arena, float tileSize)
+{
+	// holds level total size
+	m_Arena = arena;
+
+	// holds the size of one tile.
+	m_TileSize = tileSize;
 }
 
 FloatRect Warp::getPosition()

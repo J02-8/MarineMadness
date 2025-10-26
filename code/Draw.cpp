@@ -20,22 +20,6 @@ void MarineMachine::draw()
 		// Draw the Level
 		m_Window.draw(vaLevel, &m_TextureTiles);
 
-		// Draw the zombies
-		/**
-		for (int i = 0; i < numZombies; i++)
-		{
-			window.draw(zombies[i].getSprite());
-		}
-
-		for (int i = 0; i < 100; i++)
-		{
-			if (bullets[i].isInFlight())
-			{
-				window.draw(bullets[i].getShape());
-			}
-		}
-		*/
-
 		// Draw the player
 		m_Window.draw(marine.getSprite());
 
