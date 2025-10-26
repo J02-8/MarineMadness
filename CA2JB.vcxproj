@@ -36,6 +36,7 @@
     <ClCompile Include="code\ParticleFlyweight.cpp" />
     <ClCompile Include="code\Pickup.cpp" />
     <ClCompile Include="code\Player.cpp" />
+    <ClCompile Include="code\ScoreManager.cpp" />
     <ClCompile Include="code\SoundManager.cpp" />
     <ClCompile Include="code\TextureHolder.cpp" />
     <ClCompile Include="code\Update.cpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="code\MarineMachine.h" />
     <ClInclude Include="code\Pickup.h" />
     <ClInclude Include="code\Player.h" />
+    <ClInclude Include="code\ScoreManager.h" />
     <ClInclude Include="code\SoundManager.h" />
     <ClInclude Include="code\TextureHolder.h" />
     <ClInclude Include="code\Warp.h" />

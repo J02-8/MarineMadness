@@ -16,6 +16,8 @@
 #include <memory>
 #include "Dinosaur.h"
 #include "Enemy.h"
+#include "SoundManager.h"
+#include "ScoreManager.h"
 
 using namespace sf;
 
@@ -157,9 +159,8 @@ int main()
 	Pickup smgPickup(3);
 	Pickup shotgunPickup(4);
 
-	// About the game
-	int score = 0;
-	int hiScore = 0;
+	// Score
+	ScoreManager scoreManager;
 
 	// For the home/game over screen
 	Sprite spriteGameOver;
@@ -175,9 +176,6 @@ int main()
 	Texture textureAmmoIcon = TextureHolder::GetTexture("graphics/ammo_icon.png");
 	spriteAmmoIcon.setTexture(textureAmmoIcon);
 	spriteAmmoIcon.setPosition(20, 980);
-
-	
-
 
 	// Load the font
 	Font font;
@@ -229,15 +227,6 @@ int main()
 	scoreText.setFillColor(Color::White);
 	scoreText.setPosition(20, 0);
 
-	// Load the high score from a text file/
-	std::ifstream inputFile("gamedata/scores.txt");
-
-	if (inputFile.is_open())
-	{
-		inputFile >> hiScore;
-		inputFile.close();
-	}
-
 	// Hi Score
 	Text hiScoreText;
 	hiScoreText.setFont(font);
@@ -245,7 +234,7 @@ int main()
 	hiScoreText.setFillColor(Color::White);
 	hiScoreText.setPosition(1400, 0);
 	std::stringstream s;
-	s << "Hi Score:" << hiScore;
+	s << "Hi Score:" << to_string(scoreManager.getHighScore());
 	hiScoreText.setString(s.str());
 
 	// Zombies remaining
@@ -277,67 +266,8 @@ int main()
 	// How often (in frames) should we update the HUD
 	int fpsMeasurementFrameInterval = 1000;
 
-	// Prepare the hit sound
-	SoundBuffer hitBuffer;
-	hitBuffer.loadFromFile("sound/hit.wav");
-	Sound hit;
-	hit.setBuffer(hitBuffer);
-
-	// Prepare the splat sound
-	SoundBuffer splatBuffer;
-	splatBuffer.loadFromFile("sound/splat.wav");
-	sf::Sound splat;
-	splat.setBuffer(splatBuffer);
-
-	// Prepare the shoot sound
-	SoundBuffer shootBuffer;
-	shootBuffer.loadFromFile("sound/shoot.wav");
-	Sound shoot;
-	shoot.setBuffer(shootBuffer);
-
-
-	// Prepare the shotgun sound
-	SoundBuffer shotGunBuffer;
-	shotGunBuffer.loadFromFile("sound/shotGun.wav");
-	Sound shotGunShoot;
-	shotGunShoot.setBuffer(shotGunBuffer);
-
-	//prepare the dodge sound
-	SoundBuffer dodgeBuffer;
-	dodgeBuffer.loadFromFile("sound/dodge.wav");
-	Sound dodge;
-	dodge.setBuffer(dodgeBuffer);
-
-	//prepare the melee sound
-	SoundBuffer meleeBuffer;
-	meleeBuffer.loadFromFile("sound/melee.wav");
-	Sound melee;
-	melee.setBuffer(meleeBuffer);
-
-
-	// Prepare the reload sound
-	SoundBuffer reloadBuffer;
-	reloadBuffer.loadFromFile("sound/reload.wav");
-	Sound reload;
-	reload.setBuffer(reloadBuffer);
-
-	// Prepare the failed sound
-	SoundBuffer reloadFailedBuffer;
-	reloadFailedBuffer.loadFromFile("sound/reload_failed.wav");
-	Sound reloadFailed;
-	reloadFailed.setBuffer(reloadFailedBuffer);
-
-	// Prepare the powerup sound
-	SoundBuffer powerupBuffer;
-	powerupBuffer.loadFromFile("sound/powerup.wav");
-	Sound powerup;
-	powerup.setBuffer(powerupBuffer);
-
-	// Prepare the pickup sound
-	SoundBuffer pickupBuffer;
-	pickupBuffer.loadFromFile("sound/pickup.wav");
-	Sound pickup;
-	pickup.setBuffer(pickupBuffer);
+	// Create a Sound Manager
+	SoundManager soundManager;
 
 	//background music?
 	sf::Music bgMusic;
@@ -363,7 +293,7 @@ int main()
 	{
 
 		Vector2f position(rand() % (int)resolution.x, rand() % (int)resolution.y);
-		Vector2f velocity((rand() % 1000) / 50.f - 1.f, (rand() % 1000) / 50.f - 1.f);
+		Vector2f velocity((rand() % 2001) / 100.f - 10.f, (rand() % 2001) / 100.f - 10.f);
 		auto flyweight = ParticleFactory::getParticleFlyweight(2.f); // small white particles
 		menuParticles.emplace_back(flyweight, position, velocity);
 	}
@@ -423,6 +353,11 @@ int main()
 					}
 
 				}
+				window.setMouseCursorVisible(true);
+			}
+			else
+			{
+				window.setMouseCursorVisible(false);
 			}
 
 			if (event.type == Event::KeyPressed)
@@ -450,7 +385,9 @@ int main()
 				{
 					state = State::LEVELING_UP;
 					wave = 0;
-					score = 0;
+
+					// Reset the player score
+					scoreManager.resetScore();
 
 					//reset what gun is being held
 					holdingPistol = true;
@@ -480,18 +417,18 @@ int main()
 							// Plenty of bullets. Reload.
 							bulletsSpare -= bulletsNeeded;
 							bulletsInClip += bulletsNeeded;
-							reload.play();
+							soundManager.playReload();
 						}
 						else if (bulletsSpare > 0) // if the player has some spare bullets but they are not enough for a full clip
 						{
 							bulletsInClip += bulletsSpare;
 							bulletsSpare = 0;
-							reload.play();
+							soundManager.playReload();
 						}
 						else // no spare bullets
 						{
 							// More here soon?!
-							reloadFailed.play();
+							soundManager.playReloadFailed();
 						}
 					}
 				}
@@ -546,7 +483,7 @@ int main()
 			{
 				isMeleeAttacking = true;
 				lastMeleeAttack = gameTimeTotal;
-				melee.play();
+				soundManager.playMelee();
 
 				// Calculate melee direction
 				Vector2f playerCenter = player.getCenter();
@@ -577,7 +514,7 @@ int main()
 				lastDodgeTime = gameTimeTotal;
 				originalSpeed = player.getSpeed(); // Store current speed
 				player.setSpeed(originalSpeed * 2); // Double speed
-				dodge.play(); // Play dodge sound
+				soundManager.playDodge(); // Play dodge sound
 			}
 
 
@@ -612,7 +549,7 @@ int main()
 								bulletsInClip--; //decrease ammo
 								nextBurstBulletTime = gameTimeTotal + timeBetweenShots; // Schedule the next bullet in the burst
 								lastSmgShot = gameTimeTotal; // Reset cooldown timer
-								shoot.play();
+								soundManager.playShoot();
 							}
 							 
 							// If the burst is complete, reset
@@ -646,7 +583,7 @@ int main()
 								lastPistolShot = gameTimeTotal;
 
 								// Play the shoot sound
-								shoot.play();
+								soundManager.playShoot();
 							}
 						}
 					}
@@ -687,7 +624,7 @@ int main()
 								lastShotgunShot = gameTimeTotal;
 
 								// Play the shotgun sound
-								shotGunShoot.play();
+								soundManager.playShotgun();
 							}
 						}
 					}
@@ -724,8 +661,8 @@ int main()
 
 				// Prepare thelevel
 				// We will modify the next two lines later
-				arena.width = 500 * wave;
-				arena.height = 500 * wave;
+				arena.width = 1000 * wave;
+				arena.height = 1000 * wave;
 				arena.left = 0;
 				arena.top = 0;
 
@@ -790,7 +727,7 @@ int main()
 				numZombiesAlive = numZombies;
 
 				// Play the powerup sound
-				powerup.play();
+				soundManager.playPowerup();
 
 				// Reset the clock so there isn't a frame jump
 				clock.restart();
@@ -889,13 +826,10 @@ int main()
 							bullets[i].stop();
 
 							// Register the hit and see if it was a kill
-							if (zombies[j].hit()) {
+							if (zombies[j].hit()) 
+							{
 								// Not just a hit but a kill too
-								score += 10;
-								if (score >= hiScore)
-								{
-									hiScore = score;
-								}
+								scoreManager.addPoints(10);
 
 								numZombiesAlive--;
 
@@ -906,7 +840,7 @@ int main()
 							}
 
 							// Make a splat sound
-							splat.play();
+							soundManager.playSplat();
 
 						}
 					}
@@ -929,14 +863,11 @@ int main()
 								bullets[i].stop();
 
 								// Register the hit and see if it was a kill
-								if (dinosaurs[j]->hit()) {
+								if (dinosaurs[j]->hit()) 
+								{
 									// Not just a hit but a kill too
-									score += 15; // More points for dinosaurs
-									if (score >= hiScore)
-									{
-										hiScore = score;
-									}
-
+									scoreManager.addPoints(15); // More points for dinosaurs
+									
 									numDinosaursAlive--;
 
 									// When ALL enemies are dead (both zombies AND dinosaurs)
@@ -946,7 +877,7 @@ int main()
 								}
 
 								// Make a splat sound
-								splat.play();
+								soundManager.playSplat();
 							}
 						}
 					}
@@ -963,17 +894,15 @@ int main()
 					if (player.hit(gameTimeTotal))
 					{
 						// More here later
-						hit.play();
+						soundManager.playHit();
 					}
 
 					if (player.getHealth() <= 0)
 					{
 						state = State::GAME_OVER;
 
-						std::ofstream outputFile("gamedata/scores.txt");
-						outputFile << hiScore;
-						outputFile.close();
-
+						scoreManager.saveHighScore();
+						scoreManager.logScore();
 					}
 				}
 			}// End player touched
@@ -986,15 +915,15 @@ int main()
 					{
 						if (player.hit(gameTimeTotal))
 						{
-							hit.play();
+							soundManager.playHit();
 						}
 
 						if (player.getHealth() <= 0)
 						{
 							state = State::GAME_OVER;
-							std::ofstream outputFile("gamedata/scores.txt");
-							outputFile << hiScore;
-							outputFile.close();
+
+							scoreManager.saveHighScore();
+							scoreManager.logScore();
 						}
 					}
 				}
@@ -1006,7 +935,7 @@ int main()
 			{
 				player.increaseHealthLevel(healthPickup.gotIt());
 				// Play a sound
-				pickup.play();
+				soundManager.playPickup();
 
 			}
 
@@ -1016,7 +945,7 @@ int main()
 			{
 				bulletsSpare += ammoPickup.gotIt();
 				// Play a sound
-				reload.play();
+				soundManager.playReload();
 
 			}
 
@@ -1028,7 +957,7 @@ int main()
 				holdingShot = false;
 				smgPickup.gotIt();
 				// Play a sound
-				pickup.play();
+				soundManager.playPickup();
 			}
 
 			// Has the player touched Shotgun pickup
@@ -1038,7 +967,7 @@ int main()
 				holdingSmg = false;
 				shotgunPickup.gotIt();
 				// Play a sound
-				pickup.play();
+				soundManager.playPickup();
 			}
 
 			//has player clicked melee
@@ -1052,15 +981,14 @@ int main()
 					{
 						if (zombies[i].hit())
 						{
-							score += 10;
-							if (score >= hiScore) hiScore = score;
+							scoreManager.addPoints(10);
 							numZombiesAlive--;
 
 							if (numZombiesAlive == 0) {
 								state = State::LEVELING_UP;
 							}
 						}
-						splat.play();
+						soundManager.playSplat();
 					}
 				}
 
@@ -1073,8 +1001,7 @@ int main()
 						{
 							if (dinosaurs[i]->hit())
 							{
-								score += 15;
-								if (score >= hiScore) hiScore = score;
+								scoreManager.addPoints(15);
 								numDinosaursAlive--;
 
 								// Check if ALL enemies are dead
@@ -1082,7 +1009,7 @@ int main()
 									state = State::LEVELING_UP;
 								}
 							}
-							splat.play();
+							soundManager.playSplat();
 						}
 					}
 				}
@@ -1118,11 +1045,11 @@ int main()
 				ammoText.setString(ssAmmo.str());
 
 				// Update the score text
-				ssScore << "Score:" << score;
+				ssScore << "Score:" << scoreManager.getScore();
 				scoreText.setString(ssScore.str());
 
 				// Update the high score text
-				ssHiScore << "Hi Score:" << hiScore;
+				ssHiScore << "Hi Score:" << scoreManager.getHighScore();
 				hiScoreText.setString(ssHiScore.str());
 
 				// Update the wave
@@ -1155,7 +1082,7 @@ int main()
 
 		if (state == State::MAINMENU)
 		{
-			// 1. Update particle positions
+			// Update particle positions
 			float dtMenu = clock.restart().asSeconds();
 			for (size_t i = 0; i < menuParticles.size(); ++i) 
 			{
@@ -1166,12 +1093,12 @@ int main()
 				}
 			}
 
-			// 2. Draw particles first (background)
+			// Draw particles first (background)
 			for (auto& particle : menuParticles) {
 				particle.draw(window);
 			}
 
-			// 3. Draw menu on top
+			// Draw menu on top
 			mainMenu.draw(window);
 		}
 
