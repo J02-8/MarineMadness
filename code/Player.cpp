@@ -12,11 +12,11 @@ Player::Player()
 	m_Sprite = Sprite(TextureHolder::GetTexture(
 		"graphics/player.png"));
 
-	m_Sprite.setTextureRect(sf::IntRect{ 155,130,60,95 });
+	m_Sprite.setTextureRect(sf::IntRect{ 45,65,50,60 });
 
 	// Set the origin of the sprite to the centre, 
 	// for smooth rotation
-	m_Sprite.setOrigin(30, 50);
+	m_Sprite.setOrigin(25,25);
 }
 
 void Player::setArena(sf::FloatRect arena, float tileSize)
