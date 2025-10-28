@@ -12,6 +12,8 @@
 #include "Pickup.h"
 #include "Enemy.h"
 
+#include "MainMenu.h"
+
 using namespace sf;
 
 class MarineMachine
@@ -115,6 +117,8 @@ private:
 	void loadLevel();
 
 	//bool detectCollisions(PlayableCharacter& character);
+
+	MainMenu mainMenu;
 	
 
 public:
@@ -127,8 +131,6 @@ public:
 	// Run will call all the private functions
 	void run();
 
-	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
-	State state = State::GAME_OVER;
+	enum class State { MAIN_MENU, PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
+	State state = State::MAIN_MENU;
 };
-
-#pragma once

@@ -4,6 +4,7 @@
 #include <iostream>
 
 using namespace sf;
+//using namespace std;
 
 int score = 0;
 
@@ -125,7 +126,7 @@ void MarineMachine::update(float dtAsSeconds)
 							score += 15;
 							numDinosaursAlive--;
 
-							std::cout << "Dinosaur killed! Remaining: " << numDinosaursAlive << std::endl;
+							 std::cout << "Dinosaur killed! Remaining: " << numDinosaursAlive << std::endl;
 
 							// Check if level complete
 							if (numDinosaursAlive == 0)
@@ -188,7 +189,7 @@ void MarineMachine::update(float dtAsSeconds)
 		
 		// Load the subsequent level
 		lm.setCurrentLevel(levelNum);
-		cout << "CURRENT LEVEL: " << levelNum;
+		std::cout << "CURRENT LEVEL: " << levelNum;
 	}
 	
 }
