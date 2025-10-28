@@ -1,10 +1,16 @@
-
 #pragma once
 #include "MarineMachine.h"
 using namespace sf;
 
 void MarineMachine::draw()
 {
+	m_Window.clear();
+
+	if (state == State::MAIN_MENU)
+	{
+		m_Window.setView(m_Window.getDefaultView()); // Reset View
+		mainMenu.draw(m_Window);
+	}
 	
 	// Draw stuff
 	if (state == State::PLAYING)

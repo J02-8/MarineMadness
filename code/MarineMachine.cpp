@@ -7,16 +7,18 @@ using namespace sf;
 Enemy** DinoSpawner(int numDinos, IntRect arena);
 SoundManager soundManager;
 
-MarineMachine::MarineMachine()
+MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
 {
 
 	
 
 	// Get the screen resolution and create an SFML window and View
 	Vector2f resolution;
-	state = State::PLAYING;
+	
 	resolution.x = VideoMode::getDesktopMode().width;
 	resolution.y = VideoMode::getDesktopMode().height;
+
+	state = State::MAIN_MENU;
 
 
 	m_Window.create(VideoMode(resolution.x, resolution.y),
@@ -249,6 +251,39 @@ void MarineMachine::input()
 		if (event.type == sf::Event::Closed)
 		{
 			m_Window.close(); // Allows the window's X button to work
+		}
+
+		if (state == State::MAIN_MENU)
+		{
+			if (event.type == sf::Event::KeyReleased)
+			{
+				if (event.key.code == Keyboard::Up || event.key.code == Keyboard::W)
+				{
+					mainMenu.moveUp();
+				}
+
+				if (event.key.code == Keyboard::Down || event.key.code == Keyboard::S)
+				{
+					mainMenu.moveDown();
+				}
+
+				if (event.key.code == Keyboard::Enter)
+				{
+					switch (mainMenu.mainMenuPressed())
+					{
+					case 0: // // Start the game
+						lm.setCurrentLevel(0);
+						m_NewLevelRequired = true;
+						loadLevel();
+						state = State::PLAYING;
+						break;
+					case 4: // Exit the game
+						m_Window.close();
+					default:
+						break;
+					}
+				}
+			}
 		}
 
 		if (state == State::PLAYING)
