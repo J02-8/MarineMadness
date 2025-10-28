@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Bullet.cpp" />
+    <ClCompile Include="code\Cowboy.cpp" />
+    <ClCompile Include="code\CowboySpawner.cpp" />
     <ClCompile Include="code\CreateBackground.cpp" />
     <ClCompile Include="code\CreateHorde.cpp" />
     <ClCompile Include="code\Draw.cpp" />
@@ -46,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h" />
+    <ClInclude Include="code\Cowboy.h" />
     <ClInclude Include="code\Dinosaur.h" />
     <ClInclude Include="code\Enemy.h" />
     <ClInclude Include="code\MainMenu.h" />

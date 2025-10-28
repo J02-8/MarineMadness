@@ -16,7 +16,9 @@ public:
     virtual FloatRect getPosition();
     virtual Sprite getSprite();
     virtual void update(float elapsedTime, Vector2f playerLocation) = 0;
-
+    virtual bool isReadyToShoot() const = 0;
+    virtual void resetShootTimer() = 0;
+    virtual  sf::Vector2f getCenter() const = 0;
 protected:
     Sprite m_Sprite;
     Vector2f m_Position;

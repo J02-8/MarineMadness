@@ -1,6 +1,7 @@
 #include "MarineMachine.h"
 using namespace sf;
 
+
 MarineMachine::MarineMachine()
 {
 	// Get the screen resolution and create an SFML window and View

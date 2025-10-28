@@ -1,10 +1,18 @@
-#include "Dinosaur.h"
+#include "Cowboy.h"
 #include "TextureHolder.h"
 #include <cmath>  // ADD THIS - for atan2
 #include <cstdlib>
 #include <ctime>
 
-Dinosaur::Dinosaur()
+#include <SFML/Audio.hpp>
+
+#include <iostream>
+using namespace std;
+
+
+
+
+Cowboy::Cowboy()
 {
     // Initialize all member variables
     m_Position = sf::Vector2f(0, 0);
@@ -12,32 +20,39 @@ Dinosaur::Dinosaur()
     m_Health = 0;
     m_Alive = false;
     m_SizeModifier = 1.0f;
+
+    // Initialize shooting variables
+    m_ShootCooldown = 0.0f;
+    m_TimeSinceLastShot = 0.0f;
+    m_CanShoot = true;
 }
 
-void Dinosaur::spawn(float startX, float startY, int seed)
+void Cowboy::spawn(float startX, float startY, int seed)
 {
-    m_SizeModifier = 1.0f;
 
-    // Single dinosaur type 
-    m_Sprite = Sprite(TextureHolder::GetTexture("graphics/dinosaur.png"));
+
+    // Single cowboy type 
+    m_Sprite = Sprite(TextureHolder::GetTexture("graphics/Cowboy.png"));
     m_Speed = 45;
     m_Health = 6;
 
     // Apply variations
     applySpeedVariation(seed);
-    applySizeVariation(seed);
+
+    // Initialize shooting with random cooldown (1-3 seconds)
+    std::srand(static_cast<unsigned int>(std::time(0)) * seed);
+    m_ShootCooldown = (std::rand() % 2000 + 1000) / 1000.0f; // 1-3 seconds
+    m_TimeSinceLastShot = 0.0f;
+    m_CanShoot = true;
 
     m_Position.x = startX;
     m_Position.y = startY;
     m_Alive = true;
 
-    // Set origin to center and apply size variation
-    m_Sprite.setOrigin(25, 25);
-    m_Sprite.setScale(m_SizeModifier, m_SizeModifier);
-    m_Sprite.setPosition(m_Position);
+
 }
 
-bool Dinosaur::hit()
+bool Cowboy::hit()
 {
     m_Health--;
 
@@ -53,14 +68,18 @@ bool Dinosaur::hit()
     return false;
 }
 
-void Dinosaur::update(float elapsedTime, sf::Vector2f playerLocation) {
+void Cowboy::update(float elapsedTime, sf::Vector2f playerLocation) {
     if (!m_Alive) return;
+
+    //update the shoot timer
+    m_TimeSinceLastShot += elapsedTime;
+
 
     // Calculate direction to player
     float playerX = playerLocation.x;
     float playerY = playerLocation.y;
 
-    // Update the dinosaur position
+    // Update the cowboy position
     if (playerX > m_Position.x)
     {
         m_Position.x = m_Position.x + m_Speed * elapsedTime;
@@ -81,6 +100,9 @@ void Dinosaur::update(float elapsedTime, sf::Vector2f playerLocation) {
         m_Position.y = m_Position.y - m_Speed * elapsedTime;
     }
 
+
+
+
     // Move the sprite
     m_Sprite.setPosition(m_Position);
 
@@ -92,7 +114,7 @@ void Dinosaur::update(float elapsedTime, sf::Vector2f playerLocation) {
     m_Sprite.setRotation(angle);
 }
 
-void Dinosaur::applySpeedVariation(int seed)
+void Cowboy::applySpeedVariation(int seed)
 {
     // FIXED: Use a better random approach
     std::srand(static_cast<unsigned int>(std::time(0)) * seed);
@@ -101,28 +123,18 @@ void Dinosaur::applySpeedVariation(int seed)
     m_Speed *= modifier;
 }
 
-void Dinosaur::applySizeVariation(int seed)
-{
-    // FIXED: Use a better random approach
-    std::srand(static_cast<unsigned int>(std::time(0)) * seed + 123);
-    m_SizeModifier = (std::rand() % 40 + 80) / 100.0f; // 80-120% size variation
+//  method to get shooting state
+bool Cowboy::isReadyToShoot() const {
+    return m_CanShoot && m_TimeSinceLastShot >= m_ShootCooldown;
 }
 
-bool Dinosaur::isReadyToShoot() const
-{
-    // Dinosaurs don't shoot, so return false
-    return false;
+//  method to reset shooting timer after shooting
+void Cowboy::resetShootTimer() {
+    m_TimeSinceLastShot = 0.0f;
+    m_ShootCooldown = (std::rand() % 2000 + 1000) / 1000.0f; // 1-3 seconds
 }
 
-void Dinosaur::resetShootTimer()
-{
-    // Dinosaurs don't shoot, so this does nothing
-
-}
-
-sf::Vector2f Dinosaur::getCenter() const
-{
-    // Return the center position of the dinosaur
+//method to get cowboy position
+sf::Vector2f Cowboy::getCenter() const {
     return m_Position;
-
 }

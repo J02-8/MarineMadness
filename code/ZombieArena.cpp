@@ -28,6 +28,9 @@ Zombie* createScreamerHorde(int numZombies, IntRect arena);
 //todo add dinos
 Enemy** DinoSpawner(int numDinos, IntRect arena);
 
+//add group of cowboys
+Enemy** CowboySpawner(int numCowboys, IntRect arena);
+
 int main()
 {
 	// Here is the instabce of TextureHolder
@@ -83,6 +86,11 @@ int main()
 	int numDinosaurs;
 	int numDinosaursAlive;
 	Enemy** dinosaurs = NULL;
+
+	//create group of Cowboys
+	int numCowboys;
+	int numCowboysAlive;
+	Enemy** cowboys = NULL;
 
 	//seperate fire logic for each weapon
 	// Fire rate and last shot time for SMG
@@ -698,6 +706,15 @@ int main()
 					dinosaurs = nullptr;
 				}
 
+				if (cowboys != nullptr) {
+					for (int i = 0; i < numCowboys; i++) {
+						delete cowboys[i];  // Delete each individual cowboy
+					}
+					delete[] cowboys;  // Delete the array of pointers
+					cowboys = nullptr;
+				}
+
+
 				if (screamRound != 0) {
 
 					zombies = createHorde(numZombies, arena);
@@ -724,6 +741,18 @@ int main()
 
 				numDinosaursAlive = numDinosaurs;
 
+				
+				
+				
+				numCowboys = 3 * wave;
+
+				cowboys = CowboySpawner(numCowboys, arena);
+
+				numCowboysAlive = numCowboys;
+				
+				
+				
+				
 				numZombiesAlive = numZombies;
 
 				// Play the powerup sound
@@ -786,6 +815,48 @@ int main()
 					}
 				}
 			}
+
+
+			//loop through and update cowboys
+			if (cowboys != nullptr) {
+				for (int i = 0; i < numCowboys; i++)
+				{
+					if (cowboys[i]->isAlive())
+					{
+						cowboys[i]->update(dt.asSeconds(), playerPosition);
+
+						// Handle cowboy shooting
+						if (cowboys[i]->isReadyToShoot()) {
+							// Find an available bullet
+							for (int j = 0; j < 100; j++) {
+								if (!bullets[j].isInFlight()) {
+
+									soundManager.playShoot();
+									// Shoot from cowboy's center towards player position
+									Vector2f cowboyCenter = cowboys[i]->getCenter();
+
+									// Shoot towards player position
+									Vector2f playerPos = player.getCenter();
+									bullets[j].shoot(
+										cowboyCenter.x,
+										cowboyCenter.y,
+										playerPos.x,
+										playerPos.y
+									);
+
+
+									cout << "Bullet " << j << " fired from cowboy " << i << endl;
+
+									// Reset the cowboy's shoot timer
+									cowboys[i]->resetShootTimer();
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
 
 			// Update any bullets that are in-flight
 			for (int i = 0; i < 100; i++)
@@ -1167,6 +1238,16 @@ int main()
 				}
 			}
 
+			//draw the cowboys
+			if (cowboys != nullptr) {
+				for (int i = 0; i < numCowboys; i++)
+				{
+					if (cowboys[i]->isAlive())
+					{
+						window.draw(cowboys[i]->getSprite());
+					}
+				}
+			}
 
 			//Draw the crosshair
 			window.draw(spriteCrosshair);

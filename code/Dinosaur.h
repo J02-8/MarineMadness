@@ -12,6 +12,9 @@ public:
     bool hit() override;
     void update(float elapsedTime, Vector2f playerLocation) override;
 
+    bool isReadyToShoot(void) const override;
+    void resetShootTimer(void) override;
+    sf::Vector2<float> getCenter(void) const override;
 
 private:
     void applySpeedVariation(int seed);
