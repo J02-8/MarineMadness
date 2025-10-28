@@ -788,7 +788,7 @@ void man()
 			spriteCrosshair.setPosition(mouseWorldPosition);
 
 			// Update the player
-			player.update(dtAsSeconds, Mouse::getPosition());
+			//player.update(dtAsSeconds, Mouse::getPosition());
 
 			// Make a note of the players new position
 			Vector2f playerPosition(player.getCenter());

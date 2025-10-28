@@ -4,15 +4,30 @@
 #include <iostream>
 
 using namespace sf;
+//using namespace std;
 
 int score = 0;
 
 float hitDelay = 0.0f;
 
-int levelNum = 0;
+
+
+Time gameTimeTotal;
 
 void MarineMachine::update(float dtAsSeconds)
 {
+	
+	// Make a note of the players new position
+	Vector2f playerPosition(marine.getCenter());
+
+
+	// Update mouse positions
+	mouseScreenPosition = Mouse::getPosition();
+	mouseWorldPosition = m_Window.mapPixelToCoords(Mouse::getPosition(), m_MainView);
+
+	// Set crosshair position
+	spriteCrosshair.setPosition(mouseWorldPosition);
+
 	// Make a rect for all his parts
 	FloatRect detectionZone = marine.getPosition();
 
@@ -63,10 +78,96 @@ void MarineMachine::update(float dtAsSeconds)
 	}
 
 	// Update the player
-	marine.update(dtAsSeconds, Mouse::getPosition());
+	marine.update(dtAsSeconds, mouseWorldPosition);
 
 	m_MainView.setCenter(marine.getCenter());
 	m_Window.setView(m_MainView); // Apply the centered view immediately
+
+
+	// Update bullets
+	for (int i = 0; i < 100; i++)
+	{
+		if (bullets[i].isInFlight())
+		{
+			bullets[i].update(dtAsSeconds);
+		}
+	}
+
+	// Loop through and update dinos
+	if (dinosaurs != nullptr)
+	{
+		for (int i = 0; i < numDinosaurs; i++)
+		{
+			if (dinosaurs[i]->isAlive())
+			{
+				dinosaurs[i]->update(dtAsSeconds, playerPosition);
+			}
+		}
+	}
+
+	// COLLISION DETECTION - Bullets hitting dinosaurs
+	if (dinosaurs != nullptr)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 0; j < numDinosaurs; j++)
+			{
+				if (bullets[i].isInFlight() && dinosaurs[j]->isAlive())
+				{
+					if (bullets[i].getPosition().intersects(dinosaurs[j]->getPosition()))
+					{
+						// Stop the bullet
+						bullets[i].stop();
+
+						// Register the hit
+						if (dinosaurs[j]->hit())
+						{
+							// Dinosaur killed
+							score += 15;
+							numDinosaursAlive--;
+
+							 std::cout << "Dinosaur killed! Remaining: " << numDinosaursAlive << std::endl;
+
+							// Check if level complete
+							if (numDinosaursAlive == 0)
+							{
+								std::cout << "All dinosaurs dead! Next level." << std::endl;
+								m_NewLevelRequired = true;
+							}
+						}
+						// Play splat sound
+						// soundManager.playSplat();
+					}
+				}
+			}
+		}
+	}
+
+	// COLLISION DETECTION - Dinosaurs touching player
+	if (dinosaurs != nullptr)
+	{
+		for (int i = 0; i < numDinosaurs; i++)
+		{
+			if (marine.getPosition().intersects(dinosaurs[i]->getPosition()) &&
+				dinosaurs[i]->isAlive())
+			{
+				if (marine.hit(gameTimeTotal))
+				{
+					std::cout << "Player hit by dinosaur!" << std::endl;
+					// Play hit sound
+					// soundManager.playHit();
+				}
+
+				if (marine.getHealth() <= 0)
+				{
+					std::cout << "Player dead! Game Over." << std::endl;
+					state = State::GAME_OVER;
+				}
+			}
+		}
+	}
+
+
 
 	// Has the marine player touched time warp?
 	if (marine.getPosition().intersects(wp.getPosition()))
@@ -88,7 +189,7 @@ void MarineMachine::update(float dtAsSeconds)
 		
 		// Load the subsequent level
 		lm.setCurrentLevel(levelNum);
-		cout << "CURRENT LEVEL: " << levelNum;
+		std::cout << "CURRENT LEVEL: " << levelNum;
 	}
-
+	
 }

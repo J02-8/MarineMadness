@@ -10,6 +10,9 @@
 #include "Bullet.h"
 #include "Warp.h"
 #include "Pickup.h"
+#include "Enemy.h"
+#include "MainMenu.h"
+
 #include "MainMenu.h"
 
 using namespace sf;
@@ -17,6 +20,45 @@ using namespace sf;
 class MarineMachine
 {
 private:
+
+	//create horde of dinosaurs
+	int numDinosaurs;
+	int numDinosaursAlive;
+	Enemy** dinosaurs = NULL;
+
+	//varible for arena bounds
+	IntRect arena;
+
+	//current level number
+	int levelNum;
+
+	// Bullets
+	Bullet bullets[100];
+	int currentBullet = 0;
+	int bulletsSpare = 24;
+	int bulletsInClip = 6;
+	int clipSize = 6;
+
+	// Mouse positions
+	Vector2f mouseWorldPosition;
+	Vector2i mouseScreenPosition;
+
+	// Time tracking
+	Time gameTimeTotal;
+
+	// Crosshair
+	Sprite spriteCrosshair;
+	Texture textureCrosshair;
+
+	// Weapon tracking
+	bool holdingPistol = true;
+	bool holdingShot = false;
+	bool holdingSmg = false;
+
+	// Fire rates
+	Time pistolFireRate = milliseconds(500);
+	Time lastPistolShot;
+
 	// The texture holder
 	TextureHolder th;
 
@@ -80,6 +122,10 @@ private:
 	MainMenu mainMenu;
 	
 
+
+	MainMenu mainMenu;
+	
+
 public:
 	// The MarineMachine constructor
 	MarineMachine();
@@ -90,6 +136,6 @@ public:
 	// Run will call all the private functions
 	void run();
 
-	enum class State { MAIN_MENU, PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
-	State state = State::MAIN_MENU;
+	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
+	State state = State::GAME_OVER;
 };

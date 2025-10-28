@@ -130,7 +130,7 @@ void Player::stopDown()
 	m_DownPressed = false;
 }
 
-void Player::update(float elapsedTime, Vector2i mousePosition)
+void Player::update(float elapsedTime, Vector2f mousePosition)
 {
 
 	if (m_UpPressed)
@@ -179,11 +179,14 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	}
 
 	// Calculate the angle the player is facing
-	float angle = (atan2(mousePosition.y - m_Resolution.y / 2,
-		mousePosition.x - m_Resolution.x / 2)
+	float angle = (atan2(mousePosition.y - m_Position.y ,
+		mousePosition.x - m_Position.x )
 		* 180) / 3.141;
 
 	m_Sprite.setRotation(angle);
+
+	// Update the sprite position
+	m_Sprite.setPosition(m_Position);
 }
 
 void Player::upgradeSpeed()
