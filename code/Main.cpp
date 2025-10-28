@@ -4,7 +4,7 @@
 
 using namespace std;
 
-/*
+
 int main()
 {
 	cout << "DEBUG TEST" << endl;
@@ -18,6 +18,6 @@ int main()
 	// Quit in the usual way when machine comes to a halt
 	return 0;
 }
-*/
+
 
 

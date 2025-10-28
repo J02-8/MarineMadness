@@ -31,7 +31,7 @@ Enemy** DinoSpawner(int numDinos, IntRect arena);
 //add group of cowboys
 Enemy** CowboySpawner(int numCowboys, IntRect arena);
 
-int main()
+void man()
 {
 	// Here is the instabce of TextureHolder
 	TextureHolder holder;
