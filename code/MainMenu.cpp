@@ -22,6 +22,15 @@ MainMenu::MainMenu(float width, float height)
     // Start with the first item selected
     mainMenuSelected = 0;
     mainMenu[mainMenuSelected].setFillColor(Color::Blue);
+
+    for (int i = 0; i < 1000; ++i)
+    {
+
+        Vector2f position(rand() % (int)width, rand() % (int)height);
+        Vector2f velocity((rand() % 2001) / 100.f - 10.f, (rand() % 2001) / 100.f - 10.f);
+        auto flyweight = ParticleFactory::getParticleFlyweight(2.f); // small white particles
+        menuParticles.emplace_back(flyweight, position, velocity);
+    }
 }
 
 // Destructor
@@ -71,4 +80,25 @@ void MainMenu::moveDown()
 
     // Highlight new item
     mainMenu[mainMenuSelected].setFillColor(Color::Blue);
+}
+
+void MainMenu::updateParticles(float dt)
+{
+    for (size_t i = 0; i < menuParticles.size(); ++i)
+    {
+        menuParticles[i].update(dt);
+
+        for (size_t j = i + 1; j < menuParticles.size(); ++j)
+        {
+            menuParticles[i].checkCollision(menuParticles[j]);
+        }
+    }
+}
+
+void MainMenu::drawParticles(RenderWindow& window)
+{
+    for (auto& particle : menuParticles)
+    {
+        particle.draw(window);
+    }
 }

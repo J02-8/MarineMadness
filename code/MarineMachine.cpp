@@ -177,30 +177,7 @@ void MarineMachine::input()
 
 	while (m_Window.pollEvent(event))
 	{
-		/*
-		if (state == State::MAIN_MENU)
-		{
-			// Handle the player levelling up
-			if (event.key.code == Keyboard::Num1)
-			{
-				// Increase fire rate
-				lm.setCurrentLevel(0);
-				m_NewLevelRequired = true;
-				state = State::PLAYING;
-			}
-
-			if (event.key.code == Keyboard::Num2)
-			{
-
-				state = State::PLAYING;
-			}
-
-			if (event.key.code == Keyboard::Num3)
-			{
-				state = State::GAME_OVER;
-			}
-		}
-		*/
+		
 		if (event.type == sf::Event::Closed)
 		{
 			m_Window.close(); // Allows the window's X button to work
@@ -304,6 +281,13 @@ void MarineMachine::run()
 		float dtAsSeconds = dt.asSeconds();
 		
 		input();
+
+		// Update particle positions for the main menu
+		if (state == State::MAIN_MENU)
+		{
+			mainMenu.updateParticles(dtAsSeconds);
+		}
+
 		update(dtAsSeconds);
 		draw();
 	}

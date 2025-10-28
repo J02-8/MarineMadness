@@ -9,6 +9,7 @@ void MarineMachine::draw()
 	if (state == State::MAIN_MENU)
 	{
 		m_Window.setView(m_Window.getDefaultView()); // Reset View
+		mainMenu.drawParticles(m_Window); // Draw the particle background first
 		mainMenu.draw(m_Window);
 	}
 	
