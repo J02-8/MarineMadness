@@ -20,11 +20,35 @@ void MarineMachine::draw()
 		// Draw the Level
 		m_Window.draw(vaLevel, &m_TextureTiles);
 
+		//draw the dinosaurs
+		if (dinosaurs != nullptr) {
+			for (int i = 0; i < numDinosaurs; i++)
+			{
+				if (dinosaurs[i]->isAlive())
+				{
+					m_Window.draw(dinosaurs[i]->getSprite());
+				}
+			}
+		}
+
+		// Draw bullets
+		for (int i = 0; i < 100; i++)
+		{
+			if (bullets[i].isInFlight())
+			{
+				m_Window.draw(bullets[i].getShape());
+			}
+		}
+
 		// Draw the player
 		m_Window.draw(marine.getSprite());
 
 		// Draw the warp
 		m_Window.draw(wp.getSprite());
+
+		//Draw the crosshair
+		m_Window.draw(spriteCrosshair);
+		
 
 		/**
 		// Draw the pickups is currently spawned
@@ -54,8 +78,6 @@ void MarineMachine::draw()
 		*/
 
 
-		//Draw the crosshair
-		//m_Window.draw(spriteCrosshair);
 
 		/*
 		// Switch to the HUD view

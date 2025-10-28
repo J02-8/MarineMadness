@@ -98,7 +98,7 @@ public:
 	void stopDown();
 
 	// We will call this function once every frame
-	void update(float elapsedTime, Vector2i mousePosition);
+	void update(float elapsedTime, Vector2f mousePosition);
 
 	// Give player a speed boost
 	void upgradeSpeed();

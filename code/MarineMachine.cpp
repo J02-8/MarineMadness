@@ -1,9 +1,17 @@
 #include "MarineMachine.h"
+#include "Enemy.h"
+#include "SoundManager.h"
+
 using namespace sf;
 
+Enemy** DinoSpawner(int numDinos, IntRect arena);
+SoundManager soundManager;
 
 MarineMachine::MarineMachine()
 {
+
+	
+
 	// Get the screen resolution and create an SFML window and View
 	Vector2f resolution;
 	state = State::PLAYING;
@@ -85,10 +93,49 @@ MarineMachine::MarineMachine()
 
 	pauseMenuText.setString(pauseMenuStream.str());
 
+	// Initialize bullets
+	currentBullet = 0;
+	bulletsSpare = 24;
+	bulletsInClip = 6;
+	clipSize = 6;
+
+	// Hide mouse cursor and setup crosshair
+	m_Window.setMouseCursorVisible(false);
+	textureCrosshair = TextureHolder::GetTexture("graphics/crosshair.png");
+	spriteCrosshair.setTexture(textureCrosshair);
+	spriteCrosshair.setOrigin(25, 25);
+
+	// Initialize time
+	gameTimeTotal = Time::Zero;
 }
 
 void MarineMachine::loadLevel()
 {
+	arena.width = 500;
+	arena.height = 500;
+
+	if (dinosaurs != nullptr) {
+		for (int i = 0; i < numDinosaurs; i++) {
+			delete dinosaurs[i];  // Delete each individual dinosaur
+		}
+		delete[] dinosaurs;  // Delete the array of pointers
+		dinosaurs = nullptr;
+	}
+
+	// Only spawn dinosaurs on level 1
+	if (levelNum == 1) {
+		numDinosaurs = 5; // Adjust number as needed
+		dinosaurs = DinoSpawner(numDinosaurs, arena);
+		numDinosaursAlive = numDinosaurs;
+	}
+	else {
+		// No dinosaurs on other levels
+		numDinosaurs = 0;
+		numDinosaursAlive = 0;
+		dinosaurs = nullptr;
+	}
+	
+
 	m_Playing = false;
 
 	// Delete the previously allocated memory
@@ -245,6 +292,56 @@ void MarineMachine::input()
 				marine.stopRight();
 			}
 
+
+			// SHOOTING INPUT
+			if (Mouse::isButtonPressed(Mouse::Left))
+			{
+				if (gameTimeTotal.asMilliseconds() - lastPistolShot.asMilliseconds() >= pistolFireRate.asMilliseconds())
+				{
+					if (bulletsInClip > 0)
+					{
+						// Fire the bullet
+						bullets[currentBullet].shoot(
+							marine.getCenter().x, marine.getCenter().y,
+							mouseWorldPosition.x, mouseWorldPosition.y);
+
+						currentBullet++;
+						if (currentBullet > 99) { currentBullet = 0; }
+
+						bulletsInClip--;
+						lastPistolShot = gameTimeTotal;
+
+						
+				
+						 soundManager.playShoot();
+					}
+				}
+			}
+
+			// RELOAD INPUT
+			if (event.type == Event::KeyPressed && event.key.code == Keyboard::R)
+			{
+				int bulletsNeeded = clipSize - bulletsInClip;
+
+				if (bulletsSpare >= bulletsNeeded)
+				{
+					bulletsSpare -= bulletsNeeded;
+					bulletsInClip += bulletsNeeded;
+					 soundManager.playReload();
+				}
+				else if (bulletsSpare > 0)
+				{
+					bulletsInClip += bulletsSpare;
+					bulletsSpare = 0;
+					 soundManager.playReload();
+				}
+				else
+				{
+					 soundManager.playReloadFailed();
+				}
+			}
+
+
 			// Handle the player quitting
 			if (event.key.code == (Keyboard::Escape) || joyMenuPressed)
 			{
@@ -264,7 +361,7 @@ void MarineMachine::run()
 	{
 		Time dt = clock.restart();
 		// Update the total game time
-		//m_GameTimeTotal += dt;
+		 gameTimeTotal += dt;
 		// Make a decimal fraction from the delta time
 		float dtAsSeconds = dt.asSeconds();
 		

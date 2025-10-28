@@ -31,7 +31,7 @@ Enemy** DinoSpawner(int numDinos, IntRect arena);
 //add group of cowboys
 Enemy** CowboySpawner(int numCowboys, IntRect arena);
 
-int main()
+void man()
 {
 	// Here is the instabce of TextureHolder
 	TextureHolder holder;
@@ -788,7 +788,7 @@ int main()
 			spriteCrosshair.setPosition(mouseWorldPosition);
 
 			// Update the player
-			player.update(dtAsSeconds, Mouse::getPosition());
+			//player.update(dtAsSeconds, Mouse::getPosition());
 
 			// Make a note of the players new position
 			Vector2f playerPosition(player.getCenter());
