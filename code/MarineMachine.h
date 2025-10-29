@@ -26,6 +26,11 @@ private:
 	int numDinosaursAlive;
 	Enemy** dinosaurs = NULL;
 
+	//create group of cowboys
+	int numCowboys;
+	int numCowboysAlive;
+	Enemy** cowboys = NULL;
+
 	//varible for arena bounds
 	IntRect arena;
 
@@ -34,6 +39,7 @@ private:
 
 	// Bullets
 	Bullet bullets[100];
+	Bullet enemyBullets[100];
 	int currentBullet = 0;
 	int bulletsSpare = 24;
 	int bulletsInClip = 6;

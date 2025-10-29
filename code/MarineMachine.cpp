@@ -5,6 +5,7 @@
 using namespace sf;
 
 Enemy** DinoSpawner(int numDinos, IntRect arena);
+Enemy** CowboySpawner(int numCowboys, IntRect arena);
 SoundManager soundManager;
 
 MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
@@ -116,12 +117,22 @@ void MarineMachine::loadLevel()
 	arena.width = 500;
 	arena.height = 500;
 
+	//clear dinos
 	if (dinosaurs != nullptr) {
 		for (int i = 0; i < numDinosaurs; i++) {
 			delete dinosaurs[i];  // Delete each individual dinosaur
 		}
 		delete[] dinosaurs;  // Delete the array of pointers
 		dinosaurs = nullptr;
+	}
+
+	//clear cowboys 
+	if (cowboys != nullptr) {
+		for (int i = 0; i < numCowboys; i++) {
+			delete cowboys[i];  // Delete each individual dinosaur
+		}
+		delete[] cowboys;  // Delete the array of pointers
+		cowboys = nullptr;
 	}
 
 	// Only spawn dinosaurs on level 1
@@ -135,6 +146,19 @@ void MarineMachine::loadLevel()
 		numDinosaurs = 0;
 		numDinosaursAlive = 0;
 		dinosaurs = nullptr;
+	}
+
+	// Only spawn cowboys on level 2
+	if (levelNum == 2) {
+		numCowboys = 5; // Adjust number as needed
+		cowboys = CowboySpawner(numCowboys, arena);
+		numCowboysAlive = numCowboys;
+	}
+	else {
+		// No cowboys on other levels
+		numCowboys = 0;
+		numCowboysAlive = 0;
+		cowboys = nullptr;
 	}
 	
 

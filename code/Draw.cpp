@@ -38,6 +38,26 @@ void MarineMachine::draw()
 			}
 		}
 
+		//draw the cowboys
+		if (cowboys!= nullptr) {
+			for (int i = 0; i < numCowboys; i++)
+			{
+				if (cowboys[i]->isAlive())
+				{
+					m_Window.draw(cowboys[i]->getSprite());
+				}
+			}
+		}
+
+		// Draw enemy bullets
+		for (int i = 0; i < 100; i++)
+		{
+			if (enemyBullets[i].isInFlight())
+			{
+				m_Window.draw(enemyBullets[i].getShape());
+			}
+		}
+
 		// Draw bullets
 		for (int i = 0; i < 100; i++)
 		{
@@ -46,6 +66,8 @@ void MarineMachine::draw()
 				m_Window.draw(bullets[i].getShape());
 			}
 		}
+
+		
 
 		// Draw the player
 		m_Window.draw(marine.getSprite());
