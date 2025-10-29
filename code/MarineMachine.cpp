@@ -54,6 +54,11 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_TextureTiles = TextureHolder::GetTexture(
 		"graphics/tile-sheet0.png");
 
+	m_TitleGraphicTexture = TextureHolder::GetTexture(
+		"graphics/title-logo.png");
+
+	m_TitleGraphic.setTexture(m_TitleGraphicTexture);
+	m_TitleGraphic.setPosition(860, 100);
 
 	storySprite.setTexture(m_BackgroundTexture);
 	storySprite.setPosition(-500, 300);

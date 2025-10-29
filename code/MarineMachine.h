@@ -100,6 +100,9 @@ private:
 	Sprite spriteMainMenu;
 	Texture textureMainMenu;
 
+	Sprite m_TitleGraphic;
+	Texture m_TitleGraphicTexture;
+
 	Font font;
 	Text mainMenuText;
 	Text pauseMenuText;
