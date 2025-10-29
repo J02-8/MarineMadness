@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="code\Android.cpp" />
+    <ClCompile Include="code\AndroidSpawner.cpp" />
     <ClCompile Include="code\Bullet.cpp" />
     <ClCompile Include="code\Cowboy.cpp" />
     <ClCompile Include="code\CowboySpawner.cpp" />
@@ -43,6 +45,7 @@
     <ClCompile Include="code\ZombieArena.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="code\Android.h" />
     <ClInclude Include="code\Bullet.h" />
     <ClInclude Include="code\Cowboy.h" />
     <ClInclude Include="code\Dinosaur.h" />
