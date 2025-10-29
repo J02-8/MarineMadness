@@ -157,6 +157,55 @@ void MarineMachine::update(float dtAsSeconds)
 			}
 		}
 	}
+
+
+	// Loop through and update androids
+	if (androids != nullptr)
+	{
+		for (int i = 0; i < numAndroids; i++)
+		{
+			if (androids[i]->isAlive())
+			{
+				androids[i]->update(dtAsSeconds, playerPosition);
+
+				// Handle android shooting
+				if (androids[i]->isReadyToShoot()) {
+					// Find an available bullet
+					for (int j = 0; j < 100; j++) {
+						if (!enemyBullets[j].isInFlight()) {
+
+							soundManager2.playLazer();
+							// Shoot from cowboy's center towards player position
+							Vector2f androidCenter = androids[i]->getCenter();
+
+							// Shoot towards player position
+							Vector2f playerPos = marine.getCenter();
+							enemyBullets[j].shoot(
+								androidCenter.x,
+								androidCenter.y,
+								playerPos.x,
+								playerPos.y
+							);
+
+
+							cout << "Bullet " << j << " fired from android " << i << endl;
+
+							// Reset the cowboy's shoot timer
+							androids[i]->resetShootTimer();
+							break;
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+	//update the dodge variables and reset the player
+	if (isDodging && (gameTimeTotal - lastDodgeTime >= dodgeDuration)) {
+		isDodging = false;
+		marine.setSpeed(originalSpeed);
+	}
 	
 	// COLLISION DETECTION - Bullets hitting dinosaurs
 	if (dinosaurs != nullptr)
@@ -181,14 +230,7 @@ void MarineMachine::update(float dtAsSeconds)
 
 							 std::cout << "Dinosaur killed! Remaining: " << numDinosaursAlive << std::endl;
 
-							// Check if level complete
-							 /*
-							if (numDinosaursAlive == 0)
-							{
-								std::cout << "All dinosaurs dead! Next level." << std::endl;
-								m_NewLevelRequired = true;
-							}
-							*/
+							
 						}
 						// Play splat sound
 						 soundManager2.playSplat();
@@ -221,14 +263,7 @@ void MarineMachine::update(float dtAsSeconds)
 
 							std::cout << "cowboy killed! Remaining: " << numCowboysAlive << std::endl;
 
-							// Check if level complete
-							/*
-							if (numCowboysAlive == 0)
-							{
-								std::cout << "All cowboys dead! Next level." << std::endl;
-								m_NewLevelRequired = true;
-							}
-							*/
+							
 						}
 						// Play splat sound
 						 soundManager2.playSplat();
@@ -238,7 +273,43 @@ void MarineMachine::update(float dtAsSeconds)
 		}
 	}
 
-	// COLLISION DETECTION - enemy bullets hittting player - should work for androids?
+
+	// COLLISION DETECTION - Bullets hitting androids
+	if (androids != nullptr)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 0; j < numAndroids; j++)
+			{
+				if (bullets[i].isInFlight() && androids[j]->isAlive())
+				{
+					if (bullets[i].getPosition().intersects(androids[j]->getPosition()))
+					{
+						// Stop the bullet
+						bullets[i].stop();
+
+						// Register the hit
+						if (androids[j]->hit())
+						{
+							// cowboy killed
+							score += 15;
+							numCowboysAlive--;
+
+							std::cout << "cowboy killed! Remaining: " << numCowboysAlive << std::endl;
+
+
+						}
+						// Play splat sound
+						soundManager2.playSplat();
+					}
+				}
+			}
+		}
+	}
+
+
+
+	// COLLISION DETECTION - cowboy bullets hitting player 
 	if (cowboys != nullptr)
 	{
 		for (int i = 0; i < 100; i++)
@@ -265,19 +336,46 @@ void MarineMachine::update(float dtAsSeconds)
 							state = State::GAME_OVER;
 						}
 						
-
-							// Check if level complete
-							 /*
-							if (numDinosaursAlive == 0)
-							{
-								std::cout << "All dinosaurs dead! Next level." << std::endl;
-								m_NewLevelRequired = true;
-							}
-							*/
 					}
 						
 				}
 				
+			}
+		}
+	}
+
+
+	// COLLISION DETECTION - android bullets hittting player 
+	if (androids != nullptr)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 0; j < numAndroids; j++)
+			{
+				if (enemyBullets[i].isInFlight() && marine.getHealth() > 0)
+				{
+					if (enemyBullets[i].getPosition().intersects(marine.getPosition()))
+					{
+						// Stop the bullet
+						bullets[i].stop();
+
+						if (marine.hit(gameTimeTotal))
+						{
+							std::cout << "Player hit by android bullet!" << std::endl;
+							// Play hit sound
+							soundManager2.playHit();
+						}
+
+						if (marine.getHealth() <= 0)
+						{
+							std::cout << "Player dead! Game Over." << std::endl;
+							state = State::GAME_OVER;
+						}
+
+					}
+
+				}
+
 			}
 		}
 	}
@@ -319,6 +417,30 @@ void MarineMachine::update(float dtAsSeconds)
 					std::cout << "Player hit by cowboy!" << std::endl;
 					// Play hit sound
 					 soundManager2.playHit();
+				}
+
+				if (marine.getHealth() <= 0)
+				{
+					std::cout << "Player dead! Game Over." << std::endl;
+					state = State::GAME_OVER;
+				}
+			}
+		}
+	}
+
+	// COLLISION DETECTION - androids touching player
+	if (androids != nullptr)
+	{
+		for (int i = 0; i < numAndroids; i++)
+		{
+			if (marine.getPosition().intersects(androids[i]->getPosition()) &&
+				androids[i]->isAlive())
+			{
+				if (marine.hit(gameTimeTotal))
+				{
+					std::cout << "Player hit by android!" << std::endl;
+					// Play hit sound
+					soundManager2.playHit();
 				}
 
 				if (marine.getHealth() <= 0)

@@ -156,7 +156,7 @@ void MarineMachine::loadLevel()
 		numAndroidsAlive = numAndroids;
 	}
 	else {
-		// No cowboys on other levels
+		// No androids on other levels
 		numAndroids = 0;
 		numAndroidsAlive = 0;
 		androids = nullptr;
@@ -391,6 +391,19 @@ void MarineMachine::input()
 				{
 					 soundManager.playReloadFailed();
 				}
+			}
+
+
+			// Handle dodge input (Left Shift)
+			if (Keyboard::isKeyPressed(Keyboard::LShift) &&
+				!isDodging &&
+				(gameTimeTotal - lastDodgeTime >= dodgeCooldown))
+			{
+				isDodging = true;
+				lastDodgeTime = gameTimeTotal;
+				originalSpeed = marine.getSpeed(); // Store current speed
+				marine.setSpeed(originalSpeed * 2); // Double speed
+				soundManager.playDodge(); // Play dodge sound
 			}
 
 

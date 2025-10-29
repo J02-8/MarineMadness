@@ -47,6 +47,13 @@ private:
 	int bulletsInClip = 6;
 	int clipSize = 6;
 
+	//dodge variables
+	bool isDodging = false;
+	Time dodgeDuration = milliseconds(300);
+	Time dodgeCooldown = seconds(2);
+	Time lastDodgeTime;
+	float originalSpeed;
+
 	// Mouse positions
 	Vector2f mouseWorldPosition;
 	Vector2i mouseScreenPosition;
