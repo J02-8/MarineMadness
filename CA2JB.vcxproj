@@ -24,13 +24,10 @@
     <ClCompile Include="code\Bullet.cpp" />
     <ClCompile Include="code\Cowboy.cpp" />
     <ClCompile Include="code\CowboySpawner.cpp" />
-    <ClCompile Include="code\CreateBackground.cpp" />
-    <ClCompile Include="code\CreateHorde.cpp" />
     <ClCompile Include="code\Draw.cpp" />
     <ClCompile Include="code\LevelManager.cpp" />
     <ClCompile Include="code\Main.cpp" />
     <ClCompile Include="code\MarineMachine.cpp" />
-    <ClCompile Include="code\CreateScreamerHorde.cpp" />
     <ClCompile Include="code\Dinosaur.cpp" />
     <ClCompile Include="code\DinoSpawner.cpp" />
     <ClCompile Include="code\Enemy.cpp" />
@@ -45,7 +42,6 @@
     <ClCompile Include="code\TextureHolder.cpp" />
     <ClCompile Include="code\Update.cpp" />
     <ClCompile Include="code\Warp.cpp" />
-    <ClCompile Include="code\Zombie.cpp" />
     <ClCompile Include="code\ZombieArena.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -66,7 +62,6 @@
     <ClInclude Include="code\SoundManager.h" />
     <ClInclude Include="code\TextureHolder.h" />
     <ClInclude Include="code\Warp.h" />
-    <ClInclude Include="code\Zombie.h" />
     <ClInclude Include="code\ZombieArena.h" />
   </ItemGroup>
   <ItemGroup>

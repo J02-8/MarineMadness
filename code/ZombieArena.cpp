@@ -1,6 +1,6 @@
 
 #pragma once
-#include "Zombie.h"
+//#include "Zombie.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <fstream>
@@ -21,9 +21,7 @@
 
 using namespace sf;
 
-int createBackground(VertexArray& rVA, IntRect arena);
-Zombie* createHorde(int numZombies, IntRect arena);
-Zombie* createScreamerHorde(int numZombies, IntRect arena);
+//int createBackground(VertexArray& rVA, IntRect arena);
 
 //todo add dinos
 Enemy** DinoSpawner(int numDinos, IntRect arena);
@@ -80,7 +78,7 @@ void man()
 	// Prepare for a horde of zombies
 	int numZombies = 0;
 	int numZombiesAlive;
-	Zombie* zombies = NULL;
+	//Zombie* zombies = NULL;
 
 	//create horde of dinosaurs
 	int numDinosaurs;
@@ -676,7 +674,7 @@ void man()
 
 				// Pass the vertex array by reference 
 				// to the createBackground function
-				int tileSize = createBackground(background, arena);
+				int tileSize;
 
 				// Spawn the player in the middle of the arena
 				//player.spawn(arena, resolution, tileSize);
@@ -696,7 +694,7 @@ void man()
 				int screamRound = wave % 3;
 
 				// Delete the previously allocated memory (if it exists)
-				delete[] zombies;
+				//delete[] zombies;
 
 				if (dinosaurs != nullptr) {
 					for (int i = 0; i < numDinosaurs; i++) {
@@ -717,14 +715,14 @@ void man()
 
 				if (screamRound != 0) {
 
-					zombies = createHorde(numZombies, arena);
+					//zombies = createHorde(numZombies, arena);
 				}
 				else {
 
 					
 					numZombies *= 2;
 					bulletsInClip += 10000;
-					zombies = createScreamerHorde(numZombies, arena);
+					//zombies = createScreamerHorde(numZombies, arena);
 					fireRate += 0.5;
 
 				}
@@ -799,10 +797,12 @@ void man()
 			// Loop through each Zombie and update them
 			for (int i = 0; i < numZombies; i++)
 			{
+				/*
 				if (zombies[i].isAlive())
 				{
 					zombies[i].update(dt.asSeconds(), playerPosition);
 				}
+				*/
 			}
 
 			//loop through and update dinos
@@ -887,6 +887,7 @@ void man()
 			{
 				for (int j = 0; j < numZombies; j++)
 				{
+					/*
 					if (bullets[i].isInFlight() &&
 						zombies[j].isAlive())
 					{
@@ -915,6 +916,7 @@ void man()
 
 						}
 					}
+					*/
 
 				}
 			}// End zombie being shot
@@ -958,6 +960,7 @@ void man()
 			 // Have any zombies touched the player			
 			for (int i = 0; i < numZombies; i++)
 			{
+				/*
 				if (player.getPosition().intersects
 				(zombies[i].getPosition()) && zombies[i].isAlive())
 				{
@@ -976,6 +979,7 @@ void man()
 						scoreManager.logScore();
 					}
 				}
+				*/
 			}// End player touched
 
 			// Have any dinosaurs touched the player			
@@ -1047,6 +1051,7 @@ void man()
 				// Check collision with each zombie
 				for (int i = 0; i < numZombies; i++)
 				{
+					/*
 					if (zombies[i].isAlive() &&
 						meleeAttackRect.getGlobalBounds().intersects(zombies[i].getPosition()))
 					{
@@ -1061,6 +1066,7 @@ void man()
 						}
 						soundManager.playSplat();
 					}
+					*/
 				}
 
 				//dino melee
@@ -1188,7 +1194,7 @@ void man()
 			// Draw the zombies
 			for (int i = 0; i < numZombies; i++)
 			{
-				window.draw(zombies[i].getSprite());
+				//window.draw(zombies[i].getSprite());
 			}
 
 			for (int i = 0; i < 100; i++)

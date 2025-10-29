@@ -86,7 +86,7 @@ void MarineMachine::draw()
 		// Draw the warp
 		m_Window.draw(wp.getSprite());
 
-		//Draw the crosshair
+		// Draw the crosshair
 		m_Window.draw(spriteCrosshair);
 		
 
