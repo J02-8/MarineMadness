@@ -12,28 +12,26 @@
 #include "Enemy.h"
 #include "MainMenu.h"
 
-#include "MainMenu.h"
-
 using namespace sf;
 
 class MarineMachine
 {
 private:
 
-	//create horde of dinosaurs
+	// Create horde of dinosaurs
 	int numDinosaurs;
 	int numDinosaursAlive;
 	Enemy** dinosaurs = NULL;
 
-	//create group of cowboys
+	// Create group of cowboys
 	int numCowboys;
 	int numCowboysAlive;
 	Enemy** cowboys = NULL;
 
-	//varible for arena bounds
+	// Variable for arena bounds
 	IntRect arena;
 
-	//current level number
+	// Current level number
 	int levelNum;
 
 	// Bullets

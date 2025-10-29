@@ -61,9 +61,6 @@
     <ClInclude Include="code\Warp.h" />
     <ClInclude Include="code\ZombieArena.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

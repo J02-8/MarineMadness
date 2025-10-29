@@ -1,8 +1,25 @@
 <--TILES-->
 
+Level 0 sheet - credit to Dyru via https://dyru.itch.io/top-down-shooter
+
+Level 1 sheet - credit to O-lobster via https://o-lobster.itch.io/adventure-pack
+
+Level 2 sheet - credit to Trislin via https://trislin.itch.io/pixel-lands-desert
+
+Level 3 sheet - credit to Pillowrd via https://pillowbyte.itch.io/diceforce-free-assets
+
 <--SOUND-->
 
 Walking sound - https://pixabay.com/sound-effects/walking-sound-effect-272246/
 
 <--TEXTURES-->
+
+Player sheet - credit to Dyru via https://dyru.itch.io/top-down-shooter
+
+Dinosaur - 
+
+Cowboy -
+
+Android/Robot[base] -  credit to Dyru via https://dyru.itch.io/top-down-shooter
+
 
