@@ -12,17 +12,21 @@ void MarineMachine::draw()
 		mainMenu.drawParticles(m_Window); // Draw the particle background first
 		mainMenu.draw(m_Window);
 	}
+
+	// Show some story
+	if (state == State::STORY_MENU)
+	{
+		m_Window.draw(storySprite);
+		m_Window.draw(storyText);
+	}
 	
-	// Draw stuff
+	// Draw player and stuff
 	if (state == State::PLAYING)
 	{
 		m_Window.clear();
 
-		// set the mainView to be displayed in the window
+		// Set the mainView to be displayed in the window
 		m_Window.setView(m_MainView);
-		
-		// Draw the background
-		//m_Window.draw(m_BackgroundSprite);
 
 		// Draw the Level
 		m_Window.draw(vaLevel, &m_TextureTiles);

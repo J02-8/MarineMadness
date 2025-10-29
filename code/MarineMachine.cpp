@@ -21,7 +21,6 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 
 	state = State::MAIN_MENU;
 
-
 	m_Window.create(VideoMode(resolution.x, resolution.y), "Marine Madness", Style::Fullscreen);
 	//	m_Window.setFramerateLimit(30);
 		//sf::Window::setFramerateLimit(unsigned int 	limit)
@@ -38,9 +37,6 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	//m_HudBackground.setSize(sf::Vector2f(resolution.x * 0.7f, resolution.y * 0.5f));
 	//m_HudBackground.setFillColor(sf::Color::Black);
 
-	// Two lines below used to create zoomed our screenshots for the book
-	//m_BGMainView.zoom(2.5);
-
 	// Zoom in on player
 	m_MainView.zoom(0.7);
 
@@ -52,35 +48,32 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	}
 
 	m_BackgroundTexture = TextureHolder::GetTexture(
-		"graphics/background.png");
-
-	// Associate the sprite with the texture
-	m_BackgroundSprite.setTexture(m_BackgroundTexture);
+		"graphics/background.jpg");
 
 	// Load the texture for the background vertex array
 	m_TextureTiles = TextureHolder::GetTexture(
 		"graphics/tile-sheet0.png");
 
 
-	//textureMainMenu = TextureHolder::GetTexture("graphics/background-menu.png");
-	spriteMainMenu.setTexture(textureMainMenu);
-	spriteMainMenu.setPosition(0, 0);
-
+	storySprite.setTexture(m_BackgroundTexture);
+	storySprite.setPosition(-500, 300);
 
 	font.loadFromFile("fonts/ByteBounce.ttf");
 
-	// pause menu options
-	pauseMenuText.setFont(font);
-	pauseMenuText.setCharacterSize(80);
-	pauseMenuText.setFillColor(Color::White);
-	pauseMenuText.setPosition(150, 250);
-	std::stringstream pauseMenuStream;
-	pauseMenuStream <<
-		"Game Paused " <<
-		"\nR - Resume" <<
-		"\nM - Exit to Menu";
+	storyText.setFont(font);
+	storyText.setCharacterSize(45);
+	storyText.setFillColor(Color::White);
+	storyText.setPosition(-450, 700);
+	std::stringstream storyStream;
+	storyStream <<
+		"You are Sgt. Ronald McRevolver, investigating an abandoned wearhouse." <<
+		"\nYou were informed by the chief that you have retrieve a stolen machine." <<
+		"\nThis machine allows any user to travel through time." <<
+		"\nSo be cautious when near the device" <<
+		"\n" <<
+		"\nWhen ready, press E to enter the building.";
+	storyText.setString(storyStream.str());
 
-	pauseMenuText.setString(pauseMenuStream.str());
 
 	// Initialize bullets
 	currentBullet = 0;
@@ -284,10 +277,7 @@ void MarineMachine::input()
 					switch (mainMenu.mainMenuPressed())
 					{
 					case 0: // // Start the game
-						lm.setCurrentLevel(0);
-						m_NewLevelRequired = true;
-						loadLevel();
-						state = State::PLAYING;
+						state = State::STORY_MENU;
 						break;
 					case 4: // Exit the game
 						m_Window.close();
@@ -298,6 +288,17 @@ void MarineMachine::input()
 			}
 		}
 
+		// Show some context/lore in this state
+		if (state == State::STORY_MENU)
+		{
+			if (event.key.code == Keyboard::E)
+			{
+				state = State::PLAYING;
+			}
+
+		}
+
+		// Allow player to move in this state
 		if (state == State::PLAYING)
 		{
 			bool joyMenuPressed = sf::Joystick::isButtonPressed(0, 7);

@@ -139,6 +139,9 @@ public:
 	// Run will call all the private functions
 	void run();
 
-	enum class State { MAIN_MENU, PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
+	Text storyText;
+	Sprite storySprite;
+
+	enum class State { MAIN_MENU, PAUSED, STORY_MENU, GAME_OVER, PLAYING };
 	State state = State::MAIN_MENU;
 };
