@@ -31,6 +31,11 @@ private:
 	int numCowboysAlive;
 	Enemy** cowboys = NULL;
 
+	//create group of androids
+	int numAndroids;
+	int numAndroidsAlive;
+	Enemy** androids = NULL;
+
 	//varible for arena bounds
 	IntRect arena;
 

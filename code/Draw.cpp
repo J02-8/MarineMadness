@@ -49,6 +49,17 @@ void MarineMachine::draw()
 			}
 		}
 
+		//draw the androids
+		if (androids != nullptr) {
+			for (int i = 0; i < numAndroids; i++)
+			{
+				if (androids[i]->isAlive())
+				{
+					m_Window.draw(androids[i]->getSprite());
+				}
+			}
+		}
+
 		// Draw enemy bullets
 		for (int i = 0; i < 100; i++)
 		{

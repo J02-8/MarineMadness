@@ -1,21 +1,20 @@
-
 #include "Enemy.h"
-#include "Cowboy.h"
+#include "Android.h"
 #include <ctime>
 
-Enemy** CowboySpawner(int numCowboys, IntRect arena)
+Enemy** AndroidSpawner(int numAndroids, IntRect arena)
 {
 
 
 
-	Enemy** Cowboys = new Enemy * [numCowboys];
+	Enemy** Androids = new Enemy * [numAndroids];
 
 	int maxY = arena.height - 20;
 	int minY = arena.top + 20;
 	int maxX = arena.width - 20;
 	int minX = arena.left + 20;
 
-	for (int i = 0; i < numCowboys; i++)
+	for (int i = 0; i < numAndroids; i++)
 	{
 
 
@@ -52,13 +51,13 @@ Enemy** CowboySpawner(int numCowboys, IntRect arena)
 			break;
 		}
 
-		Cowboys[i] = new Cowboy();
+		Androids[i] = new Android();
 
 		// Spawn the new zombie into the array
-		Cowboys[i]->spawn(x, y, i);
+		Androids[i]->spawn(x, y, i);
 
 
 	}
-	return Cowboys;
+	return Androids;
 
 }
