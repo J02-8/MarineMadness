@@ -191,7 +191,7 @@ void MarineMachine::update(float dtAsSeconds)
 							*/
 						}
 						// Play splat sound
-						// soundManager.playSplat();
+						 soundManager2.playSplat();
 					}
 				}
 			}
@@ -231,14 +231,14 @@ void MarineMachine::update(float dtAsSeconds)
 							*/
 						}
 						// Play splat sound
-						// soundManager.playSplat();
+						 soundManager2.playSplat();
 					}
 				}
 			}
 		}
 	}
 
-	// COLLISION DETECTION - enemy bullets hittting player
+	// COLLISION DETECTION - enemy bullets hittting player - should work for androids?
 	if (cowboys != nullptr)
 	{
 		for (int i = 0; i < 100; i++)
@@ -256,7 +256,7 @@ void MarineMachine::update(float dtAsSeconds)
 						{
 							std::cout << "Player hit by cowboy bullet!" << std::endl;
 							// Play hit sound
-							// soundManager.playHit();
+							 soundManager2.playHit();
 						}
 
 						if (marine.getHealth() <= 0)
@@ -275,8 +275,7 @@ void MarineMachine::update(float dtAsSeconds)
 							}
 							*/
 					}
-						// Play splat sound
-						// soundManager.playSplat();
+						
 				}
 				
 			}
@@ -295,7 +294,7 @@ void MarineMachine::update(float dtAsSeconds)
 				{
 					std::cout << "Player hit by dinosaur!" << std::endl;
 					// Play hit sound
-					// soundManager.playHit();
+					 soundManager2.playHit();
 				}
 
 				if (marine.getHealth() <= 0)
@@ -319,7 +318,7 @@ void MarineMachine::update(float dtAsSeconds)
 				{
 					std::cout << "Player hit by cowboy!" << std::endl;
 					// Play hit sound
-					// soundManager.playHit();
+					 soundManager2.playHit();
 				}
 
 				if (marine.getHealth() <= 0)
