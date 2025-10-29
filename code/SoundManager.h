@@ -18,6 +18,7 @@ private:
     SoundBuffer dodgeBuffer;
     SoundBuffer meleeBuffer;
     SoundBuffer walkBuffer;
+    SoundBuffer lazerBuffer;
 
 	// The Sounds
     Sound hitSound;
@@ -31,6 +32,7 @@ private:
     Sound dodgeSound;
     Sound meleeSound;
     Sound walkSound;
+    Sound lazerSound;
 
 public:
 
@@ -48,6 +50,7 @@ public:
     void playDodge();
     void playMelee();
     void playWalk();
+    void playLazer();
 
     // Set the volume
     void setGlobalVolume(float volume);

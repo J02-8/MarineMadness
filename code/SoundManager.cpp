@@ -17,6 +17,7 @@ SoundManager::SoundManager()
     dodgeBuffer.loadFromFile("sound/dodge.wav");
     meleeBuffer.loadFromFile("sound/melee.wav");
     walkBuffer.loadFromFile("sound/walk.wav");
+    lazerBuffer.loadFromFile("sound/laser_shoot.wav");
 
     // Attach buffers to sounds
     hitSound.setBuffer(hitBuffer);
@@ -30,6 +31,7 @@ SoundManager::SoundManager()
     dodgeSound.setBuffer(dodgeBuffer);
     meleeSound.setBuffer(meleeBuffer);
     walkSound.setBuffer(walkBuffer);
+    lazerSound.setBuffer(lazerBuffer);
 }
 
 // Play Functions
@@ -44,6 +46,7 @@ void SoundManager::playPickup() { pickupSound.play(); }
 void SoundManager::playDodge() { dodgeSound.play(); }
 void SoundManager::playMelee() { meleeSound.play(); }
 void SoundManager::playWalk() { walkSound.play(); }
+void SoundManager::playLazer() { lazerSound.play(); }
 
 // Set the volume of each sound to the global volume level
 void SoundManager::setGlobalVolume(float volume)
@@ -59,4 +62,5 @@ void SoundManager::setGlobalVolume(float volume)
     dodgeSound.setVolume(volume);
     meleeSound.setVolume(volume);
     walkSound.setVolume(volume);
+    lazerSound.setVolume(volume);
 }

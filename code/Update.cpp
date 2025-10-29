@@ -174,7 +174,7 @@ void MarineMachine::update(float dtAsSeconds)
 					for (int j = 0; j < 100; j++) {
 						if (!enemyBullets[j].isInFlight()) {
 
-							soundManager2.playShoot();
+							soundManager2.playLazer();
 							// Shoot from cowboy's center towards player position
 							Vector2f androidCenter = androids[i]->getCenter();
 
@@ -201,6 +201,7 @@ void MarineMachine::update(float dtAsSeconds)
 		}
 	}
 
+	//update the dodge variables and reset the player
 	if (isDodging && (gameTimeTotal - lastDodgeTime >= dodgeDuration)) {
 		isDodging = false;
 		marine.setSpeed(originalSpeed);
