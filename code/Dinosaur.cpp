@@ -21,7 +21,7 @@ void Dinosaur::spawn(float startX, float startY, int seed)
     // Single dinosaur type 
     m_Sprite = Sprite(TextureHolder::GetTexture("graphics/dinosaur.png"));
     m_Speed = 45;
-    m_Health = 6;
+    m_Health = 3;
 
     // Apply variations
     applySpeedVariation(seed);
