@@ -200,6 +200,11 @@ void MarineMachine::update(float dtAsSeconds)
 			}
 		}
 	}
+
+	if (isDodging && (gameTimeTotal - lastDodgeTime >= dodgeDuration)) {
+		isDodging = false;
+		marine.setSpeed(originalSpeed);
+	}
 	
 	// COLLISION DETECTION - Bullets hitting dinosaurs
 	if (dinosaurs != nullptr)
