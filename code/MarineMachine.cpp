@@ -68,7 +68,7 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	spriteMainMenu.setPosition(0, 0);
 
 
-	font.loadFromFile("fonts/zombiecontrol.ttf");
+	font.loadFromFile("fonts/ByteBounce.ttf");
 
 	mainMenuText.setFont(font);
 	mainMenuText.setCharacterSize(80);

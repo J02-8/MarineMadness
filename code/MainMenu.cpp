@@ -3,7 +3,7 @@
 // Constructor
 MainMenu::MainMenu(float width, float height)
 {
-    if (!font.loadFromFile("fonts/zombiecontrol.ttf"))
+    if (!font.loadFromFile("fonts/ByteBounce.ttf"))
     {
         std::cout << "Failed to load font!\n";
     }
@@ -15,7 +15,7 @@ MainMenu::MainMenu(float width, float height)
         mainMenu[i].setFont(font);
         mainMenu[i].setFillColor(Color::White);
         mainMenu[i].setString(menuItems[i]);
-        mainMenu[i].setCharacterSize(50);
+        mainMenu[i].setCharacterSize(70);
         mainMenu[i].setPosition(400, 200 + i * 100);
     }
 
