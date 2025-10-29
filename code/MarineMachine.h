@@ -28,12 +28,12 @@ private:
 	int numCowboysAlive;
 	Enemy** cowboys = NULL;
 
-	//create group of androids
+	// Create group of androids
 	int numAndroids;
 	int numAndroidsAlive;
 	Enemy** androids = NULL;
 
-	//varible for arena bounds
+	// Varible for arena bounds
 	IntRect arena;
 
 	// Current level number
