@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include "TextureHolder.h"
 #include "LevelManager.h"
-#include "Zombie.h"
 #include <fstream>
 #include <sstream>
 #include "Player.h"

@@ -30,9 +30,8 @@ Cowboy::Cowboy()
 void Cowboy::spawn(float startX, float startY, int seed)
 {
 
-
     // Single cowboy type 
-    m_Sprite = Sprite(TextureHolder::GetTexture("graphics/Cowboy.png"));
+    m_Sprite = Sprite(TextureHolder::GetTexture("graphics/cowboy.png"));
     m_Speed = 45;
     m_Health = 6;
 

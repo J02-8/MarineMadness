@@ -17,6 +17,7 @@ private:
     SoundBuffer pickupBuffer;
     SoundBuffer dodgeBuffer;
     SoundBuffer meleeBuffer;
+    SoundBuffer walkBuffer;
 
 	// The Sounds
     Sound hitSound;
@@ -29,6 +30,7 @@ private:
     Sound pickupSound;
     Sound dodgeSound;
     Sound meleeSound;
+    Sound walkSound;
 
 public:
 
@@ -45,6 +47,7 @@ public:
     void playPickup();
     void playDodge();
     void playMelee();
+    void playWalk();
 
     // Set the volume
     void setGlobalVolume(float volume);

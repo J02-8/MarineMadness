@@ -16,6 +16,7 @@ SoundManager::SoundManager()
     pickupBuffer.loadFromFile("sound/pickup.wav");
     dodgeBuffer.loadFromFile("sound/dodge.wav");
     meleeBuffer.loadFromFile("sound/melee.wav");
+    walkBuffer.loadFromFile("sound/walk.wav");
 
     // Attach buffers to sounds
     hitSound.setBuffer(hitBuffer);
@@ -28,6 +29,7 @@ SoundManager::SoundManager()
     pickupSound.setBuffer(pickupBuffer);
     dodgeSound.setBuffer(dodgeBuffer);
     meleeSound.setBuffer(meleeBuffer);
+    walkSound.setBuffer(walkBuffer);
 }
 
 // Play Functions
@@ -41,6 +43,7 @@ void SoundManager::playPowerup() { powerupSound.play(); }
 void SoundManager::playPickup() { pickupSound.play(); }
 void SoundManager::playDodge() { dodgeSound.play(); }
 void SoundManager::playMelee() { meleeSound.play(); }
+void SoundManager::playWalk() { walkSound.play(); }
 
 // Set the volume of each sound to the global volume level
 void SoundManager::setGlobalVolume(float volume)
@@ -55,4 +58,5 @@ void SoundManager::setGlobalVolume(float volume)
     pickupSound.setVolume(volume);
     dodgeSound.setVolume(volume);
     meleeSound.setVolume(volume);
+    walkSound.setVolume(volume);
 }

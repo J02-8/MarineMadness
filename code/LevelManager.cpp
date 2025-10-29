@@ -202,9 +202,6 @@ int** LevelManager::nextLevelSpawningPoints()
 	m_LevelSpawningPointsSize.x = 0;
 	m_LevelSpawningPointsSize.y = 0;
 
-	// use the current level to ensure that correct level artefacts are loaded
-
-
 	// Load the appropriate level from a text file
 	string levelToLoad;
 	switch (m_CurrentLevel)

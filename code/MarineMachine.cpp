@@ -10,8 +10,6 @@ SoundManager soundManager;
 MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
 {
 
-	
-
 	// Get the screen resolution and create an SFML window and View
 	Vector2f resolution;
 	
@@ -21,14 +19,12 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	state = State::MAIN_MENU;
 
 
-	m_Window.create(VideoMode(resolution.x, resolution.y),
-		"Marine Madness",
-		Style::Fullscreen);
+	m_Window.create(VideoMode(resolution.x, resolution.y), "Marine Madness", Style::Fullscreen);
 	//	m_Window.setFramerateLimit(30);
 		//sf::Window::setFramerateLimit(unsigned int 	limit)
 
 
-		// Initialize the full screen view
+	// Initialize the full screen view
 	m_MainView.setSize(resolution);
 
 	//m_HudView.reset(
@@ -70,18 +66,6 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 
 	font.loadFromFile("fonts/ByteBounce.ttf");
 
-	mainMenuText.setFont(font);
-	mainMenuText.setCharacterSize(80);
-	mainMenuText.setFillColor(Color::White);
-	mainMenuText.setPosition(150, 250);
-	std::stringstream mainMenuStream;
-	mainMenuStream <<
-		"Run Away !" <<
-		"\n1 - Play Game" <<
-		"\n2 - High Scores " <<
-		"\n3- Exit";
-
-	mainMenuText.setString(mainMenuStream.str());
 	// pause menu options
 	pauseMenuText.setFont(font);
 	pauseMenuText.setCharacterSize(80);
@@ -152,18 +136,17 @@ void MarineMachine::loadLevel()
 	// And repopulate the vertex array as well
 	m_ArrayLevel = lm.nextLevel(vaLevel);
 
-	// --- CRITICAL FIX: SETTING THE ARENA BOUNDARIES ---
 
-	// 1. Get the level's pixel bounds from the LevelManager. 
-	//    (You need a method like getArenaBounds() in your LevelManager)
+	// Get level's pixel bounds from LevelManager. 
 	sf::FloatRect arenaBounds = lm.getArenaBounds();
 
-	// 2. Get the tile size (Assuming a constant TILE_SIZE is used by LevelManager)
+	// Get tile size
 	float tileSize = lm.getTileSize(); // You need a getter for TILE_SIZE
 
-	// 3. Pass the arena data to the player
+	// Pass the arena data to the player
 	marine.setArena(arenaBounds, tileSize);
 
+	// Pass arena date to the warp
 	wp.setArena(arenaBounds, tileSize);
 
 	for (int i = 0; i < lm.getLevelSpawningPointsSize().y; ++i)
@@ -201,18 +184,22 @@ void MarineMachine::setTileSheets(int level)
 	switch (level)
 	{
 		case 1:
+			// Archaic Anarchy
 			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet1.png");
 			break;
 
 		case 2:
+			// Wild West
 			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet2.png");
 			break;
 
 		case 3:
+			// Fracture Future
 			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet3.png");
 			break;
 
 		default:
+			// Tutorial/Warehouse
 			m_TextureTiles = TextureHolder::GetTexture("graphics/tile-sheet0.png");
 			break;
 	}
@@ -271,6 +258,7 @@ void MarineMachine::input()
 			if (Keyboard::isKeyPressed(Keyboard::W))
 			{
 				marine.moveUp();
+				soundManager.playWalk();
 			}
 			else
 			{
@@ -280,6 +268,7 @@ void MarineMachine::input()
 			if (Keyboard::isKeyPressed(Keyboard::S))
 			{
 				marine.moveDown();
+				soundManager.playWalk();
 			}
 			else
 			{
@@ -289,6 +278,7 @@ void MarineMachine::input()
 			if (Keyboard::isKeyPressed(Keyboard::A))
 			{
 				marine.moveLeft();
+				soundManager.playWalk();
 			}
 			else
 			{
@@ -298,6 +288,7 @@ void MarineMachine::input()
 			if (Keyboard::isKeyPressed(Keyboard::D))
 			{
 				marine.moveRight();
+				soundManager.playWalk();
 			}
 			else
 			{
