@@ -61,7 +61,7 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_TitleGraphic.setPosition(860, 100);
 
 	storySprite.setTexture(m_BackgroundTexture);
-	storySprite.setPosition(-500, 300);
+	storySprite.setPosition(-870, 300);
 
 	font.loadFromFile("fonts/ByteBounce.ttf");
 
