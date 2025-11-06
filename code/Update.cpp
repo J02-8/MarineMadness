@@ -4,8 +4,7 @@
 #include <iostream>
 #include "SoundManager.h"
 
-using namespace sf;
-//using namespace std;
+using namespace std;
 
 int score = 0;
 
@@ -233,7 +232,7 @@ void MarineMachine::update(float dtAsSeconds)
 							
 						}
 						// Play splat sound
-						 soundManager2.playSplat();
+						soundManager2.playSplat();
 					}
 				}
 			}
@@ -266,7 +265,7 @@ void MarineMachine::update(float dtAsSeconds)
 							
 						}
 						// Play splat sound
-						 soundManager2.playSplat();
+						soundManager2.playSplat();
 					}
 				}
 			}
@@ -291,16 +290,16 @@ void MarineMachine::update(float dtAsSeconds)
 						// Register the hit
 						if (androids[j]->hit())
 						{
-							// cowboy killed
+							// Android killed
 							score += 15;
-							numCowboysAlive--;
+							numAndroidsAlive--;
 
-							std::cout << "cowboy killed! Remaining: " << numCowboysAlive << std::endl;
+							std::cout << "Android killed! Remaining: " << numAndroidsAlive << std::endl;
 
 
 						}
-						// Play splat sound
-						soundManager2.playSplat();
+						// Play boom sound
+						soundManager2.playBoom();
 					}
 				}
 			}
@@ -369,7 +368,7 @@ void MarineMachine::update(float dtAsSeconds)
 						if (marine.getHealth() <= 0)
 						{
 							std::cout << "Player dead! Game Over." << std::endl;
-							state = State::GAME_OVER;
+							marine.spawn(lm.getPlayerStartPosition());
 						}
 
 					}
@@ -398,7 +397,7 @@ void MarineMachine::update(float dtAsSeconds)
 				if (marine.getHealth() <= 0)
 				{
 					std::cout << "Player dead! Game Over." << std::endl;
-					state = State::GAME_OVER;
+					marine.spawn(lm.getPlayerStartPosition());
 				}
 			}
 		}
@@ -422,7 +421,7 @@ void MarineMachine::update(float dtAsSeconds)
 				if (marine.getHealth() <= 0)
 				{
 					std::cout << "Player dead! Game Over." << std::endl;
-					state = State::GAME_OVER;
+					marine.spawn(lm.getPlayerStartPosition());
 				}
 			}
 		}
@@ -459,22 +458,13 @@ void MarineMachine::update(float dtAsSeconds)
 	{
 		// Reload the level
 		m_NewLevelRequired = true;
-		
-		// Go to next level
-		levelNum++;
-
-		if (levelNum > 4)
-		{
-			// Avoid non-existent levels
-			levelNum = 0;
-		}
 
 		// Alter tiles for next level
-		MarineMachine::setTileSheets(levelNum);
+		MarineMachine::setTileSheets(lm.getCurrentLevel());
 		
 		// Load the subsequent level
-		lm.setCurrentLevel(levelNum);
-		std::cout << "CURRENT LEVEL: " << levelNum;
+		lm.setCurrentLevel(lm.getCurrentLevel());
+		cout << "CURRENT LEVEL: " << lm.getCurrentLevel();
 	}
 	
 }

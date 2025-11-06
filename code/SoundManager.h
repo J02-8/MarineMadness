@@ -19,6 +19,7 @@ private:
     SoundBuffer meleeBuffer;
     SoundBuffer walkBuffer;
     SoundBuffer lazerBuffer;
+    SoundBuffer boomBuffer;
 
 	// The Sounds
     Sound hitSound;
@@ -33,6 +34,7 @@ private:
     Sound meleeSound;
     Sound walkSound;
     Sound lazerSound;
+    Sound boomSound;
 
 public:
 
@@ -51,6 +53,7 @@ public:
     void playMelee();
     void playWalk();
     void playLazer();
+    void playBoom();
 
     // Set the volume
     void setGlobalVolume(float volume);

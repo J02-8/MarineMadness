@@ -33,11 +33,8 @@ private:
 	int numAndroidsAlive;
 	Enemy** androids = NULL;
 
-	// Varible for arena bounds
+	// Variable for arena bounds
 	IntRect arena;
-
-	// Current level number
-	int levelNum;
 
 	// Bullets
 	Bullet bullets[100];
@@ -47,7 +44,7 @@ private:
 	int bulletsInClip = 6;
 	int clipSize = 6;
 
-	//dodge variables
+	// Dodge variables
 	bool isDodging = false;
 	Time dodgeDuration = milliseconds(300);
 	Time dodgeCooldown = seconds(2);

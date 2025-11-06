@@ -29,26 +29,34 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 		// Set player position for each level
 	case 1:
 		levelToLoad = "levels/level0-tutorial.txt";
-		m_StartPosition.x = 100;
-		m_StartPosition.y = 900;
+		m_PlayerStartPosition.x = 100;
+		m_PlayerStartPosition.y = 900;
+		m_WarpStartPosition.x = 550;
+		m_WarpStartPosition.y = 150;
 		break;
 
 	case 2:
 		levelToLoad = "levels/level1-archaic-anarchy.txt";
-		m_StartPosition.x = 400;
-		m_StartPosition.y = 1200;
+		m_PlayerStartPosition.x = 400;
+		m_PlayerStartPosition.y = 1200;
+		m_WarpStartPosition.x = 460;
+		m_WarpStartPosition.y = 100;
 		break;
 
 	case 3:
 		levelToLoad = "levels/level2-wild-west.txt";
-		m_StartPosition.x = 1100;
-		m_StartPosition.y = 100;
+		m_PlayerStartPosition.x = 1100;
+		m_PlayerStartPosition.y = 100;
+		m_WarpStartPosition.x = 860;
+		m_WarpStartPosition.y = 980;
 		break;
 
 	case 4:
 		levelToLoad = "levels/level3-fracture-future.txt";
-		m_StartPosition.x = 150;
-		m_StartPosition.y = 600;
+		m_PlayerStartPosition.x = 150;
+		m_PlayerStartPosition.y = 600;
+		m_WarpStartPosition.x = 650;
+		m_WarpStartPosition.y = 300;
 		break;
 
 	}
@@ -64,7 +72,6 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 
 	// Store the length of the rows
 	m_LevelSize.x = s.length();
-
 
 	// Go back to the start of the file
 	inputFile.clear();
@@ -193,9 +200,13 @@ bool LevelManager::hasHitWall(int x, int y)
 }
 */
 
-Vector2f LevelManager::getStartPosition()
+Vector2f LevelManager::getPlayerStartPosition()
 {
-	return m_StartPosition;
+	return m_PlayerStartPosition;
+}
+Vector2f LevelManager::getWarpStartPosition()
+{
+	return m_WarpStartPosition;
 }
 int** LevelManager::nextLevelSpawningPoints()
 {

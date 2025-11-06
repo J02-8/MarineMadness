@@ -129,7 +129,7 @@ void MarineMachine::loadLevel()
 	}
 
 	// Only spawn dinosaurs on level 1
-	if (levelNum == 1) {
+	if (lm.getCurrentLevel() == 1) {
 		numDinosaurs = 5; // Adjust number as needed
 		dinosaurs = DinoSpawner(numDinosaurs, arena);
 		numDinosaursAlive = numDinosaurs;
@@ -142,7 +142,7 @@ void MarineMachine::loadLevel()
 	}
 
 	// Only spawn cowboys on level 2
-	if (levelNum == 2) {
+	if (lm.getCurrentLevel() == 2) {
 		numCowboys = 5; // Adjust number as needed
 		cowboys = CowboySpawner(numCowboys, arena);
 		numCowboysAlive = numCowboys;
@@ -155,7 +155,7 @@ void MarineMachine::loadLevel()
 	}
 
 	// Only spawn androids on level 3
-	if (levelNum == 3) {
+	if (lm.getCurrentLevel() == 3) {
 		numAndroids = 5; // Adjust number as needed
 		androids = AndroidSpawner(numAndroids, arena);
 		numAndroidsAlive = numAndroids;
@@ -212,10 +212,10 @@ void MarineMachine::loadLevel()
 
 
 	// Spawn Player
-	marine.spawn(Vector2f(lm.getStartPosition()));
+	marine.spawn(lm.getPlayerStartPosition());
 
 	// Spawn Warp
-	wp.spawn(Vector2f(500, 100));
+	wp.spawn(lm.getWarpStartPosition());
 
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;
