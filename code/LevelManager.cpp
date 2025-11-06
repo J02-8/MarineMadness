@@ -26,7 +26,7 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 	string levelToLoad;
 	switch (m_CurrentLevel)
 	{
-		// Set player position for each level
+		// Set player and warp position for each level
 	case 1:
 		levelToLoad = "levels/level0-tutorial.txt";
 		m_PlayerStartPosition.x = 100;
