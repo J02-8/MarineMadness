@@ -236,6 +236,8 @@ void MarineMachine::loadLevel()
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;
 
+	// Add observer
+	m_ScoreSystem.addObserver(this);
 	
 }
 
@@ -465,4 +467,10 @@ void MarineMachine::run()
 
 		draw();
 	}
+}
+
+void MarineMachine::onScoreChange(int newScore)
+{
+	m_PlayerScore = newScore;
+	m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore);
 }
