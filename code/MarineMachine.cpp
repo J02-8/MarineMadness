@@ -29,6 +29,10 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	// Initialize the full screen view
 	m_MainView.setSize(resolution);
 
+	// Setup HUD view
+	m_HudView.setSize(resolution);
+	m_HudView.setCenter(resolution.x / 2, resolution.y / 2);
+
 	//m_HudView.reset(
 		//FloatRect(0, 0, resolution.x, resolution.y));
 
@@ -444,6 +448,9 @@ void MarineMachine::run()
 		}
 
 		update(dtAsSeconds);
+
+		m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore);
+
 		draw();
 	}
 }

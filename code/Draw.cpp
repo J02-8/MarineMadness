@@ -93,6 +93,10 @@ void MarineMachine::draw()
 
 		// Draw the crosshair
 		m_Window.draw(spriteCrosshair);
+
+		// Draw HUD
+		m_Window.setView(m_HudView);
+		m_Hud.draw(m_Window);
 		
 
 		/**

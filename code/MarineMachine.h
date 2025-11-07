@@ -11,6 +11,7 @@
 #include "Pickup.h"
 #include "Enemy.h"
 #include "MainMenu.h"
+#include "HUD.h"
 
 using namespace sf;
 
@@ -135,6 +136,11 @@ private:
 	//bool detectCollisions(PlayableCharacter& character);
 
 	MainMenu mainMenu;
+
+	// Setup the HUD
+	View m_HudView;
+	HUD m_Hud;
+	int m_PlayerScore = 0;
 
 public:
 	// The MarineMachine constructor

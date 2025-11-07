@@ -25,6 +25,7 @@
     <ClCompile Include="code\Cowboy.cpp" />
     <ClCompile Include="code\CowboySpawner.cpp" />
     <ClCompile Include="code\Draw.cpp" />
+    <ClCompile Include="code\HUD.cpp" />
     <ClCompile Include="code\LevelManager.cpp" />
     <ClCompile Include="code\Main.cpp" />
     <ClCompile Include="code\MarineMachine.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="code\Cowboy.h" />
     <ClInclude Include="code\Dinosaur.h" />
     <ClInclude Include="code\Enemy.h" />
+    <ClInclude Include="code\HUD.h" />
     <ClInclude Include="code\MainMenu.h" />
     <ClInclude Include="code\Particle.h" />
     <ClInclude Include="code\ParticleFactory.h" />
