@@ -30,9 +30,8 @@ Android::Android()
 void Android::spawn(float startX, float startY, int seed)
 {
 
-
     // Single android type 
-    m_Sprite = Sprite(TextureHolder::GetTexture("graphics/robot.png"));
+    m_Sprite = Sprite(TextureHolder::GetTexture("graphics/android.png"));
     m_Speed = 45;
     m_Health = 6;
 

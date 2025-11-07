@@ -87,6 +87,9 @@
     <ClCompile Include="code\AndroidSpawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="code\HUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="code\Pathfinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,6 +147,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="code\Android.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ScoreObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ScoreSubject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\HUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="code\Pathfinding.h">

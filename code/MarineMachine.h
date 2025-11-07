@@ -11,6 +11,7 @@
 #include "Pickup.h"
 #include "Enemy.h"
 #include "MainMenu.h"
+#include "HUD.h"
 #include "Pathfinding.h"
 
 using namespace sf;
@@ -36,11 +37,8 @@ private:
 	int numAndroidsAlive;
 	Enemy** androids = NULL;
 
-	// Varible for arena bounds
+	// Variable for arena bounds
 	IntRect arena;
-
-	// Current level number
-	int levelNum;
 
 	// Bullets
 	Bullet bullets[100];
@@ -50,7 +48,7 @@ private:
 	int bulletsInClip = 6;
 	int clipSize = 6;
 
-	//dodge variables
+	// Dodge variables
 	bool isDodging = false;
 	Time dodgeDuration = milliseconds(300);
 	Time dodgeCooldown = seconds(2);
@@ -105,6 +103,9 @@ private:
 	Sprite spriteMainMenu;
 	Texture textureMainMenu;
 
+	Sprite m_TitleGraphic;
+	Texture m_TitleGraphicTexture;
+
 	Font font;
 	Text mainMenuText;
 	Text pauseMenuText;
@@ -140,6 +141,11 @@ private:
 	//bool detectCollisions(PlayableCharacter& character);
 
 	MainMenu mainMenu;
+
+	// Setup the HUD
+	View m_HudView;
+	HUD m_Hud;
+	int m_PlayerScore = 0;
 
 public:
 	// The MarineMachine constructor

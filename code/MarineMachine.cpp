@@ -32,6 +32,10 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	// Initialize the full screen view
 	m_MainView.setSize(resolution);
 
+	// Setup HUD view
+	m_HudView.setSize(resolution);
+	m_HudView.setCenter(resolution.x / 2, resolution.y / 2);
+
 	//m_HudView.reset(
 		//FloatRect(0, 0, resolution.x, resolution.y));
 
@@ -57,9 +61,14 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_TextureTiles = TextureHolder::GetTexture(
 		"graphics/tile-sheet0.png");
 
+	m_TitleGraphicTexture = TextureHolder::GetTexture(
+		"graphics/title-logo.png");
+
+	m_TitleGraphic.setTexture(m_TitleGraphicTexture);
+	m_TitleGraphic.setPosition(860, 100);
 
 	storySprite.setTexture(m_BackgroundTexture);
-	storySprite.setPosition(-500, 300);
+	storySprite.setPosition(-870, 300);
 
 	font.loadFromFile("fonts/ByteBounce.ttf");
 
@@ -128,8 +137,45 @@ void MarineMachine::loadLevel()
 		delete[] androids;  // Delete the array of pointers
 		dinosaurs = nullptr;
 	}
-	
-	
+
+	// Only spawn dinosaurs on level 1
+	if (lm.getCurrentLevel() == 1) {
+		numDinosaurs = 5; // Adjust number as needed
+		dinosaurs = DinoSpawner(numDinosaurs, arena);
+		numDinosaursAlive = numDinosaurs;
+	}
+	else {
+		// No dinosaurs on other levels
+		numDinosaurs = 0;
+		numDinosaursAlive = 0;
+		dinosaurs = nullptr;
+	}
+
+	// Only spawn cowboys on level 2
+	if (lm.getCurrentLevel() == 2) {
+		numCowboys = 5; // Adjust number as needed
+		cowboys = CowboySpawner(numCowboys, arena);
+		numCowboysAlive = numCowboys;
+	}
+	else {
+		// No cowboys on other levels
+		numCowboys = 0;
+		numCowboysAlive = 0;
+		cowboys = nullptr;
+	}
+
+	// Only spawn androids on level 3
+	if (lm.getCurrentLevel() == 3) {
+		numAndroids = 5; // Adjust number as needed
+		androids = AndroidSpawner(numAndroids, arena);
+		numAndroidsAlive = numAndroids;
+	}
+	else {
+		// No androids on other levels
+		numAndroids = 0;
+		numAndroidsAlive = 0;
+		androids = nullptr;
+	}
 	
 
 	m_Playing = false;
@@ -179,10 +225,10 @@ void MarineMachine::loadLevel()
 
 
 	// Spawn Player
-	marine.spawn(Vector2f(lm.getStartPosition()));
+	marine.spawn(lm.getPlayerStartPosition());
 
 	// Spawn Warp
-	wp.spawn(Vector2f(500, 100));
+	wp.spawn(lm.getWarpStartPosition());
 
 	// Only spawn dinosaurs on level 1
 	if (levelNum == 1) {
@@ -455,6 +501,9 @@ void MarineMachine::run()
 		}
 
 		update(dtAsSeconds);
+
+		m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore);
+
 		draw();
 	}
 }

@@ -6,6 +6,7 @@ void MarineMachine::draw()
 {
 	m_Window.clear();
 
+	// Game Menu
 	if (state == State::MAIN_MENU)
 	{
 		m_Window.setView(m_Window.getDefaultView()); // Reset View
@@ -92,6 +93,10 @@ void MarineMachine::draw()
 
 		// Draw the crosshair
 		m_Window.draw(spriteCrosshair);
+
+		// Draw HUD
+		m_Window.setView(m_HudView);
+		m_Hud.draw(m_Window);
 		
 
 		/**
