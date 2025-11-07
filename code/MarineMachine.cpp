@@ -230,49 +230,8 @@ void MarineMachine::loadLevel()
 	// Spawn Warp
 	wp.spawn(lm.getWarpStartPosition());
 
-	// Only spawn dinosaurs on level 1
-	if (levelNum == 1) {
-		numDinosaurs = 5; // Adjust number as needed
-		dinosaurs = DinoSpawner(numDinosaurs, arena);
-		numDinosaursAlive = numDinosaurs;
-	}
-	else {
-		// No dinosaurs on other levels
-		numDinosaurs = 0;
-		numDinosaursAlive = 0;
-		dinosaurs = nullptr;
-	}
 
-	// Only spawn cowboys on level 2
-	if (levelNum == 2) {
-		numCowboys = 5; // Adjust number as needed
-		cowboys = CowboySpawner(numCowboys, arena);
-		numCowboysAlive = numCowboys;
 
-		// NEW: Set pathfinding for each cowboy
-		for (int i = 0; i < numCowboys; i++) {
-			cowboys[i]->setPathfinding(m_Pathfinding);
-		}
-	}
-	else {
-		// No cowboys on other levels
-		numCowboys = 0;
-		numCowboysAlive = 0;
-		cowboys = nullptr;
-	}
-
-	// Only spawn androids on level 3
-	if (levelNum == 3) {
-		numAndroids = 5; // Adjust number as needed
-		androids = AndroidSpawner(numAndroids, arena);
-		numAndroidsAlive = numAndroids;
-	}
-	else {
-		// No androids on other levels
-		numAndroids = 0;
-		numAndroidsAlive = 0;
-		androids = nullptr;
-	}
 
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;
