@@ -231,7 +231,7 @@ void MarineMachine::loadLevel()
 	wp.spawn(lm.getWarpStartPosition());
 
 
-
+	
 
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;
