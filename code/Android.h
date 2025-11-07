@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <SFML/Audio.hpp>
+#include "Pathfinding.h"
 
 class Android : public Enemy
 {
@@ -15,6 +16,8 @@ public:
     bool isReadyToShoot() const override;
     void resetShootTimer() override;
     sf::Vector2f getCenter() const override;
+
+    
 
 private:
     void applySpeedVariation(int seed);

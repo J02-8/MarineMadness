@@ -1,6 +1,8 @@
 #include "MarineMachine.h"
 #include "Enemy.h"
 #include "SoundManager.h"
+#include "Pathfinding.h"
+
 
 using namespace sf;
 
@@ -12,7 +14,8 @@ SoundManager soundManager;
 
 MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
 {
-
+	
+	m_Pathfinding = new Pathfinding();
 	// Get the screen resolution and create an SFML window and View
 	Vector2f resolution;
 	
@@ -96,6 +99,9 @@ void MarineMachine::loadLevel()
 	arena.width = 500;
 	arena.height = 500;
 
+	
+	
+
 	//clear dinos
 	if (dinosaurs != nullptr) {
 		for (int i = 0; i < numDinosaurs; i++) {
@@ -122,45 +128,8 @@ void MarineMachine::loadLevel()
 		delete[] androids;  // Delete the array of pointers
 		dinosaurs = nullptr;
 	}
-
-	// Only spawn dinosaurs on level 1
-	if (levelNum == 1) {
-		numDinosaurs = 5; // Adjust number as needed
-		dinosaurs = DinoSpawner(numDinosaurs, arena);
-		numDinosaursAlive = numDinosaurs;
-	}
-	else {
-		// No dinosaurs on other levels
-		numDinosaurs = 0;
-		numDinosaursAlive = 0;
-		dinosaurs = nullptr;
-	}
-
-	// Only spawn cowboys on level 2
-	if (levelNum == 2) {
-		numCowboys = 5; // Adjust number as needed
-		cowboys = CowboySpawner(numCowboys, arena);
-		numCowboysAlive = numCowboys;
-	}
-	else {
-		// No cowboys on other levels
-		numCowboys = 0;
-		numCowboysAlive = 0;
-		cowboys = nullptr;
-	}
-
-	// Only spawn androids on level 3
-	if (levelNum == 3) {
-		numAndroids = 5; // Adjust number as needed
-		androids = AndroidSpawner(numAndroids, arena);
-		numAndroidsAlive = numAndroids;
-	}
-	else {
-		// No androids on other levels
-		numAndroids = 0;
-		numAndroidsAlive = 0;
-		androids = nullptr;
-	}
+	
+	
 	
 
 	m_Playing = false;
@@ -176,6 +145,9 @@ void MarineMachine::loadLevel()
 	// Load the next 2d array with the map for the level
 	// And repopulate the vertex array as well
 	m_ArrayLevel = lm.nextLevel(vaLevel);
+
+	// Initialize pathfinding with level data (add after m_ArrayLevel is loaded)
+	m_Pathfinding->setLevelData(m_ArrayLevel, lm.getLevelSize(), lm.getTileSize());
 
 
 	// Get level's pixel bounds from LevelManager. 
@@ -211,6 +183,50 @@ void MarineMachine::loadLevel()
 
 	// Spawn Warp
 	wp.spawn(Vector2f(500, 100));
+
+	// Only spawn dinosaurs on level 1
+	if (levelNum == 1) {
+		numDinosaurs = 5; // Adjust number as needed
+		dinosaurs = DinoSpawner(numDinosaurs, arena);
+		numDinosaursAlive = numDinosaurs;
+	}
+	else {
+		// No dinosaurs on other levels
+		numDinosaurs = 0;
+		numDinosaursAlive = 0;
+		dinosaurs = nullptr;
+	}
+
+	// Only spawn cowboys on level 2
+	if (levelNum == 2) {
+		numCowboys = 5; // Adjust number as needed
+		cowboys = CowboySpawner(numCowboys, arena);
+		numCowboysAlive = numCowboys;
+
+		// NEW: Set pathfinding for each cowboy
+		for (int i = 0; i < numCowboys; i++) {
+			cowboys[i]->setPathfinding(m_Pathfinding);
+		}
+	}
+	else {
+		// No cowboys on other levels
+		numCowboys = 0;
+		numCowboysAlive = 0;
+		cowboys = nullptr;
+	}
+
+	// Only spawn androids on level 3
+	if (levelNum == 3) {
+		numAndroids = 5; // Adjust number as needed
+		androids = AndroidSpawner(numAndroids, arena);
+		numAndroidsAlive = numAndroids;
+	}
+	else {
+		// No androids on other levels
+		numAndroids = 0;
+		numAndroidsAlive = 0;
+		androids = nullptr;
+	}
 
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;

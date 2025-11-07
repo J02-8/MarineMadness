@@ -138,3 +138,6 @@ void Android::resetShootTimer() {
 sf::Vector2f Android::getCenter() const {
     return m_Position;
 }
+
+
+

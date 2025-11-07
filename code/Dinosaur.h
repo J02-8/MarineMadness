@@ -16,6 +16,8 @@ public:
     void resetShootTimer(void) override;
     sf::Vector2<float> getCenter(void) const override;
 
+
+
 private:
     void applySpeedVariation(int seed);
     void applySizeVariation(int seed);

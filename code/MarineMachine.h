@@ -11,8 +11,11 @@
 #include "Pickup.h"
 #include "Enemy.h"
 #include "MainMenu.h"
+#include "Pathfinding.h"
 
 using namespace sf;
+
+class Pathfinding;
 
 class MarineMachine
 {
@@ -53,6 +56,8 @@ private:
 	Time dodgeCooldown = seconds(2);
 	Time lastDodgeTime;
 	float originalSpeed;
+
+	Pathfinding* m_Pathfinding;
 
 	// Mouse positions
 	Vector2f mouseWorldPosition;

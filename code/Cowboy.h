@@ -4,6 +4,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <SFML/Audio.hpp>
+#include "Pathfinding.h"
+
+using namespace std;
 
 class Cowboy : public Enemy
 {
@@ -16,9 +19,13 @@ public:
     void resetShootTimer() override;
     sf::Vector2f getCenter() const override;
 
+    
+
+
 private:
     void applySpeedVariation(int seed);
 
+    //shooting variables
     sf::Clock m_ShootTimer;
     float m_ShootCooldown;
     float m_TimeSinceLastShot;
@@ -26,5 +33,7 @@ private:
 
     // cowboy-specific properties
     float m_SizeModifier;
+
+    
 
 };
