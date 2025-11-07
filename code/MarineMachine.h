@@ -12,10 +12,12 @@
 #include "Enemy.h"
 #include "MainMenu.h"
 #include "HUD.h"
+#include "ScoreObserver.h"
+#include "ScoreSystem.h"
 
 using namespace sf;
 
-class MarineMachine
+class MarineMachine : public ScoreObserver
 {
 private:
 
@@ -142,6 +144,9 @@ private:
 	HUD m_Hud;
 	int m_PlayerScore = 0;
 
+	// Setup the scoreing system
+	ScoreSystem m_ScoreSystem;
+
 public:
 	// The MarineMachine constructor
 	MarineMachine();
@@ -157,4 +162,6 @@ public:
 
 	enum class State { MAIN_MENU, PAUSED, STORY_MENU, GAME_OVER, PLAYING };
 	State state = State::MAIN_MENU;
+
+	void onScoreChange(int newScore) override;
 };

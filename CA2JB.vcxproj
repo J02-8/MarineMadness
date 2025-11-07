@@ -63,6 +63,7 @@
     <ClInclude Include="code\ScoreManager.h" />
     <ClInclude Include="code\ScoreObserver.h" />
     <ClInclude Include="code\ScoreSubject.h" />
+    <ClInclude Include="code\ScoreSystem.h" />
     <ClInclude Include="code\SoundManager.h" />
     <ClInclude Include="code\TextureHolder.h" />
     <ClInclude Include="code\Warp.h" />

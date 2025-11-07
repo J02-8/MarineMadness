@@ -155,5 +155,8 @@
     <ClInclude Include="code\HUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="code\ScoreSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

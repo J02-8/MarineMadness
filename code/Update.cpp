@@ -229,6 +229,8 @@ void MarineMachine::update(float dtAsSeconds)
 
 							 std::cout << "Dinosaur killed! Remaining: " << numDinosaursAlive << std::endl;
 
+							 // Add points
+							 m_ScoreSystem.addPoints(10);
 							
 						}
 						// Play splat sound
@@ -332,6 +334,7 @@ void MarineMachine::update(float dtAsSeconds)
 						if (marine.getHealth() <= 0)
 						{
 							std::cout << "Player dead! Game Over." << std::endl;
+
 							state = State::GAME_OVER;
 						}
 						
