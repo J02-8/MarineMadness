@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include "SoundManager.h"
 #include "Pathfinding.h"
-
+#include "EnemySpawner.h"
 
 using namespace sf;
 
@@ -108,74 +108,26 @@ void MarineMachine::loadLevel()
 	arena.width = 500;
 	arena.height = 500;
 
-	
-	
+	int level = lm.getCurrentLevel();
+	int count = 5; // TEMP
 
-	//clear dinos
-	if (dinosaurs != nullptr) {
-		for (int i = 0; i < numDinosaurs; i++) {
-			delete dinosaurs[i];  // Delete each individual dinosaur
-		}
-		delete[] dinosaurs;  // Delete the array of pointers
-		dinosaurs = nullptr;
-	}
-
-	//clear cowboys 
-	if (cowboys != nullptr) {
-		for (int i = 0; i < numCowboys; i++) {
-			delete cowboys[i];  // Delete each individual dinosaur
-		}
-		delete[] cowboys;  // Delete the array of pointers
-		cowboys = nullptr;
+	switch (level)
+	{
+	case 1:
+		EnemySpawner<Dinosaur>(enemies, count, arena);
+		break;
+	case 2:
+		EnemySpawner<Cowboy>(enemies, count, arena);
+		break;
+	case 3:
+		EnemySpawner<Android>(enemies, count, arena);
+		break;
+	default:
+		enemies.clear();
+		break;
 	}
 
-	//clear androids
-	if (androids != nullptr) {
-		for (int i = 0; i < numAndroids; i++) {
-			delete androids[i];  // Delete each individual android
-		}
-		delete[] androids;  // Delete the array of pointers
-		dinosaurs = nullptr;
-	}
-
-	// Only spawn dinosaurs on level 1
-	if (lm.getCurrentLevel() == 1) {
-		numDinosaurs = 5; // Adjust number as needed
-		dinosaurs = DinoSpawner(numDinosaurs, arena);
-		numDinosaursAlive = numDinosaurs;
-	}
-	else {
-		// No dinosaurs on other levels
-		numDinosaurs = 0;
-		numDinosaursAlive = 0;
-		dinosaurs = nullptr;
-	}
-
-	// Only spawn cowboys on level 2
-	if (lm.getCurrentLevel() == 2) {
-		numCowboys = 5; // Adjust number as needed
-		cowboys = CowboySpawner(numCowboys, arena);
-		numCowboysAlive = numCowboys;
-	}
-	else {
-		// No cowboys on other levels
-		numCowboys = 0;
-		numCowboysAlive = 0;
-		cowboys = nullptr;
-	}
-
-	// Only spawn androids on level 3
-	if (lm.getCurrentLevel() == 3) {
-		numAndroids = 5; // Adjust number as needed
-		androids = AndroidSpawner(numAndroids, arena);
-		numAndroidsAlive = numAndroids;
-	}
-	else {
-		// No androids on other levels
-		numAndroids = 0;
-		numAndroidsAlive = 0;
-		androids = nullptr;
-	}
+	numEnemiesAlive = enemies.size();
 	
 
 	m_Playing = false;

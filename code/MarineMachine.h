@@ -15,6 +15,9 @@
 #include "ScoreObserver.h"
 #include "ScoreSystem.h"
 #include "Pathfinding.h"
+#include "Dinosaur.h"
+#include "Cowboy.h"
+#include "Android.h"
 
 using namespace sf;
 
@@ -24,20 +27,8 @@ class MarineMachine : public ScoreObserver
 {
 private:
 
-	// Create horde of dinosaurs
-	int numDinosaurs;
-	int numDinosaursAlive;
-	Enemy** dinosaurs = NULL;
-
-	// Create group of cowboys
-	int numCowboys;
-	int numCowboysAlive;
-	Enemy** cowboys = NULL;
-
-	// Create group of androids
-	int numAndroids;
-	int numAndroidsAlive;
-	Enemy** androids = NULL;
+	vector<unique_ptr<Enemy>> enemies;
+	int numEnemiesAlive = 0;
 
 	// Variable for arena bounds
 	IntRect arena;

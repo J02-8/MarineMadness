@@ -32,36 +32,12 @@ void MarineMachine::draw()
 		// Draw the Level
 		m_Window.draw(vaLevel, &m_TextureTiles);
 
-		//draw the dinosaurs
-		if (dinosaurs != nullptr) {
-			for (int i = 0; i < numDinosaurs; i++)
+		// Draw Enemies
+		for (auto& enemy : enemies)
+		{
+			if (enemy->isAlive())
 			{
-				if (dinosaurs[i]->isAlive())
-				{
-					m_Window.draw(dinosaurs[i]->getSprite());
-				}
-			}
-		}
-
-		//draw the cowboys
-		if (cowboys!= nullptr) {
-			for (int i = 0; i < numCowboys; i++)
-			{
-				if (cowboys[i]->isAlive())
-				{
-					m_Window.draw(cowboys[i]->getSprite());
-				}
-			}
-		}
-
-		//draw the androids
-		if (androids != nullptr) {
-			for (int i = 0; i < numAndroids; i++)
-			{
-				if (androids[i]->isAlive())
-				{
-					m_Window.draw(androids[i]->getSprite());
-				}
+				m_Window.draw(enemy->getSprite());
 			}
 		}
 

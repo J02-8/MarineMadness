@@ -52,6 +52,7 @@
     <ClInclude Include="code\Cowboy.h" />
     <ClInclude Include="code\Dinosaur.h" />
     <ClInclude Include="code\Enemy.h" />
+    <ClInclude Include="code\EnemySpawner.h" />
     <ClInclude Include="code\HUD.h" />
     <ClInclude Include="code\MainMenu.h" />
     <ClInclude Include="code\Particle.h" />
