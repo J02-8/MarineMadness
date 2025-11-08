@@ -36,14 +36,6 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_HudView.setSize(resolution);
 	m_HudView.setCenter(resolution.x / 2, resolution.y / 2);
 
-	//m_HudView.reset(
-		//FloatRect(0, 0, resolution.x, resolution.y));
-
-	//m_HudView.setViewport(sf::FloatRect(0.75f, 0.f, 0.5f, 2.2f));
-
-	//m_HudBackground.setSize(sf::Vector2f(resolution.x * 0.7f, resolution.y * 0.5f));
-	//m_HudBackground.setFillColor(sf::Color::Black);
-
 	// Zoom in on player
 	m_MainView.zoom(0.7);
 
@@ -132,19 +124,31 @@ void MarineMachine::loadLevel()
 
 	m_Playing = false;
 
+	// Delete the previously allocated memory
+	for (int i = 0; i < lm.getLevelSize().y; ++i)
+	{
+		delete[] m_ArrayLevel[i];
 
+	}
+	delete[] m_ArrayLevel;
 
+	// Load the next 2d array with the map for the level
+	// And repopulate the vertex array as well
+	m_ArrayLevel = lm.nextLevel(vaLevel);
+
+	// Initialize pathfinding with level data (add after m_ArrayLevel is loaded)
+	m_Pathfinding->setLevelData(m_ArrayLevel, lm.getLevelSize(), lm.getTileSize());
 
 	// Get level's pixel bounds from LevelManager. 
 	sf::FloatRect arenaBounds = lm.getArenaBounds();
 
 	// Get tile size
-	float tileSize = lm.getTileSize(); // You need a getter for TILE_SIZE
+	float tileSize = lm.getTileSize(); 
 
-	// Pass the arena data to the player
+	// Pass the arena data to player
 	marine.setArena(arenaBounds, tileSize);
 
-	// Pass arena date to the warp
+	// Pass arena date to warp
 	wp.setArena(arenaBounds, tileSize);
 
 	for (int i = 0; i < lm.getLevelSpawningPointsSize().y; ++i)
@@ -168,9 +172,6 @@ void MarineMachine::loadLevel()
 
 	// Spawn Warp
 	wp.spawn(lm.getWarpStartPosition());
-
-
-	
 
 	// Make sure this code isn't run again
 	m_NewLevelRequired = false;
