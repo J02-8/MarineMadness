@@ -16,6 +16,7 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 {
 	
 	m_Pathfinding = new Pathfinding();
+
 	// Get the screen resolution and create an SFML window and View
 	Vector2f resolution;
 	
@@ -25,9 +26,6 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	state = State::MAIN_MENU;
 
 	m_Window.create(VideoMode(resolution.x, resolution.y), "Marine Madness", Style::Fullscreen);
-	//	m_Window.setFramerateLimit(30);
-		//sf::Window::setFramerateLimit(unsigned int 	limit)
-
 
 	// Initialize the full screen view
 	m_MainView.setSize(resolution);
@@ -40,7 +38,7 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_MainView.zoom(0.7);
 
 	// Can this graphics card use shaders?
-	if (!sf::Shader::isAvailable())
+	if (!Shader::isAvailable())
 	{
 		// Time to get a new PC
 		m_Window.close();
@@ -140,7 +138,7 @@ void MarineMachine::loadLevel()
 	m_Pathfinding->setLevelData(m_ArrayLevel, lm.getLevelSize(), lm.getTileSize());
 
 	// Get level's pixel bounds from LevelManager. 
-	sf::FloatRect arenaBounds = lm.getArenaBounds();
+	FloatRect arenaBounds = lm.getArenaBounds();
 
 	// Get tile size
 	float tileSize = lm.getTileSize(); 
@@ -216,14 +214,14 @@ void MarineMachine::input()
 	while (m_Window.pollEvent(event))
 	{
 		
-		if (event.type == sf::Event::Closed)
+		if (event.type == Event::Closed)
 		{
 			m_Window.close(); // Allows the window's X button to work
 		}
 
 		if (state == State::MAIN_MENU)
 		{
-			if (event.type == sf::Event::KeyReleased)
+			if (event.type == Event::KeyReleased)
 			{
 				if (event.key.code == Keyboard::Up || event.key.code == Keyboard::W)
 				{
@@ -264,8 +262,6 @@ void MarineMachine::input()
 		// Allow player to move in this state
 		if (state == State::PLAYING)
 		{
-			bool joyMenuPressed = sf::Joystick::isButtonPressed(0, 7);
-
 			// Handle the pressing and releasing of the WASD keys
 			if (Keyboard::isKeyPressed(Keyboard::W))
 			{
@@ -371,7 +367,7 @@ void MarineMachine::input()
 
 
 			// Handle the player quitting
-			if (event.key.code == (Keyboard::Escape) || joyMenuPressed)
+			if (event.key.code == (Keyboard::Escape))
 			{
 				m_Window.close();
 			}

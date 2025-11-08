@@ -201,8 +201,8 @@ void MarineMachine::update(float dtAsSeconds)
 
 			if (marine.getHealth() <= 0)
 			{
-				cout << "Player dead! Game Over." << endl;
-				state = State::GAME_OVER;
+				// Respawn the player
+				lm.setCurrentLevel(lm.getCurrentLevel());
 			}
 		}
 	}
@@ -220,12 +220,11 @@ void MarineMachine::update(float dtAsSeconds)
 
 			if (marine.getHealth() <= 0)
 			{
-				cout << "Player dead! Game Over." << endl;
-				state = State::GAME_OVER;
+				// Respawn the player
+				lm.setCurrentLevel(lm.getCurrentLevel());
 			}
 		}
 	}
-
 
 
 	// Has the marine player touched time warp?

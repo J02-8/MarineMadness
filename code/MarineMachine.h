@@ -153,7 +153,10 @@ public:
 	// Run will call all the private functions
 	void run();
 
+	// Context
 	Text storyText;
+	
+	// Context background
 	Sprite storySprite;
 
 	enum class State { MAIN_MENU, PAUSED, STORY_MENU, GAME_OVER, PLAYING };
