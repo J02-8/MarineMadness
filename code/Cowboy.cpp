@@ -124,13 +124,16 @@ void Cowboy::update(float elapsedTime, sf::Vector2f playerLocation) {
 
             m_Position.x += dx * m_Speed * elapsedTime;
             m_Position.y += dy * m_Speed * elapsedTime;
-        }
 
         // Face the sprite in the correct direction
         float angle = (atan2(dy, dx) * 180) / 3.141f;
         m_Sprite.setRotation(angle);
     }
     
+        
+    }
+    
+    /*
     else {
 
         cout << "No path found! Using direct movement." << endl;
@@ -160,7 +163,7 @@ void Cowboy::update(float elapsedTime, sf::Vector2f playerLocation) {
         m_Sprite.setRotation(angle);
 
     }
-       
+       */
 
        
 

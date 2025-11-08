@@ -132,20 +132,7 @@ void MarineMachine::loadLevel()
 
 	m_Playing = false;
 
-	// Delete the previously allocated memory
-	for (int i = 0; i < lm.getLevelSize().y; ++i)
-	{
-		delete[] m_ArrayLevel[i];
 
-	}
-	delete[] m_ArrayLevel;
-
-	// Load the next 2d array with the map for the level
-	// And repopulate the vertex array as well
-	m_ArrayLevel = lm.nextLevel(vaLevel);
-
-	// Initialize pathfinding with level data (add after m_ArrayLevel is loaded)
-	m_Pathfinding->setLevelData(m_ArrayLevel, lm.getLevelSize(), lm.getTileSize());
 
 
 	// Get level's pixel bounds from LevelManager. 
