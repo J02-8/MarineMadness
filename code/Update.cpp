@@ -6,8 +6,6 @@
 
 using namespace std;
 
-int score = 0;
-
 float hitDelay = 0.0f;
 
 SoundManager soundManager2;
@@ -146,6 +144,6 @@ void MarineMachine::update(float dtAsSeconds)
 	}
 	
 	// Check for collision
-	detectCollisions();
+	detectCollision();
 	
 }

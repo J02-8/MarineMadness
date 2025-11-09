@@ -6,7 +6,6 @@
 using namespace std;
 
 extern SoundManager soundManager2;
-extern int score;
 extern Time gameTimeTotal;
 
 void MarineMachine::detectCollision()
