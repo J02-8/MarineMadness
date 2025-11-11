@@ -24,6 +24,7 @@
     <ClCompile Include="code\Bullet.cpp" />
     <ClCompile Include="code\Cowboy.cpp" />
     <ClCompile Include="code\CowboySpawner.cpp" />
+    <ClCompile Include="code\DetectCollision.cpp" />
     <ClCompile Include="code\Draw.cpp" />
     <ClCompile Include="code\HUD.cpp" />
     <ClCompile Include="code\LevelManager.cpp" />

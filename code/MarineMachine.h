@@ -143,6 +143,9 @@ private:
 	// Setup the scoreing system
 	ScoreSystem m_ScoreSystem;
 
+	// Collision
+	void detectCollision();
+
 public:
 	// The MarineMachine constructor
 	MarineMachine();
