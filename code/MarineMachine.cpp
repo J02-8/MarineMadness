@@ -68,12 +68,11 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	storyText.setPosition(-450, 700);
 	std::stringstream storyStream;
 	storyStream <<
-		"You are Sgt. Ronald McRevolver, investigating an abandoned wearhouse." <<
-		"\nYou were informed by the chief that you have retrieve a stolen machine." <<
+		"You, the player were informed that you must retrieve a stolen machine." <<
 		"\nThis machine allows any user to travel through time." <<
 		"\nSo be cautious when near the device" <<
 		"\n" <<
-		"\nWhen ready, press E to enter the building.";
+		"\nWhen ready, press E to enter the warehouse.";
 	storyText.setString(storyStream.str());
 
 
