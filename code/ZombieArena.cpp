@@ -29,6 +29,7 @@ Enemy** DinoSpawner(int numDinos, IntRect arena);
 //add group of cowboys
 Enemy** CowboySpawner(int numCowboys, IntRect arena);
 
+/*
 void man()
 {
 	// Here is the instabce of TextureHolder
@@ -311,7 +312,7 @@ void man()
 		************
 		Handle input
 		************
-		*/
+		
 
 		// Handle events
 		Event event;
@@ -765,7 +766,7 @@ void man()
 		 ****************
 		 UPDATE THE FRAME
 		 ****************
-		 */
+		 
 		if (state == State::PLAYING)
 		{
 			// Update the delta time
@@ -802,7 +803,7 @@ void man()
 				{
 					zombies[i].update(dt.asSeconds(), playerPosition);
 				}
-				*/
+				
 			}
 
 			//loop through and update dinos
@@ -916,7 +917,7 @@ void man()
 
 						}
 					}
-					*/
+					
 
 				}
 			}// End zombie being shot
@@ -979,7 +980,7 @@ void man()
 						scoreManager.logScore();
 					}
 				}
-				*/
+				
 			}// End player touched
 
 			// Have any dinosaurs touched the player			
@@ -1066,7 +1067,7 @@ void man()
 						}
 						soundManager.playSplat();
 					}
-					*/
+					
 				}
 
 				//dino melee
@@ -1153,7 +1154,7 @@ void man()
 		 **************
 		 Draw the scene
 		 **************
-		 */
+		 
 
 		window.clear();
 
@@ -1298,4 +1299,4 @@ void man()
 	//return 0;
 
 }
-
+*/

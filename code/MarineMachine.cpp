@@ -270,7 +270,7 @@ void MarineMachine::input()
 			}
 			else
 			{
-				marine.stopUp();
+				marine.stopUpMovement();
 			}
 
 			if (Keyboard::isKeyPressed(Keyboard::S))
@@ -280,7 +280,7 @@ void MarineMachine::input()
 			}
 			else
 			{
-				marine.stopDown();
+				marine.stopDownMovement();
 			}
 
 			if (Keyboard::isKeyPressed(Keyboard::A))
@@ -290,7 +290,7 @@ void MarineMachine::input()
 			}
 			else
 			{
-				marine.stopLeft();
+				marine.stopLeftMovement();
 			}
 
 			if (Keyboard::isKeyPressed(Keyboard::D))
@@ -300,7 +300,7 @@ void MarineMachine::input()
 			}
 			else
 			{
-				marine.stopRight();
+				marine.stopRightMovement();
 			}
 
 

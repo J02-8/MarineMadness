@@ -62,7 +62,6 @@ bool Player::hit(Time timeHit)
 	{
 		return false;
 	}
-
 }
 
 FloatRect Player::getPosition()
@@ -83,6 +82,26 @@ float Player::getRotation()
 Sprite Player::getSprite()
 {
 	return m_Sprite;
+}
+
+FloatRect Player::getBottom()
+{
+	return m_Bottom;
+}
+
+FloatRect Player::getTop()
+{
+	return m_Top;
+}
+
+FloatRect Player::getLeft()
+{
+	return m_Left;
+}
+
+FloatRect Player::getRight()
+{
+	return m_Right;
 }
 
 int Player::getHealth()
@@ -110,52 +129,121 @@ void Player::moveDown()
 	m_DownPressed = true;
 }
 
-void Player::stopLeft()
+void Player::stopLeftMovement()
 {
 	m_LeftPressed = false;
 }
 
-void Player::stopRight()
+void Player::stopRightMovement()
 {
 	m_RightPressed = false;
 }
 
-void Player::stopUp()
+void Player::stopUpMovement()
 {
 	m_UpPressed = false;
 }
 
-void Player::stopDown()
+void Player::stopDownMovement()
 {
 	m_DownPressed = false;
 }
 
+// Stop player on collision with wall tile
+void Player::stopLeft(float pos)
+{
+	m_AllowGoingLeft = false;
+	m_Position.x = pos + getPosition().width;
+	m_Sprite.setPosition(m_Position);
+}
+
+void Player::stopRight(float pos)
+{
+	m_AllowGoingRight = false;
+	m_Position.x = pos - getPosition().width;
+	m_Sprite.setPosition(m_Position);
+}
+
+void Player::stopUp(float pos)
+{
+	m_AllowGoingUp = false;
+	m_Position.y = pos + getPosition().height;
+	m_Sprite.setPosition(m_Position);
+}
+
+void Player::stopDown(float pos)
+{
+	m_AllowGoingDown = false;
+	m_Position.y = pos - getPosition().height;
+	m_Sprite.setPosition(m_Position);
+}
+
+// Update parts
+void Player::updateLeftRightTopBottom()
+{
+	FloatRect r = getPosition();
+
+	// Bottom
+	m_Bottom.left = r.left + 3;
+	m_Bottom.top = r.top + r.height - 1;
+	m_Bottom.width = r.width - 6;
+	m_Bottom.height = 1;
+
+	// Top
+	m_Top.left = r.left + 3;
+	m_Top.top = r.top - 1;
+	m_Top.width = r.width - 6;
+	m_Top.height = 1;
+
+	// Right
+	m_Right.left = r.left + r.width - 1;
+	m_Right.top = r.top + r.height * .35;
+	m_Right.width = 1;
+	m_Right.height = r.height * .3;
+
+	// Left
+	m_Left.left = r.left + 1;
+	m_Left.top = r.top + r.height * .35;
+	m_Left.width = 1;
+	m_Left.height = r.height * .3;
+
+}
+
+
 void Player::update(float elapsedTime, Vector2f mousePosition)
 {
+	// Allow movement
+	m_AllowGoingUp = true;
+	m_AllowGoingDown = true;
+	m_AllowGoingLeft = true;
+	m_AllowGoingRight = true;
 
-	if (m_UpPressed)
+	// Move player up
+	if (m_UpPressed && m_AllowGoingUp)
 	{
 		m_Position.y -= m_Speed * elapsedTime;
 	}
 
-	if (m_DownPressed)
+	// Move player down
+	if (m_DownPressed && m_AllowGoingDown)
 	{
 		m_Position.y += m_Speed * elapsedTime;
 	}
 
-	if (m_RightPressed)
+	// Move player right
+	if (m_RightPressed && m_AllowGoingRight)
 	{
 		m_Position.x += m_Speed * elapsedTime;
 	}
 
-	if (m_LeftPressed)
+	// Move player left
+	if (m_LeftPressed && m_AllowGoingLeft)
 	{
 		m_Position.x -= m_Speed * elapsedTime;
 	}
 
+	// Set sprite position
 	m_Sprite.setPosition(m_Position);
-
-
 
 	// Keep the player in the arena
 	if (m_Position.x > m_Arena.width - m_TileSize)
@@ -187,6 +275,9 @@ void Player::update(float elapsedTime, Vector2f mousePosition)
 
 	// Update the sprite position
 	m_Sprite.setPosition(m_Position);
+
+	// Update parts
+	updateLeftRightTopBottom();
 }
 
 void Player::upgradeSpeed()
@@ -213,8 +304,7 @@ void Player::increaseHealthLevel(int amount)
 	}
 }
 
-//get and set methods for dodge
-
+// Get and set methods for dodge
 float Player::getSpeed() {
 
 	return m_Speed;

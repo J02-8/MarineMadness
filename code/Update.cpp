@@ -15,10 +15,8 @@ Time gameTimeTotal;
 
 void MarineMachine::update(float dtAsSeconds)
 {
-
 	// Make a note of the players new position
 	Vector2f playerPosition(marine.getCenter());
-
 
 	// Update mouse positions
 	mouseScreenPosition = Mouse::getPosition();
@@ -27,57 +25,75 @@ void MarineMachine::update(float dtAsSeconds)
 	// Set crosshair position
 	spriteCrosshair.setPosition(mouseWorldPosition);
 
+	// Update the player
+	marine.update(dtAsSeconds, mouseWorldPosition);
+
 	// Make a rect for all his parts
 	FloatRect detectionZone = marine.getPosition();
 
 	// Make a FloatRect to test each block
 	FloatRect block;
 
+	// Allign block dimensions with dimensions of map tiles
 	block.width = TILE_SIZE;
 	block.height = TILE_SIZE;
 
-	// Build a zone around Enemy to detect collisions
-
-// 21 11 2022 introducded rounding to allow for small differences
+	// Build a zone around player to detect collisions
 	int startX = (int)(round(detectionZone.left) / TILE_SIZE) - 1;
 	int startY = (int)(round(detectionZone.top) / TILE_SIZE) - 1;
-	//02/12/21 changed 2 to 1 for Endx
 	int endX = (int)(round(detectionZone.left) / TILE_SIZE) + 2;
 	int endY = (int)round((detectionZone.top) / TILE_SIZE) + 2;
+	
+	// Make sure we don't test positions lower than zero
+	// Or higher than the end of the array
+	if (startX < 0)startX = 0;
+	if (startY < 0)startY = 0;
+	if (endX >= lm.getLevelSize().x)
+		endX = lm.getLevelSize().x;
+	if (endY >= lm.getLevelSize().y)
+		endY = lm.getLevelSize().y;
 
+	// Collision detection
 	for (int x = startX; x < endX; x++)
 	{
 		for (int y = startY; y < endY; y++)
 		{
-			/*
-			if (lm.hasHitWall(x,y))
-			{
-
-			}
-			// Initialize the starting position of the current block
-
 			block.left = x * TILE_SIZE;
 			block.top = y * TILE_SIZE;
 
-			// Is character colliding with a regular block i.e platform
-			if (marine.getPosition().intersects(block))
+			// Is player colliding with a wall?
+			if (m_ArrayLevel[y][x] == 0)
 			{
-				marine.stopRight();
+				// Check if player collides with wall on left or right sides
+				if (marine.getRight().intersects(block))
+				{
+					marine.stopRight(block.left);
+				}
+				else if (marine.getLeft().intersects(block))
+				{
+					marine.stopLeft(block.left);
+				}
+
+				// Check if player collides with wall on top or bottom sides
+				if (marine.getBottom().intersects(block))
+				{
+					marine.stopDown(block.top);
+				}
+				else if (marine.getTop().intersects(block))
+				{
+					marine.stopUp((block.top));
+				}
 			}
-			*/
 
 		}
 
 	}
-
-	//start of a new game we will need a new level
+	
+	// Start of a new game we will need a new level
 	if (m_NewLevelRequired)
 	{
 		loadLevel();
 	}
-
-	// Update the player
-	marine.update(dtAsSeconds, mouseWorldPosition);
 
 	m_MainView.setCenter(marine.getCenter());
 	m_Window.setView(m_MainView); // Apply the centered view immediately

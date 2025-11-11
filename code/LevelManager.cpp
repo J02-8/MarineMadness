@@ -46,7 +46,7 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 	case 3:
 		levelToLoad = "levels/level2-wild-west.txt";
 		m_PlayerStartPosition.x = 1100;
-		m_PlayerStartPosition.y = 100;
+		m_PlayerStartPosition.y = 120;
 		m_WarpStartPosition.x = 860;
 		m_WarpStartPosition.y = 980;
 		break;
@@ -189,16 +189,6 @@ void LevelManager::setCurrentLevel(int levelNum)
 {
 	m_CurrentLevel = levelNum;
 }
-
-/*
-bool LevelManager::hasHitWall(int x, int y)
-{
-	int tileID;
-
-	return (tileID == TILE_WALL);
-
-}
-*/
 
 Vector2f LevelManager::getPlayerStartPosition()
 {

@@ -25,17 +25,30 @@ private:
 	// What size is the current arena
 	FloatRect m_Arena;
 
+	// Where are the player's various sides?
+	FloatRect m_Bottom;
+	FloatRect m_Top;
+	FloatRect m_Right;
+	FloatRect m_Left;
+
 	// How big is each tile of the arena
 	int m_TileSize;
 
-	// Which directions is the player currently moving in
+	// Which directions is the player currently moving in?
 	bool m_UpPressed;
 	bool m_DownPressed;
 	bool m_LeftPressed;
 	bool m_RightPressed;
 
+	// Which directions is the player permitted to move in?
+	bool m_AllowGoingUp;
+	bool m_AllowGoingDown;
+	bool m_AllowGoingLeft;
+	bool m_AllowGoingRight;
+
 	// How much health has the player got?
 	int m_Health;
+
 	// What is the maximum health the player can have
 	int m_MaxHealth;
 
@@ -49,6 +62,7 @@ private:
 	// All our public functions will come next
 public:
 
+	// Construcor
 	Player();
 
 	// Call this at the end of every game
@@ -63,6 +77,12 @@ public:
 
 	// How long ago was the player last hit
 	Time getLastHitTime();
+
+	// A rectangle representing the position for different parts of the sprite
+	FloatRect getBottom();
+	FloatRect getTop();
+	FloatRect getRight();
+	FloatRect getLeft();
 
 	// Where is the player
 	FloatRect getPosition();
@@ -87,15 +107,27 @@ public:
 	void moveUp();
 
 	void moveDown();
+	
+	// Update player sides
+	void updateLeftRightTopBottom();
 
 	// Stop the player moving in a specific direction
-	void stopLeft();
+	void stopLeftMovement();
 
-	void stopRight();
+	void stopRightMovement();
 
-	void stopUp();
+	void stopUpMovement();
 
-	void stopDown();
+	void stopDownMovement();
+
+	// Stop the player moving when wall collision
+	void stopLeft(float pos);
+
+	void stopRight(float pos);
+
+	void stopUp(float pos);
+
+	void stopDown(float pos);
 
 	// We will call this function once every frame
 	void update(float elapsedTime, Vector2f mousePosition);
