@@ -22,4 +22,8 @@ Cowboy -
 
 Android/Robot[base] -  credit to Dyru via https://dyru.itch.io/top-down-shooter
 
+<--BACKGROUND-->
+
+Story sprite background - https://artlist.io/text-to-image-ai
+
 

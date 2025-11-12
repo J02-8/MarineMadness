@@ -35,7 +35,7 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_HudView.setCenter(resolution.x / 2, resolution.y / 2);
 
 	// Zoom in on player
-	m_MainView.zoom(0.7);
+	m_MainView.zoom(0.8);
 
 	// Can this graphics card use shaders?
 	if (!Shader::isAvailable())
@@ -45,7 +45,7 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	}
 
 	m_BackgroundTexture = TextureHolder::GetTexture(
-		"graphics/background.jpg");
+		"graphics/background22.jpg");
 
 	// Load the texture for the background vertex array
 	m_TextureTiles = TextureHolder::GetTexture(

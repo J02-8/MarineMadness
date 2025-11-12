@@ -102,5 +102,7 @@ void MarineMachine::detectCollision()
 		// Load the subsequent level
 		lm.setCurrentLevel(lm.getCurrentLevel());
 		cout << "CURRENT LEVEL: " << lm.getCurrentLevel();
+
+		//state = State::STORY_MENU;
 	}
 }
