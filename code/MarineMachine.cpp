@@ -27,8 +27,11 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 
 	m_Window.create(VideoMode(resolution.x, resolution.y), "Marine Madness", Style::Fullscreen);
 
-	// Initialize the full screen view
+	// Initialise the full screen view
 	m_MainView.setSize(resolution);
+
+	// Create story view
+	m_StoryView.setSize(resolution);
 
 	// Setup HUD view
 	m_HudView.setSize(resolution);
@@ -57,15 +60,15 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_TitleGraphic.setTexture(m_TitleGraphicTexture);
 	m_TitleGraphic.setPosition(860, 100);
 
-	storySprite.setTexture(m_BackgroundTexture);
-	storySprite.setPosition(-870, 300);
+	m_StorySprite.setTexture(m_BackgroundTexture);
+	m_StorySprite.setPosition(-470,-50);
 
 	font.loadFromFile("fonts/ByteBounce.ttf");
 
-	storyText.setFont(font);
-	storyText.setCharacterSize(45);
-	storyText.setFillColor(Color::White);
-	storyText.setPosition(-450, 700);
+	m_StoryText.setFont(font);
+	m_StoryText.setCharacterSize(55);
+	m_StoryText.setFillColor(Color::White);
+	m_StoryText.setPosition(-70, 350);
 	std::stringstream storyStream;
 	storyStream <<
 		"You, the player were informed that you must retrieve a stolen machine." <<
@@ -73,7 +76,7 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 		"\nSo be cautious when near the device" <<
 		"\n" <<
 		"\nWhen ready, press E to enter the warehouse.";
-	storyText.setString(storyStream.str());
+	m_StoryText.setString(storyStream.str());
 
 
 	// Initialize bullets
@@ -398,7 +401,7 @@ void MarineMachine::run()
 
 		update(dtAsSeconds);
 
-		m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore);
+		m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore, lm.getCurrentLevel(), marine.getHealth());
 
 		draw();
 	}
@@ -407,5 +410,5 @@ void MarineMachine::run()
 void MarineMachine::onScoreChange(int newScore)
 {
 	m_PlayerScore = newScore;
-	m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore);
+	m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore, lm.getCurrentLevel(), marine.getHealth());
 }

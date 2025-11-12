@@ -34,13 +34,16 @@ HUD::HUD()
     m_BulletsInClip = 0;
     m_BulletsSpare = 0;
     m_Score = 0;
+    m_Level = 0;
 }
 
-void HUD::update(int bulletsInClip, int bulletsSpare, int score)
+void HUD::update(int bulletsInClip, int bulletsSpare, int score, int level, int health)
 {
     m_BulletsInClip = bulletsInClip;
     m_BulletsSpare = bulletsSpare;
     m_Score = score;
+    m_Level = level;
+    m_Health = health;
 
     stringstream ammoStream;
     ammoStream << "Ammo: " << m_BulletsInClip << "/" << m_BulletsSpare;
@@ -51,11 +54,11 @@ void HUD::update(int bulletsInClip, int bulletsSpare, int score)
     m_ScoreText.setString(scoreStream.str());
 
     stringstream levelStream;
-    levelStream << "Level: " << lm.getCurrentLevel();
+    levelStream << "Level: " << m_Level;
     m_LevelText.setString(levelStream.str());
 
     stringstream healthStream;
-    healthStream << "HP: " << marine.getHealth();
+    healthStream << "HP: " << m_Health;
     m_HealthText.setString(healthStream.str());
 }
 

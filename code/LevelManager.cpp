@@ -45,20 +45,19 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 
 	case 3:
 		levelToLoad = "levels/level2-wild-west.txt";
-		m_PlayerStartPosition.x = 1100;
-		m_PlayerStartPosition.y = 120;
+		m_PlayerStartPosition.x = 1150;
+		m_PlayerStartPosition.y = 380;
 		m_WarpStartPosition.x = 860;
 		m_WarpStartPosition.y = 980;
 		break;
 
 	case 4:
 		levelToLoad = "levels/level3-fracture-future.txt";
-		m_PlayerStartPosition.x = 150;
-		m_PlayerStartPosition.y = 600;
-		m_WarpStartPosition.x = 650;
-		m_WarpStartPosition.y = 300;
+		m_PlayerStartPosition.x = 250;
+		m_PlayerStartPosition.y = 650;
+		m_WarpStartPosition.x = 935;
+		m_WarpStartPosition.y = 135;
 		break;
-
 	}
 
 	ifstream inputFile(levelToLoad);

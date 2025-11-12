@@ -56,6 +56,10 @@ bool Player::hit(Time timeHit)
 	{
 		m_LastHit = timeHit;
 		m_Health -= 10;
+		if (m_Health < 0)
+		{
+			m_Health = 0;
+		}
 		return true;
 	}
 	else
@@ -191,7 +195,7 @@ void Player::updateLeftRightTopBottom()
 
 	// Top
 	m_Top.left = r.left + 3;
-	m_Top.top = r.top - 1;
+	m_Top.top = r.top;
 	m_Top.width = r.width - 6;
 	m_Top.height = 1;
 
@@ -202,13 +206,11 @@ void Player::updateLeftRightTopBottom()
 	m_Right.height = r.height * .3;
 
 	// Left
-	m_Left.left = r.left + 1;
+	m_Left.left = r.left;
 	m_Left.top = r.top + r.height * .35;
 	m_Left.width = 1;
 	m_Left.height = r.height * .3;
-
 }
-
 
 void Player::update(float elapsedTime, Vector2f mousePosition)
 {

@@ -17,8 +17,9 @@ void MarineMachine::draw()
 	// Show some story
 	if (state == State::STORY_MENU)
 	{
-		m_Window.draw(storySprite);
-		m_Window.draw(storyText);
+		m_Window.setView(m_StoryView);
+		m_Window.draw(m_StorySprite);
+		m_Window.draw(m_StoryText);
 	}
 	
 	// Draw player and stuff
@@ -58,8 +59,6 @@ void MarineMachine::draw()
 				m_Window.draw(bullets[i].getShape());
 			}
 		}
-
-		
 
 		// Draw the player
 		m_Window.draw(marine.getSprite());

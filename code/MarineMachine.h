@@ -135,6 +135,11 @@ private:
 
 	MainMenu mainMenu;
 
+	// Create story menu
+	View m_StoryView;
+	Text m_StoryText;
+	Sprite m_StorySprite;
+
 	// Setup the HUD
 	View m_HudView;
 	HUD m_Hud;
@@ -155,12 +160,6 @@ public:
 
 	// Run will call all the private functions
 	void run();
-
-	// Context
-	Text storyText;
-	
-	// Context background
-	Sprite storySprite;
 
 	enum class State { MAIN_MENU, PAUSED, STORY_MENU, GAME_OVER, PLAYING };
 	State state = State::MAIN_MENU;

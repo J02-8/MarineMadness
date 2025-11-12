@@ -158,7 +158,7 @@ void MarineMachine::update(float dtAsSeconds)
 		isDodging = false;
 		marine.setSpeed(originalSpeed);
 	}
-	
+
 	// Check for collision
 	detectCollision();
 	

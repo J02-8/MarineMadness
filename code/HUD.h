@@ -20,6 +20,8 @@ private:
     int m_BulletsInClip;
     int m_BulletsSpare;
     int m_Score;
+    int m_Level;
+    int m_Health;
 
     // Create objects for marine health and current level
     Player marine;
@@ -28,7 +30,7 @@ private:
 public:
     HUD();
 
-    void update(int bulletsInClip, int bulletsSpare, int score);
+    void update(int bulletsInClip, int bulletsSpare, int score, int level, int health);
 
     void draw(RenderWindow& window);
 };

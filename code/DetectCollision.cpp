@@ -66,7 +66,7 @@ void MarineMachine::detectCollision()
 			if (marine.getHealth() <= 0)
 			{
 				// Respawn the player
-				lm.setCurrentLevel(lm.getCurrentLevel());
+				marine.spawn(lm.getPlayerStartPosition());
 			}
 		}
 	}
@@ -85,7 +85,7 @@ void MarineMachine::detectCollision()
 			if (marine.getHealth() <= 0)
 			{
 				// Respawn the player
-				lm.setCurrentLevel(lm.getCurrentLevel());
+				marine.spawn(lm.getPlayerStartPosition());
 			}
 		}
 	}
@@ -103,6 +103,6 @@ void MarineMachine::detectCollision()
 		lm.setCurrentLevel(lm.getCurrentLevel());
 		cout << "CURRENT LEVEL: " << lm.getCurrentLevel();
 
-		//state = State::STORY_MENU;
+		state = State::STORY_MENU;
 	}
 }
