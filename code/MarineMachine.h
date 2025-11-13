@@ -21,12 +21,9 @@
 
 using namespace sf;
 
-
-
 class MarineMachine : public ScoreObserver
 {
 private:
-
 	vector<unique_ptr<Enemy>> enemies;
 	int numEnemiesAlive = 0;
 
@@ -96,9 +93,6 @@ private:
 	Sprite spriteMainMenu;
 	Texture textureMainMenu;
 
-	Sprite m_TitleGraphic;
-	Texture m_TitleGraphicTexture;
-
 	Font font;
 	Text mainMenuText;
 	Text pauseMenuText;
@@ -131,9 +125,9 @@ private:
 	// Load a new level
 	void loadLevel();
 
-	//bool detectCollisions(PlayableCharacter& character);
-
 	MainMenu mainMenu;
+
+	Text m_TitleText;
 
 	// Create story menu
 	View m_StoryView;
@@ -145,8 +139,11 @@ private:
 	HUD m_Hud;
 	int m_PlayerScore = 0;
 
-	// Setup the scoreing system
+	// Setup the scoring system
 	ScoreSystem m_ScoreSystem;
+
+	// Determines win condition of game
+	bool m_HasReturned = false;
 
 	// Collision
 	void detectCollision();
@@ -157,6 +154,8 @@ public:
 
 	// Change tilesheet
 	void setTileSheets(int level);
+
+	void setLevelText(int level);
 
 	// Run will call all the private functions
 	void run();

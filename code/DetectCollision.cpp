@@ -103,6 +103,11 @@ void MarineMachine::detectCollision()
 		lm.setCurrentLevel(lm.getCurrentLevel());
 		cout << "CURRENT LEVEL: " << lm.getCurrentLevel();
 
+		if (lm.getCurrentLevel() > 3)
+		{
+			m_HasReturned = true;
+		}
+
 		state = State::STORY_MENU;
 	}
 }

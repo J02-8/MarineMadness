@@ -12,12 +12,14 @@ void MarineMachine::draw()
 		m_Window.setView(m_Window.getDefaultView()); // Reset View
 		mainMenu.drawParticles(m_Window); // Draw the particle background first
 		mainMenu.draw(m_Window);
+		m_Window.draw(m_TitleText);
 	}
 
 	// Show some story
 	if (state == State::STORY_MENU)
 	{
 		m_Window.setView(m_StoryView);
+		setLevelText(lm.getCurrentLevel()-1);
 		m_Window.draw(m_StorySprite);
 		m_Window.draw(m_StoryText);
 	}

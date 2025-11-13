@@ -54,7 +54,7 @@ void HUD::update(int bulletsInClip, int bulletsSpare, int score, int level, int 
     m_ScoreText.setString(scoreStream.str());
 
     stringstream levelStream;
-    levelStream << "Level: " << m_Level;
+    levelStream << "Level: " << m_Level - 1;
     m_LevelText.setString(levelStream.str());
 
     stringstream healthStream;

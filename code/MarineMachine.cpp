@@ -54,30 +54,21 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_TextureTiles = TextureHolder::GetTexture(
 		"graphics/tile-sheet0.png");
 
-	m_TitleGraphicTexture = TextureHolder::GetTexture(
-		"graphics/title-logo.png");
-
-	m_TitleGraphic.setTexture(m_TitleGraphicTexture);
-	m_TitleGraphic.setPosition(860, 100);
-
 	m_StorySprite.setTexture(m_BackgroundTexture);
 	m_StorySprite.setPosition(-470,-50);
 
 	font.loadFromFile("fonts/ByteBounce.ttf");
 
+	m_TitleText.setFont(font);
+	m_TitleText.setCharacterSize(85);
+	m_TitleText.setFillColor(Color::Magenta);
+	m_TitleText.setPosition(410, 50);
+	m_TitleText.setString("<+= M-A-R-I-N-E M-A-D-N-E-S-S =+>");
+
 	m_StoryText.setFont(font);
 	m_StoryText.setCharacterSize(55);
 	m_StoryText.setFillColor(Color::White);
 	m_StoryText.setPosition(-70, 350);
-	std::stringstream storyStream;
-	storyStream <<
-		"You, the player were informed that you must retrieve a stolen machine." <<
-		"\nThis machine allows any user to travel through time." <<
-		"\nSo be cautious when near the device" <<
-		"\n" <<
-		"\nWhen ready, press E to enter the warehouse.";
-	m_StoryText.setString(storyStream.str());
-
 
 	// Initialize bullets
 	currentBullet = 0;
@@ -209,6 +200,71 @@ void MarineMachine::setTileSheets(int level)
 	}
 }
 
+void MarineMachine::setLevelText(int level)
+{
+	// Story stream
+	std::stringstream storyStream;
+
+	// Change text for each part of game
+	switch (level)
+	{
+	case 0:
+		storyStream <<
+			"You, the player were informed that you must retrieve a stolen machine." <<
+			"\nThis machine allows any user to travel through time." <<
+			"\nSo be cautious when near the device" <<
+			"\n" <<
+			"\nWhen ready, press E to enter the warehouse.";
+		m_StoryText.setString(storyStream.str());
+		break;
+
+	case 1:
+		// Archaic Anarchy text
+		storyStream <<
+			"HOLY SHIIIT IT'S A DINOSAUR WTF??!" <<
+			"\nThis machine allows any user to travel through time." <<
+			"\nSo be cautious when near the device" <<
+			"\n" <<
+			"\nWhen ready, press E to start level 1.";
+		m_StoryText.setString(storyStream.str());
+		break;
+
+	case 2:
+		// Wild West text
+		storyStream <<
+			"It's high noon partner." <<
+			"\nThis machine allows any user to travel through time." <<
+			"\nSo be cautious when near the device" <<
+			"\n" <<
+			"\nWhen ready, press E to start level 2.";
+		m_StoryText.setString(storyStream.str());
+		break;
+
+	case 3:
+		// Fracture Future text
+		storyStream <<
+			"I am the TERMINATOR." <<
+			"\nThis machine allows any user to travel through time." <<
+			"\nSo be cautious when near the device" <<
+			"\n" <<
+			"\nWhen ready, press E to start level 3.";
+		m_StoryText.setString(storyStream.str());
+		break;
+
+	case 4:
+		// Endscreen text
+		storyStream <<
+			"And so, you pick up the device and finally disarm it." <<
+			"\nKnowing the device's potential, you carefully locked it away." <<
+			"\nSo that it could never send another victim in a time loop." <<
+			"\n" <<
+			"\nTHE-END!." <<
+			"\nPress Q to finish game and return to main menu";
+		m_StoryText.setString(storyStream.str());
+		break;
+	}
+}
+
 void MarineMachine::input()
 {
 	Event event;
@@ -254,10 +310,22 @@ void MarineMachine::input()
 		// Show some context/lore in this state
 		if (state == State::STORY_MENU)
 		{
-			if (event.key.code == Keyboard::E)
+			if (!m_HasReturned)
 			{
-				state = State::PLAYING;
+				if (event.key.code == Keyboard::E)
+				{
+					// Run the game
+					state = State::PLAYING;
+				}
 			}
+			else
+			{
+				if (event.key.code == Keyboard::Q)
+				{
+					// Finish the game
+					state = State::MAIN_MENU;
+				}
+			} 
 
 		}
 

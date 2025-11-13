@@ -12,7 +12,7 @@ private:
 	Vector2f m_PlayerStartPosition;
 	Vector2f m_WarpStartPosition;
 	int m_CurrentLevel = 0;
-	const int NUM_LEVELS = 4;
+	const int NUM_LEVELS = 5;
 
 public:
 

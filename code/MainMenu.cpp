@@ -16,7 +16,7 @@ MainMenu::MainMenu(float width, float height)
         mainMenu[i].setFillColor(Color::White);
         mainMenu[i].setString(menuItems[i]);
         mainMenu[i].setCharacterSize(70);
-        mainMenu[i].setPosition(400, 200 + i * 100);
+        mainMenu[i].setPosition(400, 280 + i * 100);
     }
 
     // Start with the first item selected
@@ -25,7 +25,6 @@ MainMenu::MainMenu(float width, float height)
 
     for (int i = 0; i < 1000; ++i)
     {
-
         Vector2f position(rand() % (int)width, rand() % (int)height);
         Vector2f velocity((rand() % 2001) / 100.f - 10.f, (rand() % 2001) / 100.f - 10.f);
         auto flyweight = ParticleFactory::getParticleFlyweight(2.f); // small white particles
