@@ -12,7 +12,9 @@ Enemy** AndroidSpawner(int numCowboys, IntRect arena);
 
 SoundManager soundManager;
 
-MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
+MarineMachine::MarineMachine()
+	: mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height),
+	pauseMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
 {
 	
 	m_Pathfinding = new Pathfinding();
@@ -36,6 +38,9 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	// Setup HUD view
 	m_HudView.setSize(resolution);
 	m_HudView.setCenter(resolution.x / 2, resolution.y / 2);
+
+	m_PauseView.setSize(resolution);
+	m_PauseView.setCenter(resolution.x / 2, resolution.y / 2);
 
 	// Zoom in on player
 	m_MainView.zoom(0.8);
@@ -70,12 +75,6 @@ MarineMachine::MarineMachine() : mainMenu(VideoMode::getDesktopMode().width, Vid
 	m_StoryText.setFillColor(Color::White);
 	m_StoryText.setPosition(-70, 350);
 
-	// Initialize bullets
-	currentBullet = 0;
-	bulletsSpare = 24;
-	bulletsInClip = 6;
-	clipSize = 6;
-
 	// Hide mouse cursor and setup crosshair
 	m_Window.setMouseCursorVisible(false);
 	textureCrosshair = TextureHolder::GetTexture("graphics/crosshair.png");
@@ -92,6 +91,7 @@ void MarineMachine::loadLevel()
 	arena.height = 500;
 
 	int level = lm.getCurrentLevel();
+	setTileSheets(level);
 	int count = 5; // TEMP
 
 	switch (level)
@@ -293,13 +293,26 @@ void MarineMachine::input()
 
 				if (event.key.code == Keyboard::Enter)
 				{
-					switch (mainMenu.mainMenuPressed())
+					switch (mainMenu.getSelectedIndex())
 					{
-					case 0: // // Start the game
+					case 0: // Start the game
+						resetGame();
 						state = State::STORY_MENU;
 						break;
+
+					case 1: // Load
+						break;
+
+					case 2: // Scoreboard
+						break;
+
+					case 3: // Options
+						break;
+
 					case 4: // Exit the game
 						m_Window.close();
+						break;
+
 					default:
 						break;
 					}
@@ -332,6 +345,12 @@ void MarineMachine::input()
 		// Allow player to move in this state
 		if (state == State::PLAYING)
 		{
+			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)
+			{
+				state = State::PAUSED;
+				return;
+			}
+
 			// Handle the pressing and releasing of the WASD keys
 			if (Keyboard::isKeyPressed(Keyboard::W))
 			{
@@ -443,6 +462,44 @@ void MarineMachine::input()
 			}
 
 		}
+
+		if (state == State::PAUSED)
+		{
+			if (event.type == Event::KeyReleased)
+			{
+				if (event.key.code == Keyboard::Up)
+				{
+					pauseMenu.moveUp();
+				}
+				if (event.key.code == Keyboard::Down)
+				{
+					pauseMenu.moveDown();
+				}
+
+				if (event.key.code == Keyboard::Enter)
+				{
+					switch (pauseMenu.getSelectedIndex())
+					{
+					case 0: // Resume
+						state = State::PLAYING;
+						break;
+
+					case 1: // Save
+						break;
+
+					case 2: // Options
+						break;
+
+					case 3: // Exit to Main Menu
+						state = State::MAIN_MENU;
+						break;
+
+					default:
+						break;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -461,12 +518,6 @@ void MarineMachine::run()
 		
 		input();
 
-		// Update particle positions for the main menu
-		if (state == State::MAIN_MENU)
-		{
-			mainMenu.updateParticles(dtAsSeconds);
-		}
-
 		update(dtAsSeconds);
 
 		m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore, lm.getCurrentLevel(), marine.getHealth());
@@ -479,4 +530,30 @@ void MarineMachine::onScoreChange(int newScore)
 {
 	m_PlayerScore = newScore;
 	m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore, lm.getCurrentLevel(), marine.getHealth());
+}
+
+void MarineMachine::resetGame()
+{
+	// Reset the current level to 1
+	lm.setCurrentLevel(0);
+
+	// Mark that we need a new level
+	m_NewLevelRequired = true;
+
+	// Reset the score
+	m_PlayerScore = 0;
+
+	// Reset player health
+	marine.resetHealth();
+
+	// Clear enemies
+	enemies.clear();
+
+	// Reset ammo
+	bulletsSpare = 24;
+	bulletsInClip = 6;
+	currentBullet = 0;
+
+	// Load the first level
+	loadLevel();
 }

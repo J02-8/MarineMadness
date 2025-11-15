@@ -4,13 +4,16 @@ using namespace sf;
 
 void MarineMachine::draw()
 {
-	m_Window.clear();
+	// Only clear when not paused
+	if (state != State::PAUSED)
+	{
+		m_Window.clear();
+	}
 
 	// Game Menu
 	if (state == State::MAIN_MENU)
 	{
 		m_Window.setView(m_Window.getDefaultView()); // Reset View
-		mainMenu.drawParticles(m_Window); // Draw the particle background first
 		mainMenu.draw(m_Window);
 		m_Window.draw(m_TitleText);
 	}
@@ -25,9 +28,8 @@ void MarineMachine::draw()
 	}
 	
 	// Draw player and stuff
-	if (state == State::PLAYING)
+	if (state == State::PLAYING || state == State::PAUSED)
 	{
-		m_Window.clear();
 
 		// Set the mainView to be displayed in the window
 		m_Window.setView(m_MainView);
@@ -75,6 +77,7 @@ void MarineMachine::draw()
 		m_Window.setView(m_HudView);
 		m_Hud.draw(m_Window);
 		
+		
 
 		/**
 		// Draw the pickups is currently spawned
@@ -118,6 +121,12 @@ void MarineMachine::draw()
 		window.draw(waveNumberText);
 		window.draw(zombiesRemainingText);
 		*/
+	}
+
+	if (state == State::PAUSED)
+	{
+		m_Window.setView(m_PauseView);
+		pauseMenu.draw(m_Window);
 	}
 
 	/*

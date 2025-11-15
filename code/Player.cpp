@@ -317,6 +317,11 @@ void Player::setSpeed(float speedIn) {
 	m_Speed = speedIn;
 }
 
+void Player::resetHealth()
+{
+	m_Health = START_HEALTH;
+}
+
 
 
 
