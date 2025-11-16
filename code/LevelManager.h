@@ -34,6 +34,4 @@ public:
 
 	int getCurrentLevel();
 	void setCurrentLevel(int levelNum);
-
-	//bool hasHitWall(int x, int y);
 };

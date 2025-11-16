@@ -26,6 +26,11 @@ using namespace sf;
 class MarineMachine : public ScoreObserver
 {
 private:
+
+	// Position and speed of scrolling story text
+	Vector2f m_TextPosition;
+	float m_ScrollSpeed = 50.f;
+
 	vector<unique_ptr<Enemy>> enemies;
 	int numEnemiesAlive = 0;
 
@@ -168,12 +173,22 @@ public:
 	// Change tilesheet
 	void setTileSheets(int level);
 
+	// Alter text for relevant level
 	void setLevelText(int level);
 
 	// Run will call all the private functions
 	void run();
 
-	enum class State { MAIN_MENU, PAUSED, STORY_MENU, GAME_OVER, PLAYING };
+	void setStoryTextPosition();
+
+	void scrollStoryText(float dt);
+
+	Vector2f getStoryTextPosition();
+
+	bool testBool;
+
+	// Game states
+	enum class State { MAIN_MENU, PAUSED, STORY_MENU, PLAYING };
 	State state = State::MAIN_MENU;
 
 	void onScoreChange(int newScore) override;

@@ -6,8 +6,6 @@
 
 using namespace std;
 
-float hitDelay = 0.0f;
-
 SoundManager soundManager2;
 Time gameTimeTotal;
 
@@ -17,6 +15,23 @@ void MarineMachine::update(float dtAsSeconds)
 	if (state == State::MAIN_MENU)
 	{
 		mainMenu.updateParticles(dtAsSeconds);
+	}
+	
+	// Update text before loading level
+	if (state == State::STORY_MENU && testBool)
+	{
+		// Reset position of text
+		setStoryTextPosition();
+		
+		// Change story text
+		setLevelText(lm.getCurrentLevel());
+		testBool = false;
+	}
+
+	if (state == State::STORY_MENU)
+	{
+		// Make text scroll
+		scrollStoryText(dtAsSeconds);
 	}
 
 	if (state == State::PLAYING)
@@ -161,7 +176,7 @@ void MarineMachine::update(float dtAsSeconds)
 			}
 		}
 
-		//update the dodge variables and reset the player
+		// Update the dodge variables and reset the player
 		if (isDodging && (gameTimeTotal - lastDodgeTime >= dodgeDuration)) {
 			isDodging = false;
 			marine.setSpeed(originalSpeed);

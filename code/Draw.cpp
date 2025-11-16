@@ -22,7 +22,6 @@ void MarineMachine::draw()
 	if (state == State::STORY_MENU)
 	{
 		m_Window.setView(m_StoryView);
-		setLevelText(lm.getCurrentLevel()-1);
 		m_Window.draw(m_StorySprite);
 		m_Window.draw(m_StoryText);
 	}
@@ -30,7 +29,6 @@ void MarineMachine::draw()
 	// Draw player and stuff
 	if (state == State::PLAYING || state == State::PAUSED)
 	{
-
 		// Set the mainView to be displayed in the window
 		m_Window.setView(m_MainView);
 
@@ -90,30 +88,6 @@ void MarineMachine::draw()
 		pauseMenu.draw(m_Window);
 	}
 
-	/*
-	if (state == State::LEVELING_UP)
-	{
-		window.draw(spriteGameOver);
-		window.draw(levelUpText);
-	}
-
-	if (state == State::PAUSED)
-	{
-		window.draw(pausedText);
-	}
-
-	if (state == State::GAME_OVER)
-	{
-		window.draw(spriteGameOver);
-		window.draw(gameOverText);
-		window.draw(scoreText);
-		window.draw(hiScoreText);
-	}
-	*/
-
-
-
 	m_Window.display();
-
 }
 

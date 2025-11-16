@@ -2,7 +2,6 @@
 #include "Enemy.h"
 #include "SoundManager.h"
 #include "Pathfinding.h"
-#include "EnemySpawner.h"
 
 using namespace sf;
 
@@ -24,8 +23,6 @@ MarineMachine::MarineMachine()
 	
 	resolution.x = VideoMode::getDesktopMode().width;
 	resolution.y = VideoMode::getDesktopMode().height;
-
-	state = State::MAIN_MENU;
 
 	m_Window.create(VideoMode(resolution.x, resolution.y), "Marine Madness", Style::Fullscreen);
 
@@ -70,10 +67,11 @@ MarineMachine::MarineMachine()
 	m_TitleText.setPosition(410, 50);
 	m_TitleText.setString("<+= M-A-R-I-N-E M-A-D-N-E-S-S =+>");
 
+	setStoryTextPosition();
 	m_StoryText.setFont(font);
 	m_StoryText.setCharacterSize(55);
-	m_StoryText.setFillColor(Color::White);
-	m_StoryText.setPosition(-70, 350);
+	m_StoryText.setFillColor(Color::Yellow);
+	m_StoryText.setPosition(getStoryTextPosition());
 
 	// Hide mouse cursor and setup crosshair
 	m_Window.setMouseCursorVisible(false);
@@ -83,93 +81,6 @@ MarineMachine::MarineMachine()
 
 	// Initialize time
 	gameTimeTotal = Time::Zero;
-}
-
-void MarineMachine::loadLevel()
-{
-	arena.width = 500;
-	arena.height = 500;
-
-	int level = lm.getCurrentLevel();
-	setTileSheets(level);
-	int count = 5; // TEMP
-
-	switch (level)
-	{
-	case 1:
-		EnemySpawner<Dinosaur>(enemies, count, arena);
-		break;
-	case 2:
-		EnemySpawner<Cowboy>(enemies, count, arena);
-		break;
-	case 3:
-		EnemySpawner<Android>(enemies, count, arena);
-		break;
-	default:
-		enemies.clear();
-		break;
-	}
-
-	numEnemiesAlive = enemies.size();
-	
-
-	m_Playing = false;
-
-	// Delete the previously allocated memory
-	for (int i = 0; i < lm.getLevelSize().y; ++i)
-	{
-		delete[] m_ArrayLevel[i];
-
-	}
-	delete[] m_ArrayLevel;
-
-	// Load the next 2d array with the map for the level
-	// And repopulate the vertex array as well
-	m_ArrayLevel = lm.nextLevel(vaLevel);
-
-	// Initialize pathfinding with level data (add after m_ArrayLevel is loaded)
-	m_Pathfinding->setLevelData(m_ArrayLevel, lm.getLevelSize(), lm.getTileSize());
-
-	// Get level's pixel bounds from LevelManager. 
-	FloatRect arenaBounds = lm.getArenaBounds();
-
-	// Get tile size
-	float tileSize = lm.getTileSize(); 
-
-	// Pass the arena data to player
-	marine.setArena(arenaBounds, tileSize);
-
-	// Pass arena date to warp
-	wp.setArena(arenaBounds, tileSize);
-
-	for (int i = 0; i < lm.getLevelSpawningPointsSize().y; ++i)
-	{
-		delete[] m_ArraySpawningPointsLevel[i];
-
-	}
-	delete[] m_ArraySpawningPointsLevel;
-
-	// load spawning points data
-	//analyse 2d array for location of dots
-	//add dots to a list
-	// each dot is an allocated object with a vector2f position
-	// e.g. if a dot is in cell 6,8 then its x loc is 6*50+ 11 = 311
-	// its y value is 8*50+11=411
-	m_ArraySpawningPointsLevel = lm.nextLevelSpawningPoints();
-
-
-	// Spawn Player
-	marine.spawn(lm.getPlayerStartPosition());
-
-	// Spawn Warp
-	wp.spawn(lm.getWarpStartPosition());
-
-	// Make sure this code isn't run again
-	m_NewLevelRequired = false;
-
-	// Add observer
-	m_ScoreSystem.addObserver(this);
-	
 }
 
 // Function for each level tiles
@@ -209,6 +120,7 @@ void MarineMachine::setLevelText(int level)
 	switch (level)
 	{
 	case 0:
+		// Intro text
 		storyStream <<
 			"You, the player were informed that you must retrieve a stolen machine." <<
 			"\nThis machine allows any user to travel through time." <<
@@ -221,10 +133,12 @@ void MarineMachine::setLevelText(int level)
 	case 1:
 		// Archaic Anarchy text
 		storyStream <<
-			"HOLY SHIIIT IT'S A DINOSAUR WTF??!" <<
-			"\nThis machine allows any user to travel through time." <<
-			"\nSo be cautious when near the device" <<
+			"Era 1 -> Arhchaic Anarchy -> 32XX BC" <<
 			"\n" <<
+			"\nWATCH OUT! There are prehistoric reptiles that roam these lands." <<
+			"\n" <<
+			"\nYou can either kill all the dinosaurs OR flee to the distant warp." <<
+			"\nThe choice is yours..." <<
 			"\nWhen ready, press E to start level 1.";
 		m_StoryText.setString(storyStream.str());
 		break;
@@ -232,10 +146,12 @@ void MarineMachine::setLevelText(int level)
 	case 2:
 		// Wild West text
 		storyStream <<
-			"It's high noon partner." <<
-			"\nThis machine allows any user to travel through time." <<
-			"\nSo be cautious when near the device" <<
+			"Era 2 -> Wild West -> 18XX" <<
 			"\n" <<
+			"\nYEEEHAWWW! There's some dastardly bandits hanging around." <<
+			"\nBe cautious for each of these foes have guns." <<
+			"\nYou can either kill all the cowboys OR flee to the distant warp." <<
+			"\nThe choice is yours..." <<
 			"\nWhen ready, press E to start level 2.";
 		m_StoryText.setString(storyStream.str());
 		break;
@@ -243,9 +159,15 @@ void MarineMachine::setLevelText(int level)
 	case 3:
 		// Fracture Future text
 		storyStream <<
-			"I am the TERMINATOR." <<
-			"\nThis machine allows any user to travel through time." <<
-			"\nSo be cautious when near the device" <<
+			"Era 3 -> Fracture Future -> 30XX" <<
+			"\n" <<
+			"\nCongradulations! You have made it to the final level." <<
+			"\n" <<
+			"\n" <<
+			"\nYour final threat are an array of androids." <<
+			"\n" <<
+			"\nYou can either kill all these machines OR return home using the final warp." <<
+			"\nThe choice is yours..." <<
 			"\n" <<
 			"\nWhen ready, press E to start level 3.";
 		m_StoryText.setString(storyStream.str());
@@ -254,275 +176,44 @@ void MarineMachine::setLevelText(int level)
 	case 4:
 		// Endscreen text
 		storyStream <<
-			"And so, you pick up the device and finally disarm it." <<
-			"\nKnowing the device's potential, you carefully locked it away." <<
+			"Era 4 -> The Warehouse -> 20XX" <<
+			"\n" <<
+			"After returning to the warehouse, you pick up the device." <<
+			"\nKnowing its potential, you carefully locked the device away." <<
 			"\nSo that it could never send another victim in a time loop." <<
 			"\n" <<
+			"\n" <<
 			"\nTHE-END!." <<
+			"\n" <<
 			"\nPress Q to finish game and return to main menu";
 		m_StoryText.setString(storyStream.str());
 		break;
 	}
 }
 
-void MarineMachine::input()
+void MarineMachine::setStoryTextPosition()
 {
-	Event event;
+	// Set position
+	m_TextPosition.x = -70;
+	m_TextPosition.y = 950;
 
-	while (m_Window.pollEvent(event))
-	{
-		
-		if (event.type == Event::Closed)
-		{
-			m_Window.close(); // Allows the window's X button to work
-		}
+	// Update text position
+	m_StoryText.setPosition(m_TextPosition);
+}
 
-		if (state == State::MAIN_MENU)
-		{
-			if (event.type == Event::KeyReleased)
-			{
-				if (event.key.code == Keyboard::Up || event.key.code == Keyboard::W)
-				{
-					mainMenu.moveUp();
-				}
+void MarineMachine::scrollStoryText(float dt)
+{
+	// Move text upwards
+	m_TextPosition.y -= m_ScrollSpeed * dt;
 
-				if (event.key.code == Keyboard::Down || event.key.code == Keyboard::S)
-				{
-					mainMenu.moveDown();
-				}
+	// Update text position while scrolling
+	m_StoryText.setPosition(m_TextPosition);
+}
 
-				if (event.key.code == Keyboard::Enter)
-				{
-					switch (mainMenu.getSelectedIndex())
-					{
-					case 0: // Start the game
-						resetGame();
-						state = State::STORY_MENU;
-						break;
-
-					case 1: // Load
-						break;
-
-					case 2: // Scoreboard
-						break;
-
-					case 3: // Options
-						break;
-
-					case 4: // Exit the game
-						m_Window.close();
-						break;
-
-					default:
-						break;
-					}
-				}
-			}
-		}
-
-		// Show some context/lore in this state
-		if (state == State::STORY_MENU)
-		{
-			if (!m_HasReturned)
-			{
-				if (event.key.code == Keyboard::E)
-				{
-					// Run the game
-					state = State::PLAYING;
-				}
-			}
-			else
-			{
-				if (event.key.code == Keyboard::Q)
-				{
-					// Finish the game
-					state = State::MAIN_MENU;
-				}
-			} 
-
-		}
-
-		// Allow player to move in this state
-		if (state == State::PLAYING)
-		{
-			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)
-			{
-				state = State::PAUSED;
-				return;
-			}
-
-			// Handle the pressing and releasing of the WASD keys
-			if (Keyboard::isKeyPressed(Keyboard::W))
-			{
-				marine.moveUp();
-				soundManager.playWalk();
-			}
-			else
-			{
-				marine.stopUpMovement();
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::S))
-			{
-				marine.moveDown();
-				soundManager.playWalk();
-			}
-			else
-			{
-				marine.stopDownMovement();
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::A))
-			{
-				marine.moveLeft();
-				soundManager.playWalk();
-			}
-			else
-			{
-				marine.stopLeftMovement();
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::D))
-			{
-				marine.moveRight();
-				soundManager.playWalk();
-			}
-			else
-			{
-				marine.stopRightMovement();
-			}
-
-			// MELEE INPUT
-			if (Mouse::isButtonPressed(Mouse::Right) &&
-				gameTimeTotal - lastMeleeAttack >= meleeCooldown)
-			{
-				isMeleeAttacking = true;
-				lastMeleeAttack = gameTimeTotal;
-				soundManager.playMelee();
-
-				// Calculate melee direction
-				Vector2f playerCenter = marine.getCenter();
-				Vector2f direction = mouseWorldPosition - playerCenter;
-				float length = sqrt(direction.x * direction.x + direction.y * direction.y); //distance from player to mouse
-				direction /= length; // ensure melee only extends a short range / normalize 
-
-				// Set up melee rectangle
-				meleeAttackRect.setSize(Vector2f(MELEE_LENGTH, MELEE_WIDTH));
-				meleeAttackRect.setOrigin(0, MELEE_WIDTH / 2);
-				meleeAttackRect.setPosition(playerCenter);
-				meleeAttackRect.setRotation(atan2(direction.y, direction.x) * 180 / 3.141);
-				meleeAttackRect.setFillColor(Color(255, 255, 255, 100));
-			}
-
-
-			// SHOOTING INPUT
-			if (Mouse::isButtonPressed(Mouse::Left))
-			{
-				if (gameTimeTotal.asMilliseconds() - lastPistolShot.asMilliseconds() >= pistolFireRate.asMilliseconds())
-				{
-					if (bulletsInClip > 0)
-					{
-						// Fire the bullet
-						bullets[currentBullet].shoot(
-							marine.getCenter().x, marine.getCenter().y,
-							mouseWorldPosition.x, mouseWorldPosition.y);
-
-						currentBullet++;
-						if (currentBullet > 99) { currentBullet = 0; }
-
-						bulletsInClip--;
-						lastPistolShot = gameTimeTotal;
-
-						
-				
-						 soundManager.playShoot();
-					}
-				}
-			}
-
-			// RELOAD INPUT
-			if (event.type == Event::KeyPressed && event.key.code == Keyboard::R)
-			{
-				int bulletsNeeded = clipSize - bulletsInClip;
-
-				if (bulletsSpare >= bulletsNeeded)
-				{
-					bulletsSpare -= bulletsNeeded;
-					bulletsInClip += bulletsNeeded;
-					 soundManager.playReload();
-				}
-				else if (bulletsSpare > 0)
-				{
-					bulletsInClip += bulletsSpare;
-					bulletsSpare = 0;
-					 soundManager.playReload();
-				}
-				else
-				{
-					 soundManager.playReloadFailed();
-				}
-			}
-
-
-			// Handle dodge input (Left Shift)
-			if (Keyboard::isKeyPressed(Keyboard::LShift) &&
-				!isDodging &&
-				(gameTimeTotal - lastDodgeTime >= dodgeCooldown))
-			{
-				isDodging = true;
-				lastDodgeTime = gameTimeTotal;
-				originalSpeed = marine.getSpeed(); // Store current speed
-				marine.setSpeed(originalSpeed * 2); // Double speed
-				soundManager.playDodge(); // Play dodge sound
-			}
-
-
-			// Handle the player quitting
-			if (event.key.code == (Keyboard::Escape))
-			{
-				m_Window.close();
-			}
-
-		}
-
-		if (state == State::PAUSED)
-		{
-			if (event.type == Event::KeyReleased)
-			{
-				if (event.key.code == Keyboard::Up)
-				{
-					pauseMenu.moveUp();
-				}
-				if (event.key.code == Keyboard::Down)
-				{
-					pauseMenu.moveDown();
-				}
-
-				if (event.key.code == Keyboard::Enter)
-				{
-					switch (pauseMenu.getSelectedIndex())
-					{
-					case 0: // Resume
-						state = State::PLAYING;
-						break;
-
-					case 1: // Save
-						break;
-
-					case 2: // Options
-						break;
-
-					case 3: // Exit to Main Menu
-						state = State::MAIN_MENU;
-						break;
-
-					default:
-						break;
-					}
-				}
-			}
-		}
-	}
+Vector2f MarineMachine::getStoryTextPosition()
+{
+	// Retrieve story text position
+	return m_TextPosition;
 }
 
 void MarineMachine::run()
@@ -557,7 +248,10 @@ void MarineMachine::onScoreChange(int newScore)
 void MarineMachine::resetGame()
 {
 	// Reset the current level to 1
-	lm.setCurrentLevel(0);
+	lm.setCurrentLevel(lm.getCurrentLevel());
+
+	// Set level text
+	setLevelText(lm.getCurrentLevel());
 
 	// Mark that we need a new level
 	m_NewLevelRequired = true;

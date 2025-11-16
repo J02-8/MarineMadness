@@ -49,23 +49,24 @@ void MarineMachine::detectCollision()
 		}
 	}
 
-	// Melee weapon hitting an enemy
-	for (int i = 0; i < 60; i++)
+	// Enemy is attacked by melee weapon
+	for (auto& enemy : enemies)
 	{
-		for (auto& enemy : enemies)
+		if (meleeAttackRect.getGlobalBounds().intersects(enemy->getPosition()))
 		{
-			if (meleeAttackRect.getGlobalBounds().intersects(enemy->getPosition()))
+			if (enemy->hit())
 			{
-				isMeleeAttacking = false;
-				if (enemy->hit())
-				{
-					m_ScoreSystem.addPoints(15);
-					cout << "Enemy killed by melee attack!" << endl;
-				}
+				// Remove collision for weapon
+				meleeAttackRect.setPosition(2000, 60);
+				
+				// Update score
+				m_ScoreSystem.addPoints(15);
+				
+				// Print
+				cout << "Enemy killed by melee attack!" << endl;
 			}
 		}
 	}
-	
 	
 	// Enemy bullets hitting the player
 	for (int i = 0; i < 100; ++i)
@@ -117,7 +118,7 @@ void MarineMachine::detectCollision()
 		m_NewLevelRequired = true;
 
 		// Alter tiles for next level
-		MarineMachine::setTileSheets(lm.getCurrentLevel());
+		setTileSheets(lm.getCurrentLevel());
 
 		// Load the subsequent level
 		lm.setCurrentLevel(lm.getCurrentLevel());
@@ -128,6 +129,8 @@ void MarineMachine::detectCollision()
 			m_HasReturned = true;
 		}
 
+		// DO NOT REMOVE THIS BOOL AS IT ALLOWS TEXT TO UPDATE PROPERLY!
+		testBool = true;
 		state = State::STORY_MENU;
 	}
 }

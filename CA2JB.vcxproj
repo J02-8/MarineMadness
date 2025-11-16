@@ -27,7 +27,9 @@
     <ClCompile Include="code\DetectCollision.cpp" />
     <ClCompile Include="code\Draw.cpp" />
     <ClCompile Include="code\HUD.cpp" />
+    <ClCompile Include="code\Input.cpp" />
     <ClCompile Include="code\LevelManager.cpp" />
+    <ClCompile Include="code\LoadLevel.cpp" />
     <ClCompile Include="code\Main.cpp" />
     <ClCompile Include="code\MarineMachine.cpp" />
     <ClCompile Include="code\Dinosaur.cpp" />
