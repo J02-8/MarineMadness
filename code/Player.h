@@ -147,6 +147,8 @@ public:
 	//set players speed
 	void setSpeed(float speedIn);
 
+	void resetHealth();
+
 };
 
 

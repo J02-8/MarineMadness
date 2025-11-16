@@ -10,7 +10,9 @@
 #include "Warp.h"
 #include "Pickup.h"
 #include "Enemy.h"
+#include "Menu.h"
 #include "MainMenu.h"
+#include "PauseMenu.h"
 #include "HUD.h"
 #include "ScoreObserver.h"
 #include "ScoreSystem.h"
@@ -135,6 +137,9 @@ private:
 
 	MainMenu mainMenu;
 
+	View m_PauseView;
+	PauseMenu pauseMenu;
+
 	Text m_TitleText;
 
 	// Create story menu
@@ -172,4 +177,6 @@ public:
 	State state = State::MAIN_MENU;
 
 	void onScoreChange(int newScore) override;
+
+	void resetGame();
 };

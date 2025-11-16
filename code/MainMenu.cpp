@@ -2,102 +2,42 @@
 
 // Constructor
 MainMenu::MainMenu(float width, float height)
+    : Menu(width, height, { "Play", "Load", "Scoreboard", "Options", "Exit" })
 {
-    if (!font.loadFromFile("fonts/ByteBounce.ttf"))
-    {
-        std::cout << "Failed to load font!\n";
-    }
+    font.loadFromFile("fonts/ByteBounce.ttf");
 
-    std::string menuItems[] = { "Play", "Load", "Scoreboard", "Options", "Exit" };
-
-    for (int i = 0; i < 5; i++)
-    {
-        mainMenu[i].setFont(font);
-        mainMenu[i].setFillColor(Color::White);
-        mainMenu[i].setString(menuItems[i]);
-        mainMenu[i].setCharacterSize(70);
-        mainMenu[i].setPosition(400, 280 + i * 100);
-    }
-
-    // Start with the first item selected
-    mainMenuSelected = 0;
-    mainMenu[mainMenuSelected].setFillColor(Color::Blue);
-
-    for (int i = 0; i < 1000; ++i)
+    // Create particles
+    const int PARTICLE_COUNT = 1000;
+    for (int i = 0; i < PARTICLE_COUNT; ++i)
     {
         Vector2f position(rand() % (int)width, rand() % (int)height);
-        Vector2f velocity((rand() % 2001) / 100.f - 10.f, (rand() % 2001) / 100.f - 10.f);
+        Vector2f velocity((std::rand() % 2001) / 100.f - 10.f, (std::rand() % 2001) / 100.f - 10.f);
         auto flyweight = ParticleFactory::getParticleFlyweight(2.f); // small white particles
-        menuParticles.emplace_back(flyweight, position, velocity);
+        particles.emplace_back(flyweight, position, velocity);
     }
-}
-
-// Destructor
-MainMenu::~MainMenu()
-{
-
-}
-
-// Draw the main menu
-void MainMenu::draw(RenderWindow& window)
-{
-    for (int i = 0; i < 5; i++)
-    {
-        window.draw(mainMenu[i]);
-    }
-}
-
-// Handle moving up
-void MainMenu::moveUp()
-{
-    // Unhighlight the current item
-    mainMenu[mainMenuSelected].setFillColor(Color::White);
-
-    // Move up
-    mainMenuSelected--;
-
-    // Wrap to bottom if necessary
-    if (mainMenuSelected < 0)
-        mainMenuSelected = 4;
-
-    // Highlight new item
-    mainMenu[mainMenuSelected].setFillColor(Color::Blue);
-}
-
-// Handle moving down
-void MainMenu::moveDown()
-{
-    // Unhighlight the current item
-    mainMenu[mainMenuSelected].setFillColor(Color::White);
-
-    // Move down
-    mainMenuSelected++;
-
-    // Wrap to top if necessary
-    if (mainMenuSelected > 4)
-        mainMenuSelected = 0;
-
-    // Highlight new item
-    mainMenu[mainMenuSelected].setFillColor(Color::Blue);
 }
 
 void MainMenu::updateParticles(float dt)
 {
-    for (size_t i = 0; i < menuParticles.size(); ++i)
+    for (size_t i = 0; i < particles.size(); ++i)
     {
-        menuParticles[i].update(dt);
+        particles[i].update(dt);
 
-        for (size_t j = i + 1; j < menuParticles.size(); ++j)
+        for (size_t j = i + 1; j < particles.size(); ++j)
         {
-            menuParticles[i].checkCollision(menuParticles[j]);
+            particles[i].checkCollision(particles[j]);
         }
     }
 }
 
-void MainMenu::drawParticles(RenderWindow& window)
+void MainMenu::draw(RenderWindow& window)
 {
-    for (auto& particle : menuParticles)
+    // Draw particles behind menu text
+    for (auto& p : particles)
     {
-        particle.draw(window);
+        p.draw(window);
     }
+
+    // Draw the menu text from the base class
+    Menu::draw(window);
 }
