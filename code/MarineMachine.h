@@ -45,6 +45,14 @@ private:
 	Time lastDodgeTime;
 	float originalSpeed;
 
+	// Melee variables
+	const float MELEE_LENGTH = 50.f; // Length of melee attack
+	const float MELEE_WIDTH = 5.f;   // Width of the melee attack
+	RectangleShape meleeAttackRect;   // Visual representation
+	bool isMeleeAttacking = false;
+	Time meleeCooldown = milliseconds(500);
+	Time lastMeleeAttack;
+
 	Pathfinding* m_Pathfinding;
 
 	// Mouse positions

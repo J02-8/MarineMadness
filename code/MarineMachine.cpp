@@ -373,6 +373,28 @@ void MarineMachine::input()
 				marine.stopRightMovement();
 			}
 
+			// MELEE INPUT
+			if (Mouse::isButtonPressed(Mouse::Right) &&
+				gameTimeTotal - lastMeleeAttack >= meleeCooldown)
+			{
+				isMeleeAttacking = true;
+				lastMeleeAttack = gameTimeTotal;
+				soundManager.playMelee();
+
+				// Calculate melee direction
+				Vector2f playerCenter = marine.getCenter();
+				Vector2f direction = mouseWorldPosition - playerCenter;
+				float length = sqrt(direction.x * direction.x + direction.y * direction.y); //distance from player to mouse
+				direction /= length; // ensure melee only extends a short range / normalize 
+
+				// Set up melee rectangle
+				meleeAttackRect.setSize(Vector2f(MELEE_LENGTH, MELEE_WIDTH));
+				meleeAttackRect.setOrigin(0, MELEE_WIDTH / 2);
+				meleeAttackRect.setPosition(playerCenter);
+				meleeAttackRect.setRotation(atan2(direction.y, direction.x) * 180 / 3.141);
+				meleeAttackRect.setFillColor(Color(255, 255, 255, 100));
+			}
+
 
 			// SHOOTING INPUT
 			if (Mouse::isButtonPressed(Mouse::Left))

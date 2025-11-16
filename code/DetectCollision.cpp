@@ -44,10 +44,29 @@ void MarineMachine::detectCollision()
 					soundManager2.playBoom();
 				}
 			}
+
+			
 		}
 	}
 
-
+	// Melee weapon hitting an enemy
+	for (int i = 0; i < 60; i++)
+	{
+		for (auto& enemy : enemies)
+		{
+			if (meleeAttackRect.getGlobalBounds().intersects(enemy->getPosition()))
+			{
+				isMeleeAttacking = false;
+				if (enemy->hit())
+				{
+					m_ScoreSystem.addPoints(15);
+					cout << "Enemy killed by melee attack!" << endl;
+				}
+			}
+		}
+	}
+	
+	
 	// Enemy bullets hitting the player
 	for (int i = 0; i < 100; ++i)
 	{
@@ -67,6 +86,7 @@ void MarineMachine::detectCollision()
 			{
 				// Respawn the player
 				marine.spawn(lm.getPlayerStartPosition());
+				marine.resetPlayerStats();
 			}
 		}
 	}

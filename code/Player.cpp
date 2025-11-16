@@ -188,28 +188,28 @@ void Player::updateLeftRightTopBottom()
 	FloatRect r = getPosition();
 
 	// Bottom
-	m_Bottom.left = r.left + 3;
-	m_Bottom.top = r.top + r.height - 1;
-	m_Bottom.width = r.width - 6;
+	m_Bottom.left = r.left + 3 + 10; // Shifted right by 10
+	m_Bottom.top = r.top + r.height - 1 - 10; // Shifted up by 10
+	m_Bottom.width = r.width - 6 - 20; // Reduced by 20 (10 on each side)
 	m_Bottom.height = 1;
 
 	// Top
-	m_Top.left = r.left + 3;
-	m_Top.top = r.top;
-	m_Top.width = r.width - 6;
+	m_Top.left = r.left + 3 + 10; // Shifted right by 10
+	m_Top.top = r.top + 10; // Shifted down by 10
+	m_Top.width = r.width - 6 - 20; // Reduced by 20 (10 on each side)
 	m_Top.height = 1;
 
 	// Right
-	m_Right.left = r.left + r.width - 1;
-	m_Right.top = r.top + r.height * .35;
+	m_Right.left = r.left + r.width - 1 - 10; // Shifted left by 10
+	m_Right.top = r.top + 10 + (r.height - 20) * .35; // Adjusted start position for new 30x40 area
 	m_Right.width = 1;
-	m_Right.height = r.height * .3;
+	m_Right.height = (r.height - 20) * .3; // Recalculated based on new height (r.height - 20)
 
 	// Left
-	m_Left.left = r.left;
-	m_Left.top = r.top + r.height * .35;
+	m_Left.left = r.left + 10; // Shifted right by 10
+	m_Left.top = r.top + 10 + (r.height - 20) * .35; // Adjusted start position for new 30x40 area
 	m_Left.width = 1;
-	m_Left.height = r.height * .3;
+	m_Left.height = (r.height - 20) * .3; // Recalculated based on new height (r.height - 20)
 }
 
 void Player::update(float elapsedTime, Vector2f mousePosition)

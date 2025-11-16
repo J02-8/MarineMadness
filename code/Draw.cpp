@@ -65,6 +65,12 @@ void MarineMachine::draw()
 		// Draw the player
 		m_Window.draw(marine.getSprite());
 
+		// Draw the melee attack
+		if (isMeleeAttacking)
+		{
+			m_Window.draw(meleeAttackRect);
+		}
+
 		// Draw the warp
 		m_Window.draw(wp.getSprite());
 
@@ -74,50 +80,6 @@ void MarineMachine::draw()
 		// Draw HUD
 		m_Window.setView(m_HudView);
 		m_Hud.draw(m_Window);
-		
-
-		/**
-		// Draw the pickups is currently spawned
-		if (ammoPickup.isSpawned())
-		{
-			window.draw(ammoPickup.getSprite());
-		}
-		if (healthPickup.isSpawned())
-		{
-			window.draw(healthPickup.getSprite());
-		}
-
-		// draw the weapon pick ups 
-		if (smgPickup.isSpawned()) {
-			window.draw(smgPickup.getSprite());
-		}
-		if (shotgunPickup.isSpawned()) {
-			window.draw(shotgunPickup.getSprite());
-		}
-
-		//draw the melee attack
-		if (isMeleeAttacking) {
-
-			window.draw(meleeAttackRect);
-
-		}
-		*/
-
-
-
-		/*
-		// Switch to the HUD view
-		window.setView(hudView);
-
-		// Draw all the HUD elements
-		window.draw(spriteAmmoIcon);
-		window.draw(ammoText);
-		window.draw(scoreText);
-		window.draw(hiScoreText);
-		window.draw(healthBar);
-		window.draw(waveNumberText);
-		window.draw(zombiesRemainingText);
-		*/
 	}
 
 	/*
