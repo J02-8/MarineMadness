@@ -67,6 +67,25 @@ void MarineMachine::input()
 				{
 					// Run the game
 					state = State::PLAYING;
+
+					// Play track for relevant point in game
+					switch (lm.getCurrentLevel())
+					{
+					case 1:	// Archaic Anarchy
+						soundMan.stopTracks();
+						soundMan.playTrack1();
+						break;
+
+					case 2:	// Wild West
+						soundMan.stopTracks();
+						soundMan.playTrack2();
+						break;
+
+					case 3:	// Fracture Future
+						soundMan.stopTracks();
+						soundMan.playTrack3();
+						break;
+					}
 				}
 			}
 			else

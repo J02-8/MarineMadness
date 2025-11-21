@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Warp.h"
-#include "Pickup.h"
 #include "Enemy.h"
 #include "Menu.h"
 #include "MainMenu.h"

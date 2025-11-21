@@ -1,6 +1,7 @@
 
 #pragma once
 //#include "Zombie.h"
+/*
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <fstream>
@@ -28,7 +29,7 @@ Enemy** DinoSpawner(int numDinos, IntRect arena);
 
 //add group of cowboys
 Enemy** CowboySpawner(int numCowboys, IntRect arena);
-
+*/
 /*
 void man()
 {

@@ -34,6 +34,12 @@ SoundManager::SoundManager()
     walkSound.setBuffer(walkBuffer);
     lazerSound.setBuffer(lazerBuffer);
     boomSound.setBuffer(boomBuffer);
+
+    // Load music
+    track_0.openFromFile("sound/tracks/track_0.mp3");
+    track_1.openFromFile("sound/tracks/track_1.mp3");
+    track_2.openFromFile("sound/tracks/track_2.mp3");
+    track_3.openFromFile("sound/tracks/track_3.mp3");
 }
 
 // Play Functions
@@ -51,6 +57,35 @@ void SoundManager::playWalk() { walkSound.play(); }
 void SoundManager::playLazer() { lazerSound.play(); }
 void SoundManager::playBoom() { boomSound.play(); }
 
+void SoundManager::playTrack0()
+{
+    if (track_0.getStatus() != Music::Playing)
+    {
+        track_0.play();
+    }
+}
+void SoundManager::playTrack1() 
+{
+    if (track_1.getStatus() != Music::Playing)
+    {
+        track_1.play();
+    } 
+}
+void SoundManager::playTrack2() 
+{ 
+    if (track_2.getStatus() != Music::Playing)
+    {
+        track_2.play();
+    }
+}
+void SoundManager::playTrack3() 
+{ 
+    if (track_3.getStatus() != Music::Playing)
+    {
+        track_3.play();
+    }
+}
+
 // Set the volume of each sound to the global volume level
 void SoundManager::setGlobalVolume(float volume)
 {
@@ -67,4 +102,27 @@ void SoundManager::setGlobalVolume(float volume)
     walkSound.setVolume(volume);
     lazerSound.setVolume(volume);
     boomSound.setVolume(volume);
+    track_1.setVolume(volume);
+    track_2.setVolume(volume);
+    track_3.setVolume(volume);
+}
+
+void SoundManager::stopTracks()
+{
+    if (track_0.getStatus() == Music::Playing)
+    {
+        track_0.stop();
+    }
+    if (track_1.getStatus() == Music::Playing)
+    {
+        track_1.stop();
+    }
+    if (track_2.getStatus() == Music::Playing)
+    {
+        track_2.stop();
+    }
+    if (track_3.getStatus() == Music::Playing)
+    {
+        track_3.stop();
+    }
 }

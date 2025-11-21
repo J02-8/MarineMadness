@@ -15,6 +15,7 @@ void MarineMachine::update(float dtAsSeconds)
 	if (state == State::MAIN_MENU)
 	{
 		mainMenu.updateParticles(dtAsSeconds);
+		soundManager2.playTrack0();
 	}
 	
 	// Update text before loading level
@@ -30,6 +31,9 @@ void MarineMachine::update(float dtAsSeconds)
 
 	if (state == State::STORY_MENU)
 	{
+		// Stop any current tracks
+		soundManager2.stopTracks();
+
 		// Make text scroll
 		scrollStoryText(dtAsSeconds);
 	}
@@ -118,7 +122,6 @@ void MarineMachine::update(float dtAsSeconds)
 
 		m_MainView.setCenter(marine.getCenter());
 		m_Window.setView(m_MainView); // Apply the centered view immediately
-
 
 		// Update bullets
 		for (int i = 0; i < 100; i++)

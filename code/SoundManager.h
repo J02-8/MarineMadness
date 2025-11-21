@@ -36,8 +36,15 @@ private:
     Sound lazerSound;
     Sound boomSound;
 
+    // The Background Music
+    Music track_0;
+    Music track_1;
+    Music track_2;
+    Music track_3;
+
 public:
 
+    // Constructor
 	SoundManager();
 
     // Play Sound Functions
@@ -55,8 +62,17 @@ public:
     void playLazer();
     void playBoom();
 
+    // Play Music Functions
+    void playTrack0();
+    void playTrack1();
+    void playTrack2();
+    void playTrack3();
+
     // Set the volume
     void setGlobalVolume(float volume);
+
+    // Stop Music Function
+    void stopTracks();
 };
 
 #pragma once

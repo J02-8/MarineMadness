@@ -12,6 +12,17 @@ Level 3 sheet - credit to Pillowrd via https://pillowbyte.itch.io/diceforce-free
 
 Walking sound - https://pixabay.com/sound-effects/walking-sound-effect-272246/
 
+<--TRACKS-->
+
+Menu track - https://pixabay.com/music/build-up-scenes-labyrinth-of-despair-166594/
+
+track_1 - https://pixabay.com/music/upbeat-cinematic-action-jungle-drums-loop-125bpm-345139/
+
+track_2 - https://pixabay.com/music/modern-country-western-theme-162884/
+
+track_3 - https://pixabay.com/music/future-bass-who-can-stop-these-clouds-future-bass-420486/
+
+
 <--TEXTURES-->
 
 Player sheet - credit to Dyru via https://dyru.itch.io/top-down-shooter

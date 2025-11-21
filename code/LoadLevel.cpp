@@ -1,5 +1,8 @@
 #include "MarineMachine.h"
 #include "EnemySpawner.h"
+#include "SoundManager.h"
+
+SoundManager sm;
 
 void MarineMachine::loadLevel()
 {
@@ -77,5 +80,7 @@ void MarineMachine::loadLevel()
 
 	// Add observer
 	m_ScoreSystem.addObserver(this);
+
+	
 
 }

@@ -42,7 +42,6 @@
     <ClCompile Include="code\ParticleFlyweight.cpp" />
     <ClCompile Include="code\Pathfinding.cpp" />
     <ClCompile Include="code\PauseMenu.cpp" />
-    <ClCompile Include="code\Pickup.cpp" />
     <ClCompile Include="code\Player.cpp" />
     <ClCompile Include="code\ScoreManager.cpp" />
     <ClCompile Include="code\SoundManager.cpp" />
@@ -68,7 +67,6 @@
     <ClInclude Include="code\MarineMachine.h" />
     <ClInclude Include="code\Pathfinding.h" />
     <ClInclude Include="code\PauseMenu.h" />
-    <ClInclude Include="code\Pickup.h" />
     <ClInclude Include="code\Player.h" />
     <ClInclude Include="code\ScoreManager.h" />
     <ClInclude Include="code\ScoreObserver.h" />

@@ -18,9 +18,6 @@
     <ClCompile Include="code\Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="code\Pickup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="code\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,9 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="code\Pickup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="code\Player.h">

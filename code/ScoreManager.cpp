@@ -8,7 +8,7 @@ ScoreManager::ScoreManager(const string& hsFile, const string& logFilePath)
     loadHighScore();
 }
 
-// loads the high score from the file
+// Loads the high score from the file
 void ScoreManager::loadHighScore() 
 {
     ifstream input(highScoreFile);

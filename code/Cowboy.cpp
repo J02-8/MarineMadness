@@ -9,9 +9,6 @@
 #include <iostream>
 using namespace std;
 
-
-
-
 Cowboy::Cowboy()
 {
     // Initialize all member variables
@@ -25,13 +22,10 @@ Cowboy::Cowboy()
     m_ShootCooldown = 0.0f;
     m_TimeSinceLastShot = 0.0f;
     m_CanShoot = true;
-
-    
 }
 
 void Cowboy::spawn(float startX, float startY, int seed)
 {
-
     // Single cowboy type 
     m_Sprite = Sprite(TextureHolder::GetTexture("graphics/cowboy.png"));
     m_Speed = 45;
@@ -49,8 +43,6 @@ void Cowboy::spawn(float startX, float startY, int seed)
     m_Position.x = startX;
     m_Position.y = startY;
     m_Alive = true;
-
-
 }
 
 bool Cowboy::hit()

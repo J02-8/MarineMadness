@@ -6,9 +6,6 @@
 
 Enemy** DinoSpawner(int numDinos, IntRect arena)
 {
-
-
-
 	Enemy** dinos = new Enemy * [numDinos];
 
 	int maxY = arena.height - 20;
@@ -18,9 +15,6 @@ Enemy** DinoSpawner(int numDinos, IntRect arena)
 
 	for (int i = 0; i < numDinos; i++)
 	{
-
-
-
 		// Which side should the zombie spawn
 		srand((int)time(0) * i);
 		int side = (rand() % 4);
