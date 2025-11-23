@@ -39,6 +39,9 @@ MarineMachine::MarineMachine()
 	m_PauseView.setSize(resolution);
 	m_PauseView.setCenter(resolution.x / 2, resolution.y / 2);
 
+	m_ScoreView.setSize(resolution);
+	m_ScoreView.setCenter(resolution.x / 2, resolution.y / 2);
+
 	// Zoom in on player
 	m_MainView.zoom(0.8);
 

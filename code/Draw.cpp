@@ -18,6 +18,13 @@ void MarineMachine::draw()
 		m_Window.draw(m_TitleText);
 	}
 
+	// Scoreboard screen
+	if (state == State::SCOREBOARD)
+	{
+		m_Window.setView(m_ScoreView);
+		m_ScoreSystem.draw(m_Window);
+	}
+
 	// Show some story
 	if (state == State::STORY_MENU)
 	{

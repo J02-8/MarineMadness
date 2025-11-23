@@ -6,6 +6,7 @@ class ScoreSystem : public ScoreSubject
 {
 private:
     ScoreManager m_ScoreManager;
+	Font font;
 
 public:
     // Add points and notify the observers
@@ -24,5 +25,31 @@ public:
     {
         m_ScoreManager.saveHighScore();
         m_ScoreManager.logScore();
+    }
+
+    // Draw the scoreboard
+    void draw(RenderWindow& window)
+    {
+		font.loadFromFile("fonts/ByteBounce.ttf");
+
+		// Title
+		Text title("Scoreboard", font, 80);
+		title.setFillColor(Color::Yellow);
+		title.setPosition(200.f, 100.f);
+		window.draw(title);
+
+		// High score display
+		stringstream ss;
+		ss << "High Score: " << getHighScore();
+		Text hsText(ss.str(), font, 60);
+		hsText.setFillColor(Color::White);
+		hsText.setPosition(200.f, 220.f);
+		window.draw(hsText);
+
+		// Instruction
+		Text instr("Press Escape to return", font, 32);
+		instr.setFillColor(Color::Green);
+		instr.setPosition(200.f, 900.f);
+		window.draw(instr);
     }
 };

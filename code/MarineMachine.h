@@ -158,6 +158,7 @@ private:
 
 	// Setup the scoring system
 	ScoreSystem m_ScoreSystem;
+	View m_ScoreView;
 
 	// Determines win condition of game
 	bool m_HasReturned = false;
@@ -187,7 +188,7 @@ public:
 	bool testBool;
 
 	// Game states
-	enum class State { MAIN_MENU, PAUSED, STORY_MENU, PLAYING };
+	enum class State { MAIN_MENU, SCOREBOARD, PAUSED, STORY_MENU, PLAYING };
 	State state = State::MAIN_MENU;
 
 	void onScoreChange(int newScore) override;

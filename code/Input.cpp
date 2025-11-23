@@ -42,6 +42,7 @@ void MarineMachine::input()
 						break;
 
 					case 2: // Scoreboard
+						state = State::SCOREBOARD;
 						break;
 
 					case 3: // Options
@@ -55,6 +56,14 @@ void MarineMachine::input()
 						break;
 					}
 				}
+			}
+		}
+
+		if (state == State::SCOREBOARD)
+		{
+			if (event.key.code == Keyboard::Escape)
+			{
+				state = State::MAIN_MENU;
 			}
 		}
 
