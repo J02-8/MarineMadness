@@ -20,10 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Android.cpp" />
-    <ClCompile Include="code\AndroidSpawner.cpp" />
     <ClCompile Include="code\Bullet.cpp" />
     <ClCompile Include="code\Cowboy.cpp" />
-    <ClCompile Include="code\CowboySpawner.cpp" />
     <ClCompile Include="code\DetectCollision.cpp" />
     <ClCompile Include="code\Draw.cpp" />
     <ClCompile Include="code\HUD.cpp" />
@@ -33,7 +31,6 @@
     <ClCompile Include="code\Main.cpp" />
     <ClCompile Include="code\MarineMachine.cpp" />
     <ClCompile Include="code\Dinosaur.cpp" />
-    <ClCompile Include="code\DinoSpawner.cpp" />
     <ClCompile Include="code\Enemy.cpp" />
     <ClCompile Include="code\MainMenu.cpp" />
     <ClCompile Include="code\Menu.cpp" />
@@ -48,7 +45,6 @@
     <ClCompile Include="code\TextureHolder.cpp" />
     <ClCompile Include="code\Update.cpp" />
     <ClCompile Include="code\Warp.cpp" />
-    <ClCompile Include="code\ZombieArena.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Android.h" />
@@ -75,7 +71,6 @@
     <ClInclude Include="code\SoundManager.h" />
     <ClInclude Include="code\TextureHolder.h" />
     <ClInclude Include="code\Warp.h" />
-    <ClInclude Include="code\ZombieArena.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
