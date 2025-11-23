@@ -85,9 +85,10 @@ void MarineMachine::detectCollision()
 
 			if (marine.getHealth() <= 0)
 			{
-				// Respawn the player
-				marine.spawn(lm.getPlayerStartPosition());
-				marine.resetPlayerStats();
+				m_ScoreSystem.saveScores();
+				resetGame();
+				state = State::MAIN_MENU;
+				return;
 			}
 		}
 	}
@@ -105,8 +106,10 @@ void MarineMachine::detectCollision()
 
 			if (marine.getHealth() <= 0)
 			{
-				// Respawn the player
-				marine.spawn(lm.getPlayerStartPosition());
+				m_ScoreSystem.saveScores();
+				resetGame();
+				state = State::MAIN_MENU;
+				return;
 			}
 		}
 	}

@@ -247,8 +247,8 @@ void MarineMachine::onScoreChange(int newScore)
 
 void MarineMachine::resetGame()
 {
-	// Reset the current level to 1
-	lm.setCurrentLevel(lm.getCurrentLevel());
+	// Reset the current level to 0
+	lm.setCurrentLevel(0);
 
 	// Set level text
 	setLevelText(lm.getCurrentLevel());
