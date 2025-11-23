@@ -114,14 +114,9 @@ void MarineMachine::update(float dtAsSeconds)
 
 		}
 
-		// Start of a new game we will need a new level
-		if (m_NewLevelRequired)
-		{
-			loadLevel();
-		}
-
+		// Apply the centered view immediately
 		m_MainView.setCenter(marine.getCenter());
-		m_Window.setView(m_MainView); // Apply the centered view immediately
+		m_Window.setView(m_MainView); 
 
 		// Update bullets
 		for (int i = 0; i < 100; i++)
@@ -187,5 +182,11 @@ void MarineMachine::update(float dtAsSeconds)
 
 		// Check for collision
 		detectCollision();
+
+		// Start of a new game we will need a new level
+		if (m_NewLevelRequired)
+		{
+			loadLevel();
+		}
 	}
 }
