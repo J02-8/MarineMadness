@@ -117,6 +117,9 @@ void MarineMachine::detectCollision()
 	// Has the marine player touched time warp?
 	if (marine.getPosition().intersects(wp.getPosition()))
 	{
+		// Play warping sound
+		soundManager2.playWarp();
+
 		// Reload the level
 		m_NewLevelRequired = true;
 
@@ -129,10 +132,11 @@ void MarineMachine::detectCollision()
 
 		if (lm.getCurrentLevel() > 3)
 		{
+			// The game is prepared for finishing
 			m_HasReturned = true;
 		}
 
-		// DO NOT REMOVE THIS BOOL AS IT ALLOWS TEXT TO UPDATE PROPERLY!
+		// DO NOT REMOVE THIS BOOL AS IT ALLOWS STORY TEXT TO UPDATE PROPERLY!
 		testBool = true;
 		state = State::STORY_MENU;
 	}

@@ -10,6 +10,8 @@ extern SoundManager soundManager2;
 // Local SoundManager used by input and gameplay code
 SoundManager soundMan;
 
+bool fromMainMenu = false;
+
 void MarineMachine::input()
 {
 	Event event;
@@ -43,6 +45,7 @@ void MarineMachine::input()
 					case 0: // Start the game
 						resetGame();
 						state = State::STORY_MENU;
+						fromMainMenu = true;
 						break;
 
 					case 1: // Load
@@ -102,20 +105,30 @@ void MarineMachine::input()
 					// Run the game
 					state = State::PLAYING;
 
+					if (fromMainMenu)
+					{
+						soundMan.playDoor();
+						fromMainMenu = false;
+					}
+
 					// Play track for relevant point in game
 					switch (lm.getCurrentLevel())
 					{
-					case 1:	// Archaic Anarchy
+					case 1:
+						soundMan.stopTracks();
+						break;
+
+					case 2:	// Archaic Anarchy
 						soundMan.stopTracks();
 						soundMan.playTrack1();
 						break;
 
-					case 2:	// Wild West
+					case 3:	// Wild West
 						soundMan.stopTracks();
 						soundMan.playTrack2();
 						break;
 
-					case 3:	// Fracture Future
+					case 4:	// Fracture Future
 						soundMan.stopTracks();
 						soundMan.playTrack3();
 						break;
@@ -128,6 +141,7 @@ void MarineMachine::input()
 				{
 					// Finish the game
 					state = State::MAIN_MENU;
+					soundMan.stopTracks();
 				}
 			}
 
@@ -304,6 +318,7 @@ void MarineMachine::input()
 
 					case 3: // Exit to Main Menu
 						state = State::MAIN_MENU;
+						soundMan.stopTracks();
 						break;
 
 					default:

@@ -108,12 +108,13 @@ private:
 	Sprite spriteMainMenu;
 	Texture textureMainMenu;
 
+	// A suitable font
 	Font font;
-	Text mainMenuText;
-	Text pauseMenuText;
-
-	Text scoreText;
-	Text livesText;
+	
+	// Controls text for turorial level
+	Text m_ControlsTextA;
+	Text m_ControlsTextB;
+	Text m_ControlsTextC;
 
 	// Is the game currently playing?
 	bool m_Playing = false;

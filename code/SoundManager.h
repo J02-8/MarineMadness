@@ -10,31 +10,29 @@ private:
     SoundBuffer hitBuffer;
     SoundBuffer splatBuffer;
     SoundBuffer shootBuffer;
-    SoundBuffer shotGunBuffer;
     SoundBuffer reloadBuffer;
     SoundBuffer reloadFailedBuffer;
-    SoundBuffer powerupBuffer;
-    SoundBuffer pickupBuffer;
     SoundBuffer dodgeBuffer;
     SoundBuffer meleeBuffer;
     SoundBuffer walkBuffer;
     SoundBuffer lazerBuffer;
     SoundBuffer boomBuffer;
+    SoundBuffer doorBuffer;
+    SoundBuffer warpBuffer;
 
 	// The Sounds
     Sound hitSound;
     Sound splatSound;
     Sound shootSound;
-    Sound shotgunSound;
     Sound reloadSound;
     Sound reloadFailedSound;
-    Sound powerupSound;
-    Sound pickupSound;
     Sound dodgeSound;
     Sound meleeSound;
     Sound walkSound;
     Sound lazerSound;
     Sound boomSound;
+    Sound doorSound;
+    Sound warpSound;
 
     // The Background Music
     Music track_0;
@@ -51,16 +49,15 @@ public:
     void playHit();
     void playSplat();
     void playShoot();
-    void playShotgun();
     void playReload();
     void playReloadFailed();
-    void playPowerup();
-    void playPickup();
     void playDodge();
     void playMelee();
     void playWalk();
     void playLazer();
     void playBoom();
+    void playDoor();
+    void playWarp();
 
     // Play Music Functions
     void playTrack0();
