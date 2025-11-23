@@ -19,6 +19,7 @@
 #include "Dinosaur.h"
 #include "Cowboy.h"
 #include "Android.h"
+#include "OptionMenu.h"
 
 using namespace sf;
 
@@ -160,6 +161,10 @@ private:
 	ScoreSystem m_ScoreSystem;
 	View m_ScoreView;
 
+	// Option Menu
+	OptionMenu optionMenu;
+	View m_OptionView;
+
 	// Determines win condition of game
 	bool m_HasReturned = false;
 
@@ -188,8 +193,9 @@ public:
 	bool testBool;
 
 	// Game states
-	enum class State { MAIN_MENU, SCOREBOARD, PAUSED, STORY_MENU, PLAYING };
+	enum class State { MAIN_MENU, PAUSED, STORY_MENU, PLAYING, SCOREBOARD, OPTION};
 	State state = State::MAIN_MENU;
+	State m_StateBeforeOption = State::MAIN_MENU; // To return to previous state from options
 
 	void onScoreChange(int newScore) override;
 

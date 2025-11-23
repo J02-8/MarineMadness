@@ -34,6 +34,7 @@
     <ClCompile Include="code\Enemy.cpp" />
     <ClCompile Include="code\MainMenu.cpp" />
     <ClCompile Include="code\Menu.cpp" />
+    <ClCompile Include="code\OptionMenu.cpp" />
     <ClCompile Include="code\Particle.cpp" />
     <ClCompile Include="code\ParticleFactory.cpp" />
     <ClCompile Include="code\ParticleFlyweight.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="code\HUD.h" />
     <ClInclude Include="code\MainMenu.h" />
     <ClInclude Include="code\Menu.h" />
+    <ClInclude Include="code\OptionMenu.h" />
     <ClInclude Include="code\Particle.h" />
     <ClInclude Include="code\ParticleFactory.h" />
     <ClInclude Include="code\ParticleFlyweight.h" />

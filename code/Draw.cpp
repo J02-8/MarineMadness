@@ -25,6 +25,13 @@ void MarineMachine::draw()
 		m_ScoreSystem.draw(m_Window);
 	}
 
+	// Option screen
+	if (state == State::OPTION)
+	{
+		m_Window.setView(m_OptionView);
+		optionMenu.draw(m_Window);
+	}
+
 	// Show some story
 	if (state == State::STORY_MENU)
 	{
