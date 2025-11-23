@@ -17,6 +17,7 @@ SoundManager::SoundManager()
     lazerBuffer.loadFromFile("sound/laser_shoot.wav");
     boomBuffer.loadFromFile("sound/boom.wav");
     doorBuffer.loadFromFile("sound/metal-door.wav");
+    warpBuffer.loadFromFile("sound/warp.wav");
 
     // Attach buffers to sounds
     hitSound.setBuffer(hitBuffer);
@@ -30,6 +31,7 @@ SoundManager::SoundManager()
     lazerSound.setBuffer(lazerBuffer);
     boomSound.setBuffer(boomBuffer);
     doorSound.setBuffer(doorBuffer);
+    warpSound.setBuffer(warpBuffer);
 
     // Load music
     track_0.openFromFile("sound/tracks/track_0.mp3");
@@ -50,6 +52,7 @@ void SoundManager::playWalk() { walkSound.play(); }
 void SoundManager::playLazer() { lazerSound.play(); }
 void SoundManager::playBoom() { boomSound.play(); }
 void SoundManager::playDoor() { doorSound.play(); }
+void SoundManager::playWarp() { warpSound.play(); }
 
 void SoundManager::playTrack0()
 {
@@ -94,6 +97,7 @@ void SoundManager::setGlobalVolume(float volume)
     lazerSound.setVolume(volume);
     boomSound.setVolume(volume);
     doorSound.setVolume(volume);
+    warpSound.setVolume(volume);
     track_1.setVolume(volume);
     track_2.setVolume(volume);
     track_3.setVolume(volume);

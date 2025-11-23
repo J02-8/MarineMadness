@@ -52,6 +52,7 @@ MarineMachine::MarineMachine()
 		m_Window.close();
 	}
 
+	// Load background graphic for story menu
 	m_BackgroundTexture = TextureHolder::GetTexture(
 		"graphics/background22.jpg");
 
@@ -59,10 +60,38 @@ MarineMachine::MarineMachine()
 	m_TextureTiles = TextureHolder::GetTexture(
 		"graphics/tile-sheet0.png");
 
+	// Apply graphic to sprite
 	m_StorySprite.setTexture(m_BackgroundTexture);
 	m_StorySprite.setPosition(-470,-50);
 
+	// Load suitable font
 	font.loadFromFile("fonts/ByteBounce.ttf");
+
+	// Control text
+	m_ControlsTextA.setFont(font);
+	m_ControlsTextA.setCharacterSize(40);
+	m_ControlsTextA.setFillColor(Color::Red);
+	m_ControlsTextA.setPosition(-430, 600);
+	stringstream controlsStreamA;
+	controlsStreamA <<
+		"<--MOVEMENT CONTROLS-->" <<
+		"\nW - Move Up" <<
+		"\nA - Move Left" <<
+		"\nS - Move Down" <<
+		"\nD - Move Right";
+	m_ControlsTextA.setString(controlsStreamA.str());
+
+	m_ControlsTextB.setFont(font);
+	m_ControlsTextB.setCharacterSize(40);
+	m_ControlsTextB.setFillColor(Color::Red);
+	m_ControlsTextB.setPosition(730, 200);
+	stringstream controlsStreamB;
+	controlsStreamB <<
+		"<--COMBAT CONTROLS-->" <<
+		"\nLMB - Shoot" <<
+		"\nRMB - Melee Attack" <<
+		"\nL-Shift + [W/A/S/D] - Dodge";
+	m_ControlsTextB.setString(controlsStreamB.str());
 
 	m_TitleText.setFont(font);
 	m_TitleText.setCharacterSize(85);
@@ -117,7 +146,7 @@ void MarineMachine::setTileSheets(int level)
 void MarineMachine::setLevelText(int level)
 {
 	// Story stream
-	std::stringstream storyStream;
+	stringstream storyStream;
 
 	// Change text for each part of game
 	switch (level)

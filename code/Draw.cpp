@@ -42,6 +42,13 @@ void MarineMachine::draw()
 		// Draw the Level
 		m_Window.draw(vaLevel, &m_TextureTiles);
 
+		// Draw control text only for tutorial level
+		if (lm.getCurrentLevel() == 1)
+		{
+			m_Window.draw(m_ControlsTextA);
+			m_Window.draw(m_ControlsTextB);
+		}
+
 		// Draw Enemies
 		for (auto& enemy : enemies)
 		{

@@ -18,6 +18,7 @@ private:
     SoundBuffer lazerBuffer;
     SoundBuffer boomBuffer;
     SoundBuffer doorBuffer;
+    SoundBuffer warpBuffer;
 
 	// The Sounds
     Sound hitSound;
@@ -31,6 +32,7 @@ private:
     Sound lazerSound;
     Sound boomSound;
     Sound doorSound;
+    Sound warpSound;
 
     // The Background Music
     Music track_0;
@@ -55,6 +57,7 @@ public:
     void playLazer();
     void playBoom();
     void playDoor();
+    void playWarp();
 
     // Play Music Functions
     void playTrack0();
