@@ -11,12 +11,14 @@ using namespace std;
 
 int** LevelManager::nextLevel(VertexArray& rVaLevel)
 {
+	// Level dimensions
 	m_LevelSize.x = 0;
 	m_LevelSize.y = 0;
 
 	// Get the next level
 	m_CurrentLevel++;
 
+	// Prevent non-existent levels from loading
 	if (m_CurrentLevel > NUM_LEVELS)
 	{
 		m_CurrentLevel = 1;
@@ -27,6 +29,7 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 	switch (m_CurrentLevel)
 	{
 		// Set player and warp position for each level
+		// Set text file to load for each level
 	case 1:
 		levelToLoad = "levels/level0-tutorial.txt";
 		m_PlayerStartPosition.x = 100;
@@ -39,8 +42,8 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 		levelToLoad = "levels/level1-archaic-anarchy.txt";
 		m_PlayerStartPosition.x = 400;
 		m_PlayerStartPosition.y = 1200;
-		m_WarpStartPosition.x = 460;
-		m_WarpStartPosition.y = 100;
+		m_WarpStartPosition.x = 440;
+		m_WarpStartPosition.y = 80;
 		break;
 
 	case 3:
@@ -48,18 +51,19 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 		m_PlayerStartPosition.x = 1150;
 		m_PlayerStartPosition.y = 380;
 		m_WarpStartPosition.x = 860;
-		m_WarpStartPosition.y = 980;
+		m_WarpStartPosition.y = 950;
 		break;
 
 	case 4:
 		levelToLoad = "levels/level3-fracture-future.txt";
 		m_PlayerStartPosition.x = 250;
 		m_PlayerStartPosition.y = 650;
-		m_WarpStartPosition.x = 935;
-		m_WarpStartPosition.y = 135;
+		m_WarpStartPosition.x = 910;
+		m_WarpStartPosition.y = 110;
 		break;
 	}
 
+	// File stream
 	ifstream inputFile(levelToLoad);
 	string s;
 
@@ -99,7 +103,7 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 		i++;
 	}
 
-	// close the file
+	// Close the file
 	inputFile.close();
 
 	// What type of primitive are we using?
@@ -169,34 +173,43 @@ float LevelManager::getTileSize()
 	return TILE_SIZE;
 }
 
+// Find level size
 Vector2i LevelManager::getLevelSize()
 {
 	return m_LevelSize;
 }
 
+// Get level points
 Vector2i LevelManager::getLevelSpawningPointsSize()
 {
 	return m_LevelSpawningPointsSize;
 }
 
+// Which level is it?
 int LevelManager::getCurrentLevel()
 {
 	return m_CurrentLevel;
 }
 
+// Change level
 void LevelManager::setCurrentLevel(int levelNum)
 {
 	m_CurrentLevel = levelNum;
 }
 
+// Get player spawn position
 Vector2f LevelManager::getPlayerStartPosition()
 {
 	return m_PlayerStartPosition;
 }
+
+// Get player spawn position
 Vector2f LevelManager::getWarpStartPosition()
 {
 	return m_WarpStartPosition;
 }
+
+// Define level spawning points
 int** LevelManager::nextLevelSpawningPoints()
 {
 	m_LevelSpawningPointsSize.x = 0;

@@ -1,6 +1,7 @@
 #include "MarineMachine.h"
 #include "Soundmanager.h"
 
+// SoundManager object
 SoundManager soundMan;
 
 bool fromMainMenu = false;
@@ -62,6 +63,7 @@ void MarineMachine::input()
 			}
 		}
 
+		// Scoreboard input
 		if (state == State::SCOREBOARD)
 		{
 			if (event.key.code == Keyboard::Escape)
@@ -80,6 +82,7 @@ void MarineMachine::input()
 					// Run the game
 					state = State::PLAYING;
 
+					// Play door sound on game start
 					if (fromMainMenu)
 					{
 						soundMan.playDoor();
@@ -262,6 +265,7 @@ void MarineMachine::input()
 
 		}
 
+		// Pause input
 		if (state == State::PAUSED)
 		{
 			if (event.type == Event::KeyReleased)

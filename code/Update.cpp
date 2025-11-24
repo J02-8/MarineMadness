@@ -183,7 +183,7 @@ void MarineMachine::update(float dtAsSeconds)
 		// Check for collision
 		detectCollision();
 
-		// Start of a new game we will need a new level
+		// Start of a new level
 		if (m_NewLevelRequired)
 		{
 			loadLevel();

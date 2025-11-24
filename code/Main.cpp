@@ -4,12 +4,13 @@
 
 using namespace std;
 
-
+// Main function
 int main()
 {
+	// Debug
 	cout << "DEBUG TEST" << endl;
 
-	// Declare an instance of machine
+	// Declare instance of machine
 	MarineMachine mar;
 
 	// Start the machine
@@ -18,6 +19,3 @@ int main()
 	// Quit in the usual way when machine comes to a halt
 	return 0;
 }
-
-
-

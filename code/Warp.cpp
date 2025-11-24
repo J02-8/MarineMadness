@@ -3,11 +3,9 @@
 
 Warp::Warp()
 {
-
+	// Associate texture with sprite
 	m_Sprite = Sprite(TextureHolder::GetTexture(
 		"graphics/warp.png"));
-
-	m_Sprite.setOrigin(25, 25);
 }
 
 
@@ -18,29 +16,26 @@ void Warp::spawn(Vector2f startPosition)
 	m_Position.y = startPosition.y;
 
 	m_Sprite.setPosition(m_Position);
-
 }
 
 void Warp::setArena(sf::FloatRect arena, float tileSize)
 {
-	// holds level total size
+	// Holds level total size
 	m_Arena = arena;
 
-	// holds the size of one tile.
+	// Holds the size of one tile.
 	m_TileSize = tileSize;
 }
 
 FloatRect Warp::getPosition()
 {
+	// Get warp position
 	return m_Sprite.getGlobalBounds();
 }
 
 Sprite Warp::getSprite()
 {
+	// Get warp sprite
 	return m_Sprite;
 }
 
-bool Warp::isSpawned()
-{
-	return m_Spawned;
-}

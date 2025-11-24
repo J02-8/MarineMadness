@@ -3,15 +3,15 @@
 
 Player::Player()
 {
+	// Health and speed definition
 	m_Speed = START_SPEED;
 	m_Health = START_HEALTH;
 	m_MaxHealth = START_HEALTH;
 
 	// Associate a texture with the sprite
-	// !!Watch this space!!
 	m_Sprite = Sprite(TextureHolder::GetTexture(
 		"graphics/player.png"));
-
+	// Load specific sprite from spritesheet and attach it to player 
 	m_Sprite.setTextureRect(sf::IntRect{ 45,65,50,60 });
 
 	// Set the origin of the sprite to the centre, 
@@ -21,15 +21,16 @@ Player::Player()
 
 void Player::setArena(sf::FloatRect arena, float tileSize)
 {
-	// holds level total size
+	// Holds level total size
 	m_Arena = arena;
 
-	// holds the size of one tile.
+	// Holds the size of one tile.
 	m_TileSize = tileSize;
 }
 
 void Player::resetPlayerStats()
 {
+	// Health and speed reset
 	m_Speed = START_SPEED;
 	m_Health = START_HEALTH;
 	m_MaxHealth = START_HEALTH;
@@ -37,16 +38,16 @@ void Player::resetPlayerStats()
 
 void Player::spawn(Vector2f startPosition)
 {
-	// Place the player in the middle of the arena
+	// Place the player in the arena
 	m_Position.x = startPosition.x;
 	m_Position.y = startPosition.y;
 
 	m_Sprite.setPosition(m_Position);
-
 }
 
 Time Player::getLastHitTime()
 {
+	// When was player last hit?
 	return m_LastHit;
 }
 
@@ -70,24 +71,29 @@ bool Player::hit(Time timeHit)
 
 FloatRect Player::getPosition()
 {
+	// Get player position
 	return m_Sprite.getGlobalBounds();
 }
 
 Vector2f Player::getCenter()
 {
+	// Get player center
 	return m_Position;
 }
 
 float Player::getRotation()
 {
+	// Get player rotation
 	return m_Sprite.getRotation();
 }
 
 Sprite Player::getSprite()
 {
+	// Get sprite
 	return m_Sprite;
 }
 
+// Get player box sides
 FloatRect Player::getBottom()
 {
 	return m_Bottom;
@@ -108,11 +114,13 @@ FloatRect Player::getRight()
 	return m_Right;
 }
 
+// Get health
 int Player::getHealth()
 {
 	return m_Health;
 }
 
+// Movement
 void Player::moveLeft()
 {
 	m_LeftPressed = true;
@@ -133,6 +141,7 @@ void Player::moveDown()
 	m_DownPressed = true;
 }
 
+// Stop movement when key released
 void Player::stopLeftMovement()
 {
 	m_LeftPressed = false;
@@ -185,31 +194,32 @@ void Player::stopDown(float pos)
 // Update parts
 void Player::updateLeftRightTopBottom()
 {
+	// Collision box
 	FloatRect r = getPosition();
 
-	// Bottom
-	m_Bottom.left = r.left + 3 + 10; // Shifted right by 10
-	m_Bottom.top = r.top + r.height - 1 - 10; // Shifted up by 10
-	m_Bottom.width = r.width - 6 - 20; // Reduced by 20 (10 on each side)
+	// Bottom dimensions
+	m_Bottom.left = r.left + 3 + 10;
+	m_Bottom.top = r.top + r.height - 1 - 10;
+	m_Bottom.width = r.width - 6 - 20;
 	m_Bottom.height = 1;
 
-	// Top
-	m_Top.left = r.left + 3 + 10; // Shifted right by 10
-	m_Top.top = r.top + 10; // Shifted down by 10
-	m_Top.width = r.width - 6 - 20; // Reduced by 20 (10 on each side)
+	// Top dimensions
+	m_Top.left = r.left + 3 + 10;
+	m_Top.top = r.top + 10;
+	m_Top.width = r.width - 6 - 20;
 	m_Top.height = 1;
 
-	// Right
-	m_Right.left = r.left + r.width - 1 - 10; // Shifted left by 10
-	m_Right.top = r.top + 10 + (r.height - 20) * .35; // Adjusted start position for new 30x40 area
+	// Right dimensions
+	m_Right.left = r.left + r.width - 1 - 10;
+	m_Right.top = r.top + 10 + (r.height - 20) * .35;
 	m_Right.width = 1;
-	m_Right.height = (r.height - 20) * .3; // Recalculated based on new height (r.height - 20)
+	m_Right.height = (r.height - 20) * .3;
 
-	// Left
-	m_Left.left = r.left + 10; // Shifted right by 10
-	m_Left.top = r.top + 10 + (r.height - 20) * .35; // Adjusted start position for new 30x40 area
+	// Left dimensions
+	m_Left.left = r.left + 10;
+	m_Left.top = r.top + 10 + (r.height - 20) * .35;
 	m_Left.width = 1;
-	m_Left.height = (r.height - 20) * .3; // Recalculated based on new height (r.height - 20)
+	m_Left.height = (r.height - 20) * .3;
 }
 
 void Player::update(float elapsedTime, Vector2f mousePosition)
@@ -282,30 +292,6 @@ void Player::update(float elapsedTime, Vector2f mousePosition)
 	updateLeftRightTopBottom();
 }
 
-void Player::upgradeSpeed()
-{
-	// 20% speed upgrade
-	m_Speed += (START_SPEED * .2);
-}
-
-void Player::upgradeHealth()
-{
-	// 20% max health upgrade
-	m_MaxHealth += (START_HEALTH * .2);
-
-}
-
-void Player::increaseHealthLevel(int amount)
-{
-	m_Health += amount;
-
-	// But not beyond the maximum
-	if (m_Health > m_MaxHealth)
-	{
-		m_Health = m_MaxHealth;
-	}
-}
-
 // Get and set methods for dodge
 float Player::getSpeed() {
 
@@ -317,13 +303,8 @@ void Player::setSpeed(float speedIn) {
 	m_Speed = speedIn;
 }
 
+// Reset player health
 void Player::resetHealth()
 {
 	m_Health = START_HEALTH;
 }
-
-
-
-
-
-

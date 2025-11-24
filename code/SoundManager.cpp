@@ -54,8 +54,10 @@ void SoundManager::playBoom() { boomSound.play(); }
 void SoundManager::playDoor() { doorSound.play(); }
 void SoundManager::playWarp() { warpSound.play(); }
 
+// Play music functions
 void SoundManager::playTrack0()
 {
+    // Play menu music
     if (track_0.getStatus() != Music::Playing)
     {
         track_0.play();
@@ -63,6 +65,7 @@ void SoundManager::playTrack0()
 }
 void SoundManager::playTrack1() 
 {
+    // Play level 1, prehistoric music
     if (track_1.getStatus() != Music::Playing)
     {
         track_1.play();
@@ -70,6 +73,7 @@ void SoundManager::playTrack1()
 }
 void SoundManager::playTrack2() 
 { 
+    // Play level 2, western music
     if (track_2.getStatus() != Music::Playing)
     {
         track_2.play();
@@ -77,6 +81,7 @@ void SoundManager::playTrack2()
 }
 void SoundManager::playTrack3() 
 { 
+    // Play level 3, future music
     if (track_3.getStatus() != Music::Playing)
     {
         track_3.play();
@@ -103,6 +108,7 @@ void SoundManager::setGlobalVolume(float volume)
     track_3.setVolume(volume);
 }
 
+// Stop all currently playing music
 void SoundManager::stopTracks()
 {
     if (track_0.getStatus() == Music::Playing)

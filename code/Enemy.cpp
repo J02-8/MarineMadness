@@ -8,7 +8,6 @@ m_PathUpdateInterval(0.5f), m_Pathfinding(nullptr)
 {
 }
 
-
 bool Enemy::isAlive()
 {
     return m_Alive;

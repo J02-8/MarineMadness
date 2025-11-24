@@ -15,6 +15,7 @@ using namespace sf;
 
 template<typename EnemyType>
 
+// Spawn enemies on map
 void EnemySpawner(vector<unique_ptr<Enemy>>& enemies, int count, IntRect arena)
 {
     enemies.clear();

@@ -8,32 +8,34 @@
 
 using namespace std;
 
-class Cowboy : public Enemy
+class Cowboy : public Enemy // Cowboy inherits from Enemy
 {
 public:
+    // Constructor
     Cowboy();
+    // Cowboy spawn function
     void spawn(float startX, float startY, int seed) override;
+    // Hit function
     bool hit() override;
+    // Cowboy update function
     void update(float elapsedTime, Vector2f playerLocation) override;
+    // Overriden shoot function
     bool isReadyToShoot() const override;
+    // Reset shoot timer function
     void resetShootTimer() override;
-    sf::Vector2f getCenter() const override;
-
-    
-
+    // Get center of cowboy
+    Vector2f getCenter() const override;
 
 private:
+    // Private variables and functions
+    // Cowboy-specific properties
     void applySpeedVariation(int seed);
 
-    //shooting variables
-    sf::Clock m_ShootTimer;
+    // Shooting variables
+    Clock m_ShootTimer;
     float m_ShootCooldown;
     float m_TimeSinceLastShot;
     bool m_CanShoot;
 
-    // cowboy-specific properties
     float m_SizeModifier;
-
-    
-
 };

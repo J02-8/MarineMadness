@@ -1,6 +1,6 @@
 #include "Dinosaur.h"
 #include "TextureHolder.h"
-#include <cmath>  // ADD THIS - for atan2
+#include <cmath> 
 #include <cstdlib>
 #include <ctime>
 

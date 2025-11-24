@@ -8,7 +8,10 @@
 class TextureHolder
 {
 public:
+	// Constructor
 	TextureHolder();
+
+	// Get texture
 	static sf::Texture& GetTexture(std::string const& filename);
 
 private:

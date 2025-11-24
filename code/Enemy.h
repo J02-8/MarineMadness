@@ -4,6 +4,7 @@
 
 
 using namespace sf;
+using namespace std;
 
 
 class Pathfinding;
@@ -11,9 +12,12 @@ class Pathfinding;
 class Enemy
 {
 public:
+    // Constructor
     Enemy();
+    // Destructor
     virtual ~Enemy() = default;
 
+    // Pure virtual methods
     virtual void spawn(float startX, float startY, int seed) = 0;
     virtual bool hit() = 0;
     virtual bool isAlive();
@@ -22,13 +26,14 @@ public:
     virtual void update(float elapsedTime, Vector2f playerLocation) = 0;
     virtual bool isReadyToShoot() const = 0;
     virtual void resetShootTimer() = 0;
-    virtual  sf::Vector2f getCenter() const = 0;
+    virtual Vector2f getCenter() const = 0;
 
     // Pathfinding methods
     virtual void setPathfinding(Pathfinding* pathfinding);
     virtual void updatePath(Vector2f targetPosition);
 
 protected:
+    // Variables for all inherited classes
     Sprite m_Sprite;
     Vector2f m_Position;
     float m_Speed;
@@ -36,7 +41,7 @@ protected:
     bool m_Alive;
 
     // Pathfinding variables - available to all enemies
-    std::vector<Vector2f> m_Path;
+    vector<Vector2f> m_Path;
     int m_CurrentPathIndex;
     float m_PathUpdateTimer;
     float m_PathUpdateInterval;

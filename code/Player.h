@@ -6,8 +6,9 @@ using namespace sf;
 class Player
 {
 private:
+	// Player health and speed
 	const float START_SPEED = 200;
-	const float START_HEALTH = 100;
+	const float START_HEALTH = 150;
 
 	// Where is the player
 	Vector2f m_Position;
@@ -16,7 +17,6 @@ private:
 	Sprite m_Sprite;
 
 	// And a texture
-	// !!Watch this space!!
 	Texture m_Texture;
 
 	// What is the screen resolution
@@ -57,7 +57,6 @@ private:
 
 	// Speed in pixels per second
 	float m_Speed;
-
 
 	// All our public functions will come next
 public:
@@ -107,7 +106,7 @@ public:
 	void moveUp();
 
 	void moveDown();
-	
+
 	// Update player sides
 	void updateLeftRightTopBottom();
 
@@ -132,25 +131,12 @@ public:
 	// We will call this function once every frame
 	void update(float elapsedTime, Vector2f mousePosition);
 
-	// Give player a speed boost
-	void upgradeSpeed();
-
-	// Give the player some health
-	void upgradeHealth();
-
-	// Increase the maximum amount of health the player can have
-	void increaseHealthLevel(int amount);
-
-	//get players speed
+	// Get player speed
 	float getSpeed();
 
-	//set players speed
+	// Set player speed
 	void setSpeed(float speedIn);
 
+	// Reset player health
 	void resetHealth();
-
 };
-
-
-
-#pragma once

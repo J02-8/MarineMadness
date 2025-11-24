@@ -1,16 +1,12 @@
 #include "Android.h"
 #include "TextureHolder.h"
-#include <cmath>  // ADD THIS - for atan2
+#include <cmath> 
 #include <cstdlib>
 #include <ctime>
-
 #include <SFML/Audio.hpp>
-
 #include <iostream>
+
 using namespace std;
-
-
-
 
 Android::Android()
 {
@@ -29,7 +25,6 @@ Android::Android()
 
 void Android::spawn(float startX, float startY, int seed)
 {
-
     // Single android type 
     m_Sprite = Sprite(TextureHolder::GetTexture("graphics/android.png"));
     m_Speed = 45;

@@ -2,17 +2,17 @@
 #include "EnemySpawner.h"
 #include "SoundManager.h"
 
-SoundManager sm;
-
 void MarineMachine::loadLevel()
 {
+	// Arena dimensions
 	arena.width = 500;
 	arena.height = 500;
 
 	int level = lm.getCurrentLevel();
 	setTileSheets(level);
-	int count = 5; // TEMP
+	int count = 5; // Enemy count
 
+	// Set specific enemies for each levels
 	switch (level)
 	{
 	case 1:
@@ -59,6 +59,7 @@ void MarineMachine::loadLevel()
 	// Pass arena date to warp
 	wp.setArena(arenaBounds, tileSize);
 
+	// Delete previously allocated memory
 	for (int i = 0; i < lm.getLevelSpawningPointsSize().y; ++i)
 	{
 		delete[] m_ArraySpawningPointsLevel[i];
@@ -80,7 +81,4 @@ void MarineMachine::loadLevel()
 
 	// Add observer
 	m_ScoreSystem.addObserver(this);
-
-	
-
 }

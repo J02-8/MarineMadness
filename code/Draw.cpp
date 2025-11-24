@@ -96,12 +96,14 @@ void MarineMachine::draw()
 		m_Hud.draw(m_Window);
 	}
 
+	// Pause menu
 	if (state == State::PAUSED)
 	{
 		m_Window.setView(m_PauseView);
 		pauseMenu.draw(m_Window);
 	}
 
+	// Show window
 	m_Window.display();
 }
 

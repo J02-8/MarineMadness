@@ -5,17 +5,14 @@
 
 using namespace sf;
 
-Enemy** DinoSpawner(int numDinos, IntRect arena);
-Enemy** CowboySpawner(int numCowboys, IntRect arena);
-Enemy** AndroidSpawner(int numCowboys, IntRect arena);
-
+// SoundManager object
 SoundManager soundManager;
 
 MarineMachine::MarineMachine()
 	: mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height),
 	pauseMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
 {
-	
+	// Pathfinding instance
 	m_Pathfinding = new Pathfinding();
 
 	// Get the screen resolution and create an SFML window and View
@@ -24,6 +21,7 @@ MarineMachine::MarineMachine()
 	resolution.x = VideoMode::getDesktopMode().width;
 	resolution.y = VideoMode::getDesktopMode().height;
 
+	// Make game window
 	m_Window.create(VideoMode(resolution.x, resolution.y), "Marine Madness", Style::Fullscreen);
 
 	// Initialise the full screen view
@@ -36,9 +34,11 @@ MarineMachine::MarineMachine()
 	m_HudView.setSize(resolution);
 	m_HudView.setCenter(resolution.x / 2, resolution.y / 2);
 
+	// Setup Pause view
 	m_PauseView.setSize(resolution);
 	m_PauseView.setCenter(resolution.x / 2, resolution.y / 2);
 
+	// Setup Score view
 	m_ScoreView.setSize(resolution);
 	m_ScoreView.setCenter(resolution.x / 2, resolution.y / 2);
 
@@ -93,13 +93,15 @@ MarineMachine::MarineMachine()
 		"\nL-Shift + [W/A/S/D] - Dodge";
 	m_ControlsTextB.setString(controlsStreamB.str());
 
+	// Game title text
 	m_TitleText.setFont(font);
 	m_TitleText.setCharacterSize(85);
 	m_TitleText.setFillColor(Color::Magenta);
 	m_TitleText.setPosition(410, 50);
 	m_TitleText.setString("<+= M-A-R-I-N-E M-A-D-N-E-S-S =+>");
 
-	setStoryTextPosition();
+	// Story text
+	setStoryTextPosition();	// Call for default position of text
 	m_StoryText.setFont(font);
 	m_StoryText.setCharacterSize(55);
 	m_StoryText.setFillColor(Color::Yellow);
@@ -261,25 +263,30 @@ void MarineMachine::run()
 		// Make a decimal fraction from the delta time
 		float dtAsSeconds = dt.asSeconds();
 		
+		// Call input first
 		input();
 
+		// Update second
 		update(dtAsSeconds);
 
+		// Update hud during gameplay
 		m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore, lm.getCurrentLevel(), marine.getHealth());
 
+		// Draw third
 		draw();
 	}
 }
 
 void MarineMachine::onScoreChange(int newScore)
 {
+	// Update score and hud
 	m_PlayerScore = newScore;
 	m_Hud.update(bulletsInClip, bulletsSpare, m_PlayerScore, lm.getCurrentLevel(), marine.getHealth());
 }
 
 void MarineMachine::resetGame()
 {
-	// Reset the current level to 0
+	// Reset the current level to 0 [tutorial]
 	lm.setCurrentLevel(0);
 
 	// Set level text

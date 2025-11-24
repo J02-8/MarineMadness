@@ -59,6 +59,7 @@ private:
 	Time meleeCooldown = milliseconds(500);
 	Time lastMeleeAttack;
 
+	// Pathfinding
 	Pathfinding* m_Pathfinding;
 
 	// Mouse positions
@@ -99,6 +100,7 @@ private:
 	// A regular RenderWindow
 	RenderWindow m_Window;
 
+	// The game view
 	View m_MainView;
 
 	// Declare a sprite and a Texture for the background
@@ -140,11 +142,14 @@ private:
 	// Load a new level
 	void loadLevel();
 
+	// Main menu
 	MainMenu mainMenu;
 
+	// Pause menu
 	View m_PauseView;
 	PauseMenu pauseMenu;
 
+	// Game title graphic
 	Text m_TitleText;
 
 	// Create story menu
@@ -180,19 +185,27 @@ public:
 	// Run will call all the private functions
 	void run();
 
+	// Set lore text for each level
 	void setStoryTextPosition();
 
+	// Scrolling text
 	void scrollStoryText(float dt);
 
+	// Find position for story text
 	Vector2f getStoryTextPosition();
 
+	// A boolean
 	bool testBool;
 
 	// Game states
 	enum class State { MAIN_MENU, SCOREBOARD, PAUSED, STORY_MENU, PLAYING };
+	
+	// Current state
 	State state = State::MAIN_MENU;
 
+	// Overriden score changer
 	void onScoreChange(int newScore) override;
 
+	// Reset game
 	void resetGame();
 };
