@@ -1,7 +1,13 @@
 #include "MarineMachine.h"
-#include "Soundmanager.h"
+#include "SoundManager.h"
+#include <iostream>
 
-// SoundManager object
+using namespace std;
+
+// Access the SoundManager instance defined in Update.cpp
+extern SoundManager soundManager2;
+
+// Local SoundManager used by input and gameplay code
 SoundManager soundMan;
 
 bool fromMainMenu = false;
@@ -50,6 +56,8 @@ void MarineMachine::input()
 						break;
 
 					case 3: // Options
+						m_StateBeforeOption = state;
+						state = State::OPTION;
 						break;
 
 					case 4: // Exit the game
@@ -69,6 +77,22 @@ void MarineMachine::input()
 			if (event.key.code == Keyboard::Escape)
 			{
 				state = State::MAIN_MENU;
+			}
+		}
+
+		if (state == State::OPTION)
+		{
+			if (event.type == Event::KeyReleased)
+			{
+				// Return to the saved previous state (MAIN_MENU/PAUSED)
+				if (event.key.code == Keyboard::Escape)
+				{
+					state = m_StateBeforeOption;
+				}
+				else
+				{
+					optionMenu.handleEvent(event);
+				}
 			}
 		}
 
@@ -291,6 +315,8 @@ void MarineMachine::input()
 						break;
 
 					case 2: // Options
+						m_StateBeforeOption = state;
+						state = State::OPTION;
 						break;
 
 					case 3: // Exit to Main Menu

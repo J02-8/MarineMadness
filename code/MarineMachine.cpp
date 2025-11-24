@@ -10,7 +10,8 @@ SoundManager soundManager;
 
 MarineMachine::MarineMachine()
 	: mainMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height),
-	pauseMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
+	pauseMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height),
+	optionMenu(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height)
 {
 	// Pathfinding instance
 	m_Pathfinding = new Pathfinding();
@@ -41,6 +42,9 @@ MarineMachine::MarineMachine()
 	// Setup Score view
 	m_ScoreView.setSize(resolution);
 	m_ScoreView.setCenter(resolution.x / 2, resolution.y / 2);
+
+	m_OptionView.setSize(resolution);
+	m_OptionView.setCenter(resolution.x / 2, resolution.y / 2);
 
 	// Zoom in on player
 	m_MainView.zoom(0.8);
