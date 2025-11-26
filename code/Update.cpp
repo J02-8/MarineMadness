@@ -17,17 +17,6 @@ void MarineMachine::update(float dtAsSeconds)
 		mainMenu.updateParticles(dtAsSeconds);
 		soundManager2.playTrack0();
 	}
-	
-	// Update text before loading level
-	if (state == State::STORY_MENU && testBool)
-	{
-		// Reset position of text
-		setStoryTextPosition();
-		
-		// Change story text
-		setLevelText(lm.getCurrentLevel());
-		testBool = false;
-	}
 
 	if (state == State::STORY_MENU)
 	{
@@ -182,6 +171,17 @@ void MarineMachine::update(float dtAsSeconds)
 
 		// Check for collision
 		detectCollision();
+
+		// Update text before loading level
+		if (state == State::STORY_MENU && testBool)
+		{
+			// Reset position of text
+			setStoryTextPosition();
+
+			// Change story text
+			setLevelText(lm.getCurrentLevel());
+			testBool = false;
+		}
 
 		// Start of a new level
 		if (m_NewLevelRequired)

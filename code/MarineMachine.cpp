@@ -162,7 +162,7 @@ void MarineMachine::setLevelText(int level)
 		storyStream <<
 			"You, the player were informed that you must retrieve a stolen machine." <<
 			"\nThis machine allows any user to travel through time." <<
-			"\nSo be cautious when near the device" <<
+			"\nSo be cautious when near the device as it is closeby." <<
 			"\n" <<
 			"\nWhen ready, press E to enter the warehouse.";
 		m_StoryText.setString(storyStream.str());
@@ -199,7 +199,7 @@ void MarineMachine::setLevelText(int level)
 		storyStream <<
 			"Era 3 -> Fracture Future -> 30XX" <<
 			"\n" <<
-			"\nCongradulations! You have made it to the final level." <<
+			"\nCongratulations! You have made it to the final level." <<
 			"\n" <<
 			"\n" <<
 			"\nYour final threat are an array of androids." <<
